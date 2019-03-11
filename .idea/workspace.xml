@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true" buildAllGenerated="true">
+    <generated>
+      <config projectName="casadi" targetName="casadi_csparse" />
+      <config projectName="casadi" targetName="casadi_linsol_csparsecholesky" />
+      <config projectName="casadi" targetName="daebuilder" />
+      <config projectName="casadi" targetName="sensitivity_analysis" />
+      <config projectName="casadi" targetName="casadi_rootfinder_fast_newton" />
+      <config projectName="casadi" targetName="casadi_importer_shell" />
+      <config projectName="casadi" targetName="casadi_rootfinder_nlpsol" />
+      <config projectName="casadi" targetName="casadi_rootfinder_newton" />
+      <config projectName="casadi" targetName="casadi_integrator_idas" />
+      <config projectName="casadi" targetName="casadi_linsol_csparse" />
+      <config projectName="casadi" targetName="casadi_integrator_rk" />
+      <config projectName="casadi" targetName="casadi_interpolant_linear" />
+      <config projectName="casadi" targetName="casadi_linsol_ldl" />
+      <config projectName="casadi" targetName="casadi_interpolant_bspline" />
+      <config projectName="casadi" targetName="casadi_conic_nlpsol" />
+      <config projectName="casadi" targetName="implicit_runge-kutta" />
+      <config projectName="casadi" targetName="casadi_nlpsol_sqpmethod" />
+      <config projectName="casadi" targetName="casadi_linsol_qr" />
+      <config projectName="casadi" targetName="casadi_sundials_common" />
+      <config projectName="casadi" targetName="casadi_conic_qrqp" />
+      <config projectName="casadi" targetName="casadi_linsol_lsqr" />
+      <config projectName="casadi" targetName="casadi" />
+      <config projectName="casadi" targetName="casadi_integrator_collocation" />
+      <config projectName="casadi" targetName="propagating_sparsity" />
+      <config projectName="casadi" targetName="casadi_tinyxml" />
+      <config projectName="casadi" targetName="casadi_xmlfile_tinyxml" />
+      <config projectName="casadi" targetName="test_linsol" />
+      <config projectName="casadi" targetName="casadi_error_handling" />
+      <config projectName="casadi" targetName="codegen_usage" />
+      <config projectName="casadi" targetName="casadi_sundials" />
+      <config projectName="casadi" targetName="casadi_integrator_cvodes" />
+      <config projectName="casadi" targetName="casadi_rootfinder_kinsol" />
+      <config projectName="casadi" targetName="callback" />
+      <config projectName="casadi" targetName="casadi_linsol_symbolicqr" />
+      <config projectName="casadi" targetName="libs" />
+      <config projectName="casadi" targetName="casadi_nlpsol_scpgen" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="CMakeCache.txt" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/build/CMakeCache.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="315">
+              <caret line="444" column="32" selection-start-line="444" selection-start-column="27" selection-end-line="444" selection-end-column="32" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
+  </component>
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="casadi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="casadi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="casadi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="casadi" type="462c0819:PsiDirectoryNode" />
+              <item name="build" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="Scope" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="nodejs_npm_path_reset_for_default_project" value="true" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.appearance" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.callback">
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" EXPLICIT_BUILD_TARGET_NAME="all" />
+    <configuration name="callback" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="callback" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
+    <configuration name="casadi" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi" CONFIG_NAME="Debug" />
+    <configuration name="casadi_conic_nlpsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_conic_nlpsol" CONFIG_NAME="Debug" />
+    <configuration name="casadi_conic_qrqp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_conic_qrqp" CONFIG_NAME="Debug" />
+    <configuration name="casadi_csparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_csparse" CONFIG_NAME="Debug" />
+    <configuration name="casadi_error_handling" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_error_handling" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="casadi_error_handling" />
+    <configuration name="casadi_importer_shell" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_importer_shell" CONFIG_NAME="Debug" />
+    <configuration name="casadi_integrator_collocation" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_collocation" CONFIG_NAME="Debug" />
+    <configuration name="casadi_integrator_cvodes" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_cvodes" CONFIG_NAME="Debug" />
+    <configuration name="casadi_integrator_idas" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_idas" CONFIG_NAME="Debug" />
+    <configuration name="casadi_integrator_rk" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_rk" CONFIG_NAME="Debug" />
+    <configuration name="casadi_interpolant_bspline" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_interpolant_bspline" CONFIG_NAME="Debug" />
+    <configuration name="casadi_interpolant_linear" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_interpolant_linear" CONFIG_NAME="Debug" />
+    <configuration name="casadi_linsol_csparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_csparse" CONFIG_NAME="Debug" />
+    <configuration name="casadi_linsol_csparsecholesky" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_csparsecholesky" CONFIG_NAME="Debug" />
+    <configuration name="casadi_linsol_ldl" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_ldl" CONFIG_NAME="Debug" />
+    <configuration name="casadi_linsol_lsqr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_lsqr" CONFIG_NAME="Debug" />
+    <configuration name="casadi_linsol_qr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_qr" CONFIG_NAME="Debug" />
+    <configuration name="casadi_linsol_symbolicqr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_symbolicqr" CONFIG_NAME="Debug" />
+    <configuration name="casadi_nlpsol_scpgen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_nlpsol_scpgen" CONFIG_NAME="Debug" />
+    <configuration name="casadi_nlpsol_sqpmethod" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_nlpsol_sqpmethod" CONFIG_NAME="Debug" />
+    <configuration name="casadi_rootfinder_fast_newton" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_fast_newton" CONFIG_NAME="Debug" />
+    <configuration name="casadi_rootfinder_kinsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_kinsol" CONFIG_NAME="Debug" />
+    <configuration name="casadi_rootfinder_newton" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_newton" CONFIG_NAME="Debug" />
+    <configuration name="casadi_rootfinder_nlpsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_nlpsol" CONFIG_NAME="Debug" />
+    <configuration name="casadi_sundials" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_sundials" CONFIG_NAME="Debug" />
+    <configuration name="casadi_sundials_common" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_sundials_common" CONFIG_NAME="Debug" />
+    <configuration name="casadi_tinyxml" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_tinyxml" CONFIG_NAME="Debug" />
+    <configuration name="casadi_xmlfile_tinyxml" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_xmlfile_tinyxml" CONFIG_NAME="Debug" />
+    <configuration name="codegen_usage" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="codegen_usage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="codegen_usage" />
+    <configuration name="daebuilder" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="daebuilder" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="daebuilder" />
+    <configuration name="implicit_runge-kutta" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="implicit_runge-kutta" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="libs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="libs" CONFIG_NAME="Debug" />
+    <configuration name="propagating_sparsity" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="propagating_sparsity" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="propagating_sparsity" />
+    <configuration name="sensitivity_analysis" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="sensitivity_analysis" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="sensitivity_analysis" />
+    <configuration name="test_linsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="test_linsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="test_linsol" />
+    <list>
+      <item itemvalue="Application.Build All" />
+      <item itemvalue="Application.libs" />
+      <item itemvalue="Application.casadi" />
+      <item itemvalue="Application.casadi_linsol_csparse" />
+      <item itemvalue="Application.casadi_linsol_csparsecholesky" />
+      <item itemvalue="Application.casadi_integrator_cvodes" />
+      <item itemvalue="Application.casadi_integrator_idas" />
+      <item itemvalue="Application.casadi_rootfinder_kinsol" />
+      <item itemvalue="Application.casadi_sundials_common" />
+      <item itemvalue="Application.casadi_xmlfile_tinyxml" />
+      <item itemvalue="Application.casadi_conic_nlpsol" />
+      <item itemvalue="Application.casadi_conic_qrqp" />
+      <item itemvalue="Application.casadi_importer_shell" />
+      <item itemvalue="Application.casadi_integrator_collocation" />
+      <item itemvalue="Application.casadi_integrator_rk" />
+      <item itemvalue="Application.casadi_interpolant_bspline" />
+      <item itemvalue="Application.casadi_interpolant_linear" />
+      <item itemvalue="Application.casadi_linsol_ldl" />
+      <item itemvalue="Application.casadi_linsol_lsqr" />
+      <item itemvalue="Application.casadi_linsol_qr" />
+      <item itemvalue="Application.casadi_linsol_symbolicqr" />
+      <item itemvalue="Application.casadi_nlpsol_scpgen" />
+      <item itemvalue="Application.casadi_nlpsol_sqpmethod" />
+      <item itemvalue="Application.casadi_rootfinder_fast_newton" />
+      <item itemvalue="Application.casadi_rootfinder_newton" />
+      <item itemvalue="Application.casadi_rootfinder_nlpsol" />
+      <item itemvalue="Application.callback" />
+      <item itemvalue="Application.casadi_error_handling" />
+      <item itemvalue="Application.codegen_usage" />
+      <item itemvalue="Application.daebuilder" />
+      <item itemvalue="Application.implicit_runge-kutta" />
+      <item itemvalue="Application.propagating_sparsity" />
+      <item itemvalue="Application.sensitivity_analysis" />
+      <item itemvalue="Application.test_linsol" />
+      <item itemvalue="Application.casadi_sundials" />
+      <item itemvalue="Application.casadi_csparse" />
+      <item itemvalue="Application.casadi_tinyxml" />
+    </list>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="" />
+      <created>1552313809962</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1552313809962</updated>
+      <workItem from="1552313812762" duration="803000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="803000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <editor active="true" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21428572" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="CMake" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/build/CMakeCache.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="444" column="32" selection-start-line="444" selection-start-column="27" selection-end-line="444" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+</project>

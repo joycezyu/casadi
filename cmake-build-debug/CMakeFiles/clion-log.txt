@@ -1,0 +1,88 @@
+/Applications/CLion.app/Contents/bin/cmake/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/zhouyu/Apps/casadi
+-- The C compiler identification is AppleClang 9.1.0.9020039
+-- The CXX compiler identification is AppleClang 9.1.0.9020039
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc
+-- Check for working C compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++
+-- Check for working CXX compiler: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- The Fortran compiler identification is GNU 8.2.0
+-- Checking whether Fortran compiler has -isysroot
+-- Checking whether Fortran compiler has -isysroot - yes
+-- Checking whether Fortran compiler supports OSX deployment target flag
+-- Checking whether Fortran compiler supports OSX deployment target flag - yes
+-- Check for working Fortran compiler: /usr/local/bin/gfortran
+-- Check for working Fortran compiler: /usr/local/bin/gfortran  -- works
+-- Detecting Fortran compiler ABI info
+-- Detecting Fortran compiler ABI info - done
+-- Checking whether /usr/local/bin/gfortran supports Fortran 90
+-- Checking whether /usr/local/bin/gfortran supports Fortran 90 -- yes
+-- Flag needed for enabling C++11 features: -std=c++11
+CMake Deprecation Warning at CMakeLists.txt:187 (cmake_policy):
+  The OLD behavior for policy CMP0011 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+CMake Deprecation Warning at CMakeLists.txt:191 (cmake_policy):
+  The OLD behavior for policy CMP0005 will be removed from a future version
+  of CMake.
+
+  The cmake-policies(7) manual explains that the OLD behaviors of all
+  policies are deprecated and that a policy should be set to OLD only under
+  specific short-term circumstances.  Projects should be ported to the NEW
+  behavior and not rely on setting a policy to OLD.
+
+
+-- x86_64 architecture detected - setting flag -fPIC
+-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY
+-- Performing Test COMPILER_HAS_HIDDEN_VISIBILITY - Success
+-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY
+-- Performing Test COMPILER_HAS_HIDDEN_INLINE_VISIBILITY - Success
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR
+-- Performing Test COMPILER_HAS_DEPRECATED_ATTR - Success
+-- The following features have been enabled:
+
+ * dynamic-loading, Compile with support for dynamic loading of generated functions (needed for ExternalFunction)
+ * sundials-interface, Interface to the ODE/DAE integrator suite SUNDIALS.
+ * csparse-interface, Interface to the sparse direct linear solver CSparse.
+ * tinyxml-interface, Interface to the XML parser TinyXML.
+
+-- The following features have been disabled:
+
+ * opencl-support, Enable just-in-time compiliation to CPUs and GPUs with OpenCL.
+ * blasfeo-interface, Interface to blasfeo.
+ * hpmpc-interface, Interface to hpmpc.
+ * dsdp-interface, Interface to the interior point SDP solver DSDP.
+ * clang-interface, Interface to the Clang JIT compiler.
+ * lapack-interface, Interface to LAPACK.
+ * qpoases-interface, Interface to the active-set QP solver qpOASES.
+ * blocksqp-interface, Interface to the NLP solver blockSQP.
+ * ipopt-interface, Interface to the NLP solver Ipopt.
+ * bonmin-interface, Interface to the MINLP framework Bonmin.
+ * knitro-interface, Interface to the NLP solver KNITRO.
+ * cplex-interface, Interface to the QP solver CPLEX.
+ * clp-interface, Interface to the LP solver CLP.
+ * snopt-interface, Interface to the NLP solver SNOPT.
+ * hsl-interface, Interface to HSL.
+ * ooqp-interface, Interface to the QP solver OOQP (requires BLAS and HSL libraries).
+ * gurobi-interface, Interface to the (mixed-integer) QP solver GUROBI
+ * sqic-interface, Interface to the QP solver SQIC.
+ * ampl-interface, Interface to the AMPL solver library.
+ * slicot-interface, Interface to the controls library SLICOT.
+ * worhp-interface, Interface to the NLP solver Worhp (requires gfortran, gomp).
+
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /Users/zhouyu/Apps/casadi/cmake-build-debug
