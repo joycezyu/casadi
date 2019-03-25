@@ -35,19 +35,38 @@ int main() {
 
   auto opti = casadi::Opti();
 
-  auto x = opti.variable();
-  auto y = opti.variable();
-  auto z = opti.variable();
+  auto x1 = opti.variable();
+  auto x2 = opti.variable();
+  auto u = opti.variable();
+  auto p = opti.parameter();
+  opti.set_value(p, 1);
 
-  opti.minimize(x*x + 100*z*z);
-  opti.subject_to(z+(1-x)*(1-x)-y==0);
+  opti.minimize(x1 * x1);
+  opti.subject_to(x1 + u + p ==0);
+  opti.subject_to(2*x2 + u - 0.5*p ==0);
+  opti.subject_to(x1 - 1 <= 0);
 
   opti.solver("ipopt");
   auto sol = opti.solve();
 
-  //auto h = casadi::Nlp::getH(opti);
+
+  // Hessian of the Lagrangian
+  /*
+  Function grad_lag = opti.factory("grad_lag",
+                                      {"x1", "p", "lam:f", "lam:g"}, {"grad:gamma:x"},
+                                      {{"gamma", {"f", "g"}}});
+  */
+  // Hess = grad_lag.sparsity_jac("x", "grad_gamma_x", false, true);
+  // create_function("nlp_gf_jg", {"x", "p"},
+  //                {"f", "g", "grad:f:x", "jac:g:x"});
+
+  // Function gf_jg = create_function("nlp_gf_jg", {"x", "p"},
+  //                                 {"f", "g", "grad:f:x", "jac:g:x"});
+  // A = gf_jg.sparsity_out("jac_g_x");
+
+  // auto h = casadi::Nlp::getH(opti);
   
-  std::cout << sol.value(x) << ":" << sol.value(y) << std::endl;
+  std::cout << sol.value(x1) << ":" << sol.value(x2) << ":" << sol.value(u) << std::endl;
 
   return 0;
 }
