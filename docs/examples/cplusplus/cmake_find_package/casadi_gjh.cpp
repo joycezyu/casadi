@@ -32,7 +32,8 @@ using namespace casadi;
 using namespace std;
 
 int main() {
-  /*
+  /**
+   * The following is a basic example for using SX datatype
   SX A = SX::sym("A",3,2);
   SX x = SX::sym("x",2);
   SX j = jacobian(mtimes(A,x),x);
@@ -74,13 +75,16 @@ int main() {
   std::cout << grad << std::endl;
 
   auto jac_lagrangian = jacobian(lagrangian, SX::vertcat({x1,x2,u}));
+  // both the following two lines work to get the hessian
   SX hess = jacobian(jac_lagrangian, SX::vertcat({x1,x2,u}));
-  std::cout << hess << std::endl;
+  SX hess1 = hessian(lagrangian, SX::vertcat({x1,x2,u}));
+  std::cout << hess1 << std::endl;
 
 
   // Initial guess and bounds for the optimization variables
   vector<double> x0  = {0.15, 0.15, 0.00};
-  vector<double> lbx = {-inf, -inf, -inf};
+  //vector<double> lbx = {-inf, -inf, -inf};
+  vector<double> lbx = {-1, -1, -1};
   vector<double> ubx = { inf,  inf,  inf};
 
   // Nonlinear bounds
@@ -104,6 +108,14 @@ int main() {
   arg["p"] = p0;
   res = solver(arg);
 
+  // cout << "grad[0] = " << grad[res.at("x")] << endl;
+
+  cout << res << endl;
+  // Evaluate at the optimal solution
+  //grad.setInput(solver.output(NLP_X_OPT));
+  //grad.at(res);
+  //hf.evaluate();
+
   // Print the solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
@@ -117,6 +129,11 @@ int main() {
   arg["p"] = -1;
   res = solver(arg);
 
+
+  //res.hessian();
+  //hess1.
+  //hess1.gradient();
+
   // Print the new solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
@@ -126,6 +143,9 @@ int main() {
   cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
 
 
+  vector<double> s(res.at("x"));
+  cout << s << endl;
+  // cout << hess1.evalf(res.at("f")) << endl;
 
 
 
