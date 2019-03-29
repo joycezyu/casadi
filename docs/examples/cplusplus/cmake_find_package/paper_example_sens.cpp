@@ -34,40 +34,27 @@ using namespace std;
 
 int main() {
   /**
-   * The following is a basic example for using SX datatype
-  SX A = SX::sym("A",3,2);
-  SX x = SX::sym("x",2);
-  SX j = jacobian(mtimes(A,x),x);
-  std::cout << j << std::endl;
-
-  auto g = gradient(dot(A,A),A);
-  std::cout << g << std::endl;
-
-  auto H = hessian(dot(x,x),x);
-  std::cout << H << std::endl;
+  Examples for Pirnay et al. (2012) sIPOPT paper
   */
 
 
 
   SX x1 = SX::sym("x1");
   SX x2 = SX::sym("x2");
-  SX u  = SX::sym("u");
-  SX p  = SX::sym("p");
+  SX x3 = SX::sym("x3");
+  SX p  = SX::sym("p", 2);
 
 
   // Objective
-  SX f = x1 * x1;
+  SX f = x1*x1 + x2*x2 + x3*x3;
 
   // Constraints
   SX g = vertcat(
-      x1 + u + p,
-      2*x2 + u - 0.5*p,
-      x1 - 1
+         6*x1 + 3*x2 + 2*x3 - p(0),
+      p(1)*x1 +   x2 -   x3 -   1
   );
 
-  //cout << g.size1() << endl;
-
-  SX x = SX::vertcat({x1,x2,u});
+  SX x = SX::vertcat({x1,x2,x3});
   SXDict nlp = {{"x", x},
                 {"p", p},
                 {"f", f},
@@ -75,18 +62,17 @@ int main() {
 
   // Initial guess and bounds for the optimization variables
   vector<double> x0  = {0.15, 0.15, 0.00};
-  //vector<double> lbx = {-inf, -inf, -inf};
-  vector<double> lbx = {-1, -1, -1};
+  vector<double> lbx = { 0, 0, 0};
   vector<double> ubx = { inf,  inf,  inf};
 
   // Nonlinear bounds
-  vector<double> lbg = {0.00, 0.00, -inf};
-  vector<double> ubg = {0.00, 0.00, 0.00};
+  vector<double> lbg = {0.00, 0.00};
+  vector<double> ubg = {0.00, 0.00};
 
   // Original parameter values
-  vector<double> p0  = {1.00};
+  vector<double> p0  = {5.00, 1.00};
   // new parameter values
-  vector<double> p1  = {0.50};
+  vector<double> p1  = {4.50, 1.00};
 
   // Create NLP solver and buffers
   Function solver = nlpsol("solver", "ipopt", nlp);
@@ -102,7 +88,6 @@ int main() {
   arg["p"] = p0;
   res = solver(arg);
 
-  // cout << "grad[0] = " << grad[res.at("x")] << endl;
 
   cout << res << endl;
   // Print the solution
@@ -113,15 +98,7 @@ int main() {
   cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
   cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
 
-
-  // Evaluate at the optimal solution
-  //grad.setInput(solver.output(NLP_X_OPT));
-  //grad.at(res);
-  //hf.evaluate();
-
-
-
-  // SX lagrangian = f + res.at("lam_g") * g + res.at("lam_x") * x;
+  vector<DM> prim_param{res.at("x"), p1};
 
   int ng = g.size1();  // ng = number of constraints g
   SX lambda = SX::sym("lambda", ng);
@@ -139,9 +116,10 @@ int main() {
   std::cout << hess1 << std::endl;
 
   // Function, input, output, input-name, output-name
-  Function f_jac("grad",{x}, {grad}, {"x"}, {"j"});
-  auto j = f_jac(res.at("x"));
+  Function f_jac("grad",{x, p}, {grad}, {"x", "p"}, {"j"});
+  auto j = f_jac(prim_param);
   cout << j << endl;
+
 
 
   Function f_hess("hessian",{x, lambda}, {hess1});
@@ -160,8 +138,8 @@ int main() {
 
   /// LHS
   SX KKTprimer = SX::horzcat({SX::vertcat({hess1, grad}), SX::vertcat({grad.T(), M0})});
-  Function KKT("KKT",{x, lambda}, {KKTprimer});
-  cout << KKT(prim_dual) << endl;
+  //Function KKT("KKT",{x, lambda}, {KKTprimer});
+  //cout << KKT(prim_dual) << endl;
 
   /// RHS
   SX phi = SX::vertcat({jac_lagrangian.T(), g});
@@ -170,12 +148,6 @@ int main() {
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), p1};
   cout << sens(prim_dual_param) << endl;
 
-
-  //f_jac.init();
-  //vector<double> d{0,0,0};
-  //f_jac.setInput(d);
-  //f_jac.evaluate();
-  //cout << "Function value in x = " << d << " : " << f_jac.output() << "\n";
 
 
 

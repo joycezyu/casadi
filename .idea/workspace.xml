@@ -47,6 +47,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -60,13 +63,6 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="race_car.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/race_car.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1011" />
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="sensitivity_analysis.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/sensitivity_analysis.cpp">
           <provider selected="true" editor-type-id="text-editor">
@@ -109,20 +105,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="casadi_gjh.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-206">
-              <caret line="67" column="37" selection-start-line="65" selection-start-column="2" selection-end-line="67" selection-end-column="37" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="casadi_gjh2.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="casadi_gjh2.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="593">
-              <caret line="167" column="61" selection-start-line="167" selection-start-column="61" selection-end-line="167" selection-end-column="61" />
+            <state relative-caret-position="-305">
+              <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
               <folding>
                 <element signature="e#1048#1067#0" expanded="true" />
               </folding>
@@ -130,11 +117,38 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="paper_example_sens.cpp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="151">
+              <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="slice.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/casadi/core/slice.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="844">
+              <caret line="69" column="63" selection-start-line="69" selection-start-column="6" selection-end-line="69" selection-end-column="63" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="390">
+              <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="parametric_nlp.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="519">
-              <caret line="94" selection-start-line="94" selection-end-line="94" />
+            <state relative-caret-position="-83">
+              <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -204,6 +218,7 @@
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp" />
       </list>
     </option>
   </component>
@@ -238,12 +253,6 @@
               <item name="casadi" type="b2602c69:ProjectViewProjectNode" />
               <item name="casadi" type="462c0819:PsiDirectoryNode" />
               <item name="casadi" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="casadi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="casadi" type="462c0819:PsiDirectoryNode" />
-              <item name="casadi" type="462c0819:PsiDirectoryNode" />
-              <item name="core" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="casadi" type="b2602c69:ProjectViewProjectNode" />
@@ -403,12 +412,12 @@
       <option name="presentableId" value="Default" />
       <updated>1552313809962</updated>
       <workItem from="1552313812762" duration="20900000" />
-      <workItem from="1553708917700" duration="15669000" />
+      <workItem from="1553708917700" duration="17196000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="36569000" />
+    <option name="totallyTimeSpent" value="38096000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
@@ -652,13 +661,6 @@
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="2" selection-start-line="21" selection-start-column="2" selection-end-line="21" selection-end-column="2" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/casadi/core/matrix.hpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="790">
@@ -666,13 +668,6 @@
           <folding>
             <element signature="e#1101#1125#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="519">
-          <caret line="94" selection-start-line="94" selection-end-line="94" />
         </state>
       </provider>
     </entry>
@@ -717,13 +712,41 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="26" column="40" selection-start-line="26" selection-start-column="40" selection-end-line="26" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-83">
+          <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="593">
-          <caret line="167" column="61" selection-start-line="167" selection-start-column="61" selection-end-line="167" selection-end-column="61" />
+        <state relative-caret-position="-305">
+          <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
           <folding>
             <element signature="e#1048#1067#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/casadi/core/slice.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="844">
+          <caret line="69" column="63" selection-start-line="69" selection-start-column="6" selection-end-line="69" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="151">
+          <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
         </state>
       </provider>
     </entry>
