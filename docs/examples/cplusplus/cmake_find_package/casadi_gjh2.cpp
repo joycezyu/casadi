@@ -60,8 +60,8 @@ int main() {
 
   // Constraints
   SX g = vertcat(
-      exp(x1) + u + p,
-      2*x1*x1*x2 + u - 0.5*p,
+      x1 + u + p,
+      2*x2 + u - 0.5*p,
       x1 - 1
   );
 
@@ -147,7 +147,13 @@ int main() {
   cout << h << endl;
 
   //cout << SX::vertcat({hess1, grad}) << endl;
-  SX KKTprimer = SX::vertcat({hess1, grad});
+
+
+  /// Assemble KKT matrix
+  DM M0 = DM::zeros(ng, ng); // zero matrix at the bottom right
+
+
+  SX KKTprimer = SX::horzcat({SX::vertcat({hess1, grad}), SX::vertcat({grad.T(), M0})});
   Function KKT("KKT",{x, lambda}, {KKTprimer});
   cout << KKT(prim_dual) << endl;
 
