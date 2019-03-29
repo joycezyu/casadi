@@ -83,6 +83,8 @@ int main() {
 
   // Original parameter values
   vector<double> p0  = {1.00};
+  // new parameter values
+  vector<double> p1  = {0.50};
 
   // Create NLP solver and buffers
   Function solver = nlpsol("solver", "ipopt", nlp);
@@ -124,9 +126,11 @@ int main() {
   SX lagrangian = f + dot(lambda, g);
 
   SX grad = jacobian(g, x);
-  std::cout << grad << std::endl;
+  std::cout << "jacobians of constraints" << grad << std::endl;
 
   auto jac_lagrangian = jacobian(lagrangian, x);
+  std::cout << "jacobians of lagrangian" << jac_lagrangian << std::endl;
+
   // both the following two lines work to get the hessian
   SX hess = jacobian(jac_lagrangian, x);
   SX hess1 = hessian(lagrangian, x);
@@ -152,10 +156,18 @@ int main() {
   /// Assemble KKT matrix
   DM M0 = DM::zeros(ng, ng); // zero matrix at the bottom right
 
-
+  /// LHS
   SX KKTprimer = SX::horzcat({SX::vertcat({hess1, grad}), SX::vertcat({grad.T(), M0})});
   Function KKT("KKT",{x, lambda}, {KKTprimer});
   cout << KKT(prim_dual) << endl;
+
+  /// RHS
+  SX phi = SX::vertcat({jac_lagrangian.T(), g});
+  SX sensitivity = solve(KKTprimer, phi);
+  Function sens("sens",{x, lambda, p}, {sensitivity});
+  vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), p1};
+  cout << sens(prim_dual_param) << endl;
+
 
   //f_jac.init();
   //vector<double> d{0,0,0};
