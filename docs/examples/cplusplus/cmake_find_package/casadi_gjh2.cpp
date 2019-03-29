@@ -132,13 +132,24 @@ int main() {
   SX hess1 = hessian(lagrangian, x);
   std::cout << hess1 << std::endl;
 
-  Function f_jac("grad",{x}, {grad});
+  // Function, input, output, input-name, output-name
+  Function f_jac("grad",{x}, {grad}, {"x"}, {"j"});
+  auto j = f_jac(res.at("x"));
+  cout << j << endl;
 
-  cout << f_jac(res.at("x")) << endl;
+
   Function f_hess("hessian",{x, lambda}, {hess1});
   // using the following format to evaluate hessian if the input contains x and lambda
-  vector<SX> prim_dual{res.at("x"), res.at("lam_g")};
-  cout << f_hess(prim_dual) << endl;
+  // apparently either SX or DM datatype can work with res.at()
+  //vector<SX> prim_dual{res.at("x"), res.at("lam_g")};
+  vector<DM> prim_dual{res.at("x"), res.at("lam_g")};
+  auto h = f_hess(prim_dual);
+  cout << h << endl;
+
+  //cout << SX::vertcat({hess1, grad}) << endl;
+  SX KKTprimer = SX::vertcat({hess1, grad});
+  Function KKT("KKT",{x, lambda}, {KKTprimer});
+  cout << KKT(prim_dual) << endl;
 
   //f_jac.init();
   //vector<double> d{0,0,0};
