@@ -47,10 +47,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -120,17 +117,8 @@
       <file leaf-file-name="paper_example_sens.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="151">
-              <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="slice.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/casadi/core/slice.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="844">
-              <caret line="69" column="63" selection-start-line="69" selection-start-column="6" selection-end-line="69" selection-end-column="63" />
+            <state relative-caret-position="355">
+              <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -147,8 +135,8 @@
       <file leaf-file-name="parametric_nlp.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-83">
-              <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
+            <state relative-caret-position="517">
+              <caret line="48" column="31" lean-forward="true" selection-start-line="44" selection-start-column="3" selection-end-line="48" selection-end-column="31" />
             </state>
           </provider>
         </entry>
@@ -412,12 +400,12 @@
       <option name="presentableId" value="Default" />
       <updated>1552313809962</updated>
       <workItem from="1552313812762" duration="20900000" />
-      <workItem from="1553708917700" duration="17196000" />
+      <workItem from="1553708917700" duration="18300000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38096000" />
+    <option name="totallyTimeSpent" value="39200000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
@@ -719,13 +707,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-83">
-          <caret line="48" column="31" selection-start-line="48" selection-start-column="31" selection-end-line="48" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-305">
@@ -743,10 +724,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="517">
+          <caret line="48" column="31" lean-forward="true" selection-start-line="44" selection-start-column="3" selection-end-line="48" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="151">
-          <caret line="53" column="33" lean-forward="true" selection-start-line="53" selection-start-column="33" selection-end-line="53" selection-end-column="33" />
+        <state relative-caret-position="355">
+          <caret line="92" column="16" lean-forward="true" selection-start-line="92" selection-start-column="16" selection-end-line="92" selection-end-column="16" />
         </state>
       </provider>
     </entry>

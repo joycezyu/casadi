@@ -34,7 +34,12 @@ using namespace std;
 
 int main() {
   /**
-  Examples for Pirnay et al. (2012) sIPOPT paper
+   *  Examples for Pirnay et al. (2012) sIPOPT paper
+   *
+   *    min     x1^2 + x2^2 + x3^2
+   *    s.t.    6*x1 + 3&x2 + 2*x3 - pi = 0
+   *            p2*x1 + x2 - x3 - 1 = 0
+   *            x1, x2, x3 >= 0
   */
 
 
