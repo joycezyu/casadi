@@ -139,7 +139,6 @@ int main() {
 
 
   /// Assemble KKT matrix
-  // TODO: think about using sparsity zeros??
   DM M0 = DM::zeros(ng, ng); // zero matrix at the bottom right
 
   /// LHS
@@ -149,18 +148,12 @@ int main() {
 
   /// RHS
   SX phi = SX::vertcat({jac_lagrangian.T(), g});
-  SX sensitivity = solve(KKTprimer, -phi);
+  SX sensitivity = solve(KKTprimer, phi);
   Function sens("sens",{x, lambda, p}, {sensitivity});
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), p1};
+  cout << sens(prim_dual_param) << endl;
 
-  Matrix<double> ds = DM::vertcat({sens(prim_dual_param)});
-  cout << "ds = " << ds << endl;
-  cout << ds.size() << endl;
 
-  Matrix<double> s = DM::vertcat({res.at("x"), res.at("lam_g")});
-  cout << s.size() << endl;
-  cout << s+ds << endl;
-  //cout << s + ds << endl;
 
 
 
