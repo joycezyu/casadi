@@ -17,6 +17,12 @@ add_executable(casadi_gjh casadi_gjh.cpp)
 target_link_libraries(casadi_gjh casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
+add_executable(casadi_gjh2 casadi_gjh2.cpp)
+target_link_libraries(casadi_gjh2 casadi)
+# target_link_libraries(casadi_gjh2 sx)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+
 add_executable(rosenbrock rosenbrock.cpp)
 target_link_libraries(rosenbrock casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
