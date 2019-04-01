@@ -55,7 +55,7 @@ int main() {
 
   // Constraints
   SX g = vertcat(
-         6*x1 + 3*x2 + 2*x3 - p(0),
+      6*x1 + 3*x2 + 2*x3 - p(0),
       p(1)*x1 +   x2 -   x3 -   1
   );
 
@@ -105,7 +105,12 @@ int main() {
 
   vector<DM> prim_param{res.at("x"), p1};
 
+
+
+
   int ng = g.size1();  // ng = number of constraints g
+  int nx = x.size1();
+  cout << "nx = " << nx << endl;
   SX lambda = SX::sym("lambda", ng);
   SX lagrangian = f + dot(lambda, g);
 
@@ -139,26 +144,45 @@ int main() {
 
 
   /// Assemble KKT matrix
-  DM M0 = DM::zeros(ng, ng); // zero matrix at the bottom right
+  // TODO: think about using sparsity zeros??
+  DM M11 = DM::zeros(ng, ng); // zero matrix at (1,1)
+  DM M21 = DM::zeros(nx, ng); // zero matrix at (2,1)
+  DM M12 = DM::zeros(ng, nx); // zero matrix at (1,2)
+
+  DM N0 = DM::zeros(nx, 1);
+
+  DM V = DM::diag(res.at("lam_x"));
+  DM X = DM::diag(res.at("x"));
+
+  DM I = DM::eye(nx);
+
+
 
   /// LHS
-  SX KKTprimer = SX::horzcat({SX::vertcat({hess1, grad}), SX::vertcat({grad.T(), M0})});
+  SX KKTprimer = SX::horzcat({SX::vertcat({hess1, grad, V}), SX::vertcat({grad.T(), M11, M21}),
+                              SX::vertcat({   -I,  M12, X}) });
+  cout << KKTprimer << endl;
   //Function KKT("KKT",{x, lambda}, {KKTprimer});
   //cout << KKT(prim_dual) << endl;
 
   /// RHS
-  SX phi = SX::vertcat({jac_lagrangian.T(), g});
-  SX sensitivity = solve(KKTprimer, phi);
+  SX phi = SX::vertcat({jac_lagrangian.T(), g, N0});
+  SX sensitivity = solve(KKTprimer, -phi);
   Function sens("sens",{x, lambda, p}, {sensitivity});
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), p1};
-  cout << sens(prim_dual_param) << endl;
+
+  Matrix<double> ds = DM::vertcat({sens(prim_dual_param)});
+  cout << "ds = " << ds << endl;
+  cout << ds.size() << endl;
+
+  Matrix<double> s = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
+  cout << s.size() << endl;
+  cout << s+ds << endl;
 
 
 
 
 
 
-
-
-    return 0;
+  return 0;
 }
