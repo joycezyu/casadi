@@ -31,6 +31,11 @@ add_executable(paper_example_sens_v2 paper_example_sens_v2.cpp)
 target_link_libraries(paper_example_sens_v2 casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
+add_executable(paper_example_sens_v3 paper_example_sens_v3.cpp)
+target_link_libraries(paper_example_sens_v3 casadi)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+
 add_executable(parametric_nlp parametric_nlp.cpp)
 target_link_libraries(parametric_nlp casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")

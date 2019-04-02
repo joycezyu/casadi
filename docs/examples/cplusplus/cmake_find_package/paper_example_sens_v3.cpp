@@ -44,23 +44,23 @@ int main() {
 
 
 
-  SX x1 = SX::sym("x1");
-  SX x2 = SX::sym("x2");
-  SX x3 = SX::sym("x3");
-  SX p  = SX::sym("p", 2);
+  MX x1 = MX::sym("x1");
+  MX x2 = MX::sym("x2");
+  MX x3 = MX::sym("x3");
+  MX p  = MX::sym("p", 2);
 
 
   // Objective
-  SX f = x1*x1 + x2*x2 + x3*x3;
+  MX f = x1*x1 + x2*x2 + x3*x3;
 
   // Constraints
-  SX g = vertcat(
+  MX g = vertcat(
       6*x1 + 3*x2 + 2*x3 - p(0),
       p(1)*x1 +   x2 -   x3 -   1
   );
 
-  SX x = SX::vertcat({x1,x2,x3});
-  SXDict nlp = {{"x", x},
+  MX x = MX::vertcat({x1,x2,x3});
+  MXDict nlp = {{"x", x},
                 {"p", p},
                 {"f", f},
                 {"g", g}};
@@ -111,18 +111,18 @@ int main() {
   int ng = g.size1();  // ng = number of constraints g
   int nx = x.size1();
   cout << "nx = " << nx << endl;
-  SX lambda = SX::sym("lambda", ng);
-  SX lagrangian = f + dot(lambda, g);
+  MX lambda = MX::sym("lambda", ng);
+  MX lagrangian = f + dot(lambda, g);
 
-  SX grad = jacobian(g, x);
+  MX grad = jacobian(g, x);
   std::cout << "jacobians of constraints" << grad << std::endl;
 
   auto jac_lagrangian = jacobian(lagrangian, x);
   std::cout << "jacobians of lagrangian" << jac_lagrangian << std::endl;
 
   // both the following two lines work to get the hessian
-  SX hess = jacobian(jac_lagrangian, x);
-  SX hess1 = hessian(lagrangian, x);
+  MX hess = jacobian(jac_lagrangian, x);
+  MX hess1 = hessian(lagrangian, x);
   std::cout << hess1 << std::endl;
 
   // Function, input, output, input-name, output-name
@@ -159,16 +159,18 @@ int main() {
 
 
   /// LHS
-  SX KKTprimer = SX::horzcat({SX::vertcat({hess1, grad, V}), SX::vertcat({grad.T(), M11, M21}),
-                              SX::vertcat({   -I,  M12, X}) });
+  MX KKTprimer = MX::horzcat({MX::vertcat({hess1, grad, V}), MX::vertcat({grad.T(), M11, M21}),
+                              MX::vertcat({   -I,  M12, X}) });
   cout << KKTprimer << endl;
   //Function KKT("KKT",{x, lambda}, {KKTprimer});
   //cout << KKT(prim_dual) << endl;
 
   /// RHS
-  SX phi = SX::vertcat({jac_lagrangian.T(), g, N0});
-  SX sensitivity = solve(KKTprimer, -phi);
-  //SX sensitivity = solve(KKTprimer, -phi, "qr");
+  MX phi = MX::vertcat({jac_lagrangian.T(), g, N0});
+  MX sensitivity = solve(KKTprimer, -phi);
+  //MX sensitivity = solve(KKTprimer, -phi, "cssparse");
+  //MX sensitivity = solve(KKTprimer, -phi, "ldl");
+  //MX sensitivity = solve(KKTprimer, -phi, "qr");
   Function sens("sens",{x, lambda, p}, {sensitivity});
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), p1};
 
