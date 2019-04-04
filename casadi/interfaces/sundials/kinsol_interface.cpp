@@ -576,7 +576,7 @@ namespace casadi {
       msg = "KINSol stopped based on scaled step length. This "
         "means that the current iterate may be an approximate solution of the "
         "given nonlinear system, but it is also quite possible that the algorithm"
-        " is 'stalled' (making insufficient progress) near an invalid solution, "
+        " is 'stalled' (making insufficient progress) near an 9invalid solution, "
         "or that the scalar scsteptol is too large.";
       break;
     case KIN_MEM_NULL:
