@@ -57,3 +57,11 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 add_executable(callback callback.cpp)
 target_link_libraries(callback casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+
+
+add_executable(collocation_example collocation_example.cpp)
+target_link_libraries(collocation_example casadi)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+

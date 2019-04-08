@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/callback.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/callback.cpp.o"
+  "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/cmake_find_package/collocation_example.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

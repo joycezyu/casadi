@@ -352,6 +352,33 @@ casadi_error_handling.cpp.s:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/build.make docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/casadi_error_handling.cpp.s
 .PHONY : casadi_error_handling.cpp.s
 
+cmake_find_package/collocation_example.o: cmake_find_package/collocation_example.cpp.o
+
+.PHONY : cmake_find_package/collocation_example.o
+
+# target to build an object file
+cmake_find_package/collocation_example.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/cmake_find_package/collocation_example.cpp.o
+.PHONY : cmake_find_package/collocation_example.cpp.o
+
+cmake_find_package/collocation_example.i: cmake_find_package/collocation_example.cpp.i
+
+.PHONY : cmake_find_package/collocation_example.i
+
+# target to preprocess a source file
+cmake_find_package/collocation_example.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/cmake_find_package/collocation_example.cpp.i
+.PHONY : cmake_find_package/collocation_example.cpp.i
+
+cmake_find_package/collocation_example.s: cmake_find_package/collocation_example.cpp.s
+
+.PHONY : cmake_find_package/collocation_example.s
+
+# target to generate assembly for a file
+cmake_find_package/collocation_example.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/cmake_find_package/collocation_example.cpp.s
+.PHONY : cmake_find_package/collocation_example.cpp.s
+
 codegen_usage.o: codegen_usage.cpp.o
 
 .PHONY : codegen_usage.o
@@ -542,6 +569,9 @@ help:
 	@echo "... casadi_error_handling.o"
 	@echo "... casadi_error_handling.i"
 	@echo "... casadi_error_handling.s"
+	@echo "... cmake_find_package/collocation_example.o"
+	@echo "... cmake_find_package/collocation_example.i"
+	@echo "... cmake_find_package/collocation_example.s"
 	@echo "... codegen_usage.o"
 	@echo "... codegen_usage.i"
 	@echo "... codegen_usage.s"

@@ -3530,6 +3530,9 @@
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/casadi_error_handling.cpp">
 			<Option target="casadi_error_handling"/>
 		</Unit>
+		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp">
+			<Option target="callback"/>
+		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/codegen_usage.cpp">
 			<Option target="codegen_usage"/>
 		</Unit>
@@ -4035,9 +4038,6 @@
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/cmake/check_copysign.cpp">
-			<Option virtualFolder="CMake Files\cmake\"/>
-		</Unit>
-		<Unit filename="/Users/zhouyu/Apps/casadi/cmake/check_cxx11.cpp">
 			<Option virtualFolder="CMake Files\cmake\"/>
 		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/cmake/check_erf.cpp">
