@@ -65,3 +65,8 @@ target_link_libraries(collocation_example casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 
+add_executable(race_car race_car.cpp)
+target_link_libraries(race_car casadi)
+
+
+

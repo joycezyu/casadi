@@ -47,42 +47,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_v1.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/race_car.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/Makefile2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-log.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/config.h" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/config.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/core/CMakeFiles/casadi.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/core/CMakeFiles/casadi.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/core/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/core/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/csparse/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/csparse/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/sundials/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/tinyxml/CMakeFiles/progress.marks" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/interfaces/tinyxml/CMakeFiles/progress.marks" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_linsol_symbolicqr.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_linsol_symbolicqr.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/DependInfo.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/DependInfo.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/cmake_clean.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/cmake_clean.cmake" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/link.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/link.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/docs/examples/cplusplus/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/external_packages/CSparse/CMakeFiles/casadi_csparse.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/external_packages/CSparse/CMakeFiles/casadi_csparse.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/external_packages/casadi-sundials/CMakeFiles/casadi_sundials.dir/progress.make" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/external_packages/casadi-sundials/CMakeFiles/casadi_sundials.dir/progress.make" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/external_packages/casadi-sundials/sundials-2.6.1mod.cbp" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/external_packages/casadi-sundials/sundials-2.6.1mod.cbp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/language_tests/Fortran/CMakeFiles/CMakeOutput.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/language_tests/Fortran/CMakeFiles/CMakeOutput.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -95,98 +65,22 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="paper_example_sens_v3.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v3.cpp">
+      <file leaf-file-name="parametric_nlp.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/parametric_nlp.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="512">
-              <caret line="176" column="34" selection-start-line="176" selection-start-column="22" selection-end-line="176" selection-end-column="34" />
-            </state>
+            <state relative-caret-position="-1222" />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="paper_example_sens_v4.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="195" column="2" selection-start-line="195" selection-start-column="2" selection-end-line="195" selection-end-column="2" />
-              <folding>
-                <element signature="e#1048#1067#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="paper_example_sens_v4clean.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="paper_example_sens_v4clean.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2799">
-              <caret line="34" column="12" selection-start-line="30" selection-end-line="34" selection-end-column="12" />
+            <state relative-caret-position="382">
+              <caret line="163" column="45" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
               <folding>
                 <element signature="e#1048#1067#0" expanded="true" />
               </folding>
             </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="implicit_runge-kutta.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/implicit_runge-kutta.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="96" column="3" selection-start-line="96" selection-start-column="3" selection-end-line="96" selection-end-column="3" />
-              <folding>
-                <element signature="e#1183#1211#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="collocation_example.cpp" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="176">
-              <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="integration_tools.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/casadi/core/integration_tools.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="324">
-              <caret line="121" column="22" selection-start-line="121" selection-start-column="22" selection-end-line="121" selection-end-column="22" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="linsol_internal.hpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/casadi/core/linsol_internal.hpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1059" />
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CMakeLists.txt" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="853">
-              <caret line="63" column="41" selection-start-line="63" selection-start-column="41" selection-end-line="63" selection-end-column="41" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mx.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/casadi/core/mx.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="122">
-              <caret line="599" column="31" selection-start-line="599" selection-start-column="31" selection-end-line="599" selection-end-column="31" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mx_node.cpp" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/casadi/core/mx_node.cpp">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-13821" />
           </provider>
         </entry>
       </file>
@@ -194,10 +88,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>dm</find>
-      <find>concatenate</find>
-      <find>decltype</find>
-      <find>vertcat</find>
       <find>zero</find>
       <find>+</find>
       <find>matrix&lt;double</find>
@@ -222,8 +112,12 @@
       <find>mul</find>
       <find>collocation_point</find>
       <find>conv</find>
-      <find>hess</find>
       <find>eval</find>
+      <find>collocation</find>
+      <find>integrator</find>
+      <find>&quot;collocation&quot;</find>
+      <find>struct</find>
+      <find>hess</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -247,9 +141,10 @@
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4.cpp" />
         <option value="$PROJECT_DIR$/casadi/interfaces/sundials/kinsol_interface.cpp" />
-        <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp" />
-        <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_v1.cpp" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp" />
       </list>
     </option>
   </component>
@@ -340,6 +235,7 @@
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package" />
+      <recent name="$PROJECT_DIR$/docs/examples/cplusplus" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -355,40 +251,40 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.callback">
-    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" EXPLICIT_BUILD_TARGET_NAME="all" />
-    <configuration name="callback" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="callback" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_conic_nlpsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_conic_nlpsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_conic_qrqp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_conic_qrqp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
+    <configuration name="Build All" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" EXPLICIT_BUILD_TARGET_NAME="all" />
+    <configuration name="callback" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="callback" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_conic_nlpsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_conic_nlpsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_conic_qrqp" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_conic_qrqp" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
     <configuration name="casadi_csparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_csparse" CONFIG_NAME="Debug" />
-    <configuration name="casadi_error_handling" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_error_handling" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="casadi_error_handling" />
-    <configuration name="casadi_importer_shell" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_importer_shell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_integrator_collocation" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_collocation" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_integrator_cvodes" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_cvodes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_integrator_idas" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_idas" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_integrator_rk" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_rk" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_interpolant_bspline" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_interpolant_bspline" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_interpolant_linear" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_interpolant_linear" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_linsol_csparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_csparse" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_linsol_csparsecholesky" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_csparsecholesky" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_linsol_ldl" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_ldl" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_linsol_lsqr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_lsqr" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_linsol_qr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_qr" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_linsol_symbolicqr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_symbolicqr" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_nlpsol_scpgen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_nlpsol_scpgen" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_nlpsol_sqpmethod" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_nlpsol_sqpmethod" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_rootfinder_fast_newton" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_fast_newton" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_rootfinder_kinsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_kinsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_rootfinder_newton" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_newton" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="casadi_rootfinder_nlpsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_nlpsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
+    <configuration name="casadi_error_handling" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_error_handling" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_importer_shell" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_importer_shell" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_integrator_collocation" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_collocation" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_integrator_cvodes" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_cvodes" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_integrator_idas" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_idas" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_integrator_rk" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_integrator_rk" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_interpolant_bspline" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_interpolant_bspline" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_interpolant_linear" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_interpolant_linear" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_linsol_csparse" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_csparse" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_linsol_csparsecholesky" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_csparsecholesky" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_linsol_ldl" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_ldl" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_linsol_lsqr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_lsqr" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_linsol_qr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_qr" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_linsol_symbolicqr" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_linsol_symbolicqr" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_nlpsol_scpgen" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_nlpsol_scpgen" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_nlpsol_sqpmethod" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_nlpsol_sqpmethod" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_rootfinder_fast_newton" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_fast_newton" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_rootfinder_kinsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_kinsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_rootfinder_newton" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_newton" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="casadi_rootfinder_nlpsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_rootfinder_nlpsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
     <configuration name="casadi_sundials" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_sundials" CONFIG_NAME="Debug" />
-    <configuration name="casadi_sundials_common" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_sundials_common" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
+    <configuration name="casadi_sundials_common" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_sundials_common" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
     <configuration name="casadi_tinyxml" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_tinyxml" CONFIG_NAME="Debug" />
-    <configuration name="casadi_xmlfile_tinyxml" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_xmlfile_tinyxml" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
-    <configuration name="codegen_usage" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="codegen_usage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="codegen_usage" />
-    <configuration name="daebuilder" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="daebuilder" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="daebuilder" />
+    <configuration name="casadi_xmlfile_tinyxml" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="casadi_xmlfile_tinyxml" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="codegen_usage" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="codegen_usage" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
+    <configuration name="daebuilder" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="daebuilder" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
     <configuration name="implicit_runge-kutta" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="implicit_runge-kutta" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
-    <configuration name="libs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="libs" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="callback" />
+    <configuration name="libs" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="libs" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="implicit_runge-kutta" />
     <configuration name="propagating_sparsity" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="propagating_sparsity" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="propagating_sparsity" />
     <configuration name="sensitivity_analysis" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="sensitivity_analysis" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="sensitivity_analysis" />
     <configuration name="test_linsol" type="CMakeRunConfiguration" factoryName="Application" PASS_PARENT_ENVS_2="true" PROJECT_NAME="casadi" TARGET_NAME="test_linsol" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="casadi" RUN_TARGET_NAME="test_linsol" />
@@ -443,12 +339,12 @@
       <option name="presentableId" value="Default" />
       <updated>1552313809962</updated>
       <workItem from="1552313812762" duration="20900000" />
-      <workItem from="1553708917700" duration="66268000" />
+      <workItem from="1553708917700" duration="71524000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="87168000" />
+    <option name="totallyTimeSpent" value="92424000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -480,23 +376,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/casadi/core/external_impl.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="80" column="13" selection-start-line="80" selection-start-column="13" selection-end-line="80" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/casadi/interfaces/blocksqp/blocksqp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-49598">
-          <caret line="406" column="28" selection-start-line="406" selection-start-column="28" selection-end-line="406" selection-end-column="28" />
-          <folding>
-            <element signature="e#1048#1071#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/test_blocksqp.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
@@ -509,16 +388,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="368">
           <caret line="65" column="20" selection-start-line="65" selection-start-column="20" selection-end-line="65" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_demo2.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="503">
-          <caret line="50" selection-start-line="35" selection-start-column="2" selection-end-line="50" />
-          <folding>
-            <element signature="e#1048#1067#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -570,13 +439,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_demo.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="660">
-          <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/rocket_mx_and_sx.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-375">
@@ -621,23 +483,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-206">
-          <caret line="67" column="37" selection-start-line="65" selection-start-column="2" selection-end-line="67" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-305">
-          <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
-          <folding>
-            <element signature="e#1048#1067#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/casadi/core/slice.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="844">
@@ -673,11 +518,6 @@
     <entry file="file://$PROJECT_DIR$/docs/api/examples/MX/matrix_expand.hpp">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/parametric_nlp.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-208" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/parametric_nlp.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="287">
@@ -687,20 +527,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/api/examples/solvers/ipopt.hpp">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v2.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="162" column="63" selection-start-line="161" selection-start-column="2" selection-end-line="162" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="481">
-          <caret line="142" column="12" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="12" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/casadi/core/mx_node.hpp">
       <provider selected="true" editor-type-id="text-editor">
@@ -767,13 +593,17 @@
         <state relative-caret-position="-13821" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp">
+    <entry file="file://$PROJECT_DIR$/casadi/core/sparsity_interface.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2799">
-          <caret line="34" column="12" selection-start-line="30" selection-end-line="34" selection-end-column="12" />
-          <folding>
-            <element signature="e#1048#1067#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="400">
+          <caret line="296" column="25" selection-start-line="296" selection-start-column="25" selection-end-line="296" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/casadi/core/integration_tools.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1290">
+          <caret line="104" column="89" selection-start-line="104" selection-start-column="89" selection-end-line="104" selection-end-column="89" />
         </state>
       </provider>
     </entry>
@@ -782,41 +612,100 @@
         <state relative-caret-position="-1059" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/casadi/core/sparsity_interface.hpp">
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="296" column="25" selection-start-line="296" selection-start-column="25" selection-end-line="296" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="853">
-          <caret line="63" column="41" selection-start-line="63" selection-start-column="41" selection-end-line="63" selection-end-column="41" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/casadi/core/integration_tools.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="324">
-          <caret line="121" column="22" selection-start-line="121" selection-start-column="22" selection-end-line="121" selection-end-column="22" />
+        <state relative-caret-position="126">
+          <caret line="20" column="5" selection-start-line="20" selection-start-column="5" selection-end-line="20" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/implicit_runge-kutta.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="96" column="3" selection-start-line="96" selection-start-column="3" selection-end-line="96" selection-end-column="3" />
+        <state relative-caret-position="-920">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="2" selection-end-line="38" selection-end-column="19" />
           <folding>
             <element signature="e#1183#1211#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp">
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_v1.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="16" column="11" selection-start-line="16" selection-start-column="11" selection-end-line="16" selection-end-column="11" />
+        <state relative-caret-position="698">
+          <caret line="56" column="7" selection-start-line="56" selection-start-column="7" selection-end-line="56" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="943">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_demo2.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="50" selection-start-line="35" selection-start-column="2" selection-end-line="50" />
+          <folding>
+            <element signature="e#1048#1067#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_demo.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="47" column="4" selection-start-line="47" selection-start-column="4" selection-end-line="47" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="47" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_gjh2.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="301">
+          <caret line="81" column="21" selection-start-line="81" selection-start-column="21" selection-end-line="81" selection-end-column="21" />
+          <folding>
+            <element signature="e#1048#1067#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2085">
+          <caret line="142" column="12" selection-start-line="142" selection-start-column="12" selection-end-line="142" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v2.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1743">
+          <caret line="162" column="63" selection-start-line="161" selection-start-column="2" selection-end-line="162" selection-end-column="63" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/parametric_nlp.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1222" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/race_car.cpp">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="382">
+          <caret line="163" column="45" selection-start-line="163" selection-start-column="45" selection-end-line="163" selection-end-column="45" />
+          <folding>
+            <element signature="e#1048#1067#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

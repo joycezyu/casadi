@@ -158,9 +158,10 @@ int main() {
   MX phi = MX::vertcat({jac_lagrangian.T(), g});
 
   /// Solve linear system
-  MX sensitivity = solve(KKTprimer, -phi);
+  // MX sensitivity = solve(KKTprimer, -phi);
   // can use the following sparse linear solvers if large-scale
-  //MX sensitivity = solve(KKTprimer, -phi, "cssparse");
+  //MX sensitivity = solve(KKTprimer, -phi, "ma27");
+  MX sensitivity = solve(KKTprimer, -phi, "csparse");
   //MX sensitivity = solve(KKTprimer, -phi, "ldl");
   //MX sensitivity = solve(KKTprimer, -phi, "qr");
 
