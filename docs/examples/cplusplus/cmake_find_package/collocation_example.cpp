@@ -18,7 +18,7 @@ int main() {
 
   // Choose collocation points
   vector<double> tau_root = collocation_points(d, "radau");
-  // vector<double> tau_root = collocation_points(d, "legendre");
+  //vector<double> tau_root = collocation_points(d, "legendre");
   tau_root.insert(tau_root.begin(), 0);
 
 
@@ -27,6 +27,9 @@ int main() {
 
   // Coefficients of the continuity equation
   vector<double> D(d+1,0);
+
+  // Coefficients of the quadrature function
+  vector<double> B(d+1,0);
 
   // For all collocation points
   for(int j=0; j<d+1; ++j) {
@@ -47,10 +50,15 @@ int main() {
     for (int r = 0; r < d + 1; ++r) {
       C[j][r] = dp(tau_root[r]);
     }
+
+    Polynomial pint = p.anti_derivative();
+    B[j] = pint(1.0);
+
   }
 
   cout << "C = " << C << endl;
   cout << "D = " << D << endl;
+  cout << "B = " << B << endl;
 
 
 
