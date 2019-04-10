@@ -47,10 +47,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/direct_collocation.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/direct_collocation.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/direct_collocation.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -73,8 +70,8 @@
       <file leaf-file-name="paper_example_sens_v4clean.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="576">
-              <caret line="115" column="22" selection-start-line="115" selection-start-column="2" selection-end-line="115" selection-end-column="22" />
+            <state relative-caret-position="414">
+              <caret line="123" column="71" lean-forward="true" selection-start-line="116" selection-start-column="2" selection-end-line="123" selection-end-column="71" />
               <folding>
                 <element signature="e#1048#1067#0" expanded="true" />
               </folding>
@@ -85,8 +82,29 @@
       <file leaf-file-name="direct_collocation.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/direct_collocation.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="430">
-              <caret line="104" column="6" lean-forward="true" selection-start-line="104" selection-start-column="6" selection-end-line="104" selection-end-column="6" />
+            <state relative-caret-position="638">
+              <caret line="244" column="28" selection-start-line="244" selection-start-column="28" selection-end-line="244" selection-end-column="28" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="x_function.hpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/casadi/core/x_function.hpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="349">
+              <caret line="237" column="22" selection-start-line="237" selection-start-column="22" selection-end-line="237" selection-end-column="22" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="implicit_runge-kutta.cpp" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/implicit_runge-kutta.cpp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2534">
+              <caret line="37" column="13" selection-start-line="37" selection-start-column="2" selection-end-line="38" selection-end-column="19" />
+              <folding>
+                <element signature="e#1183#1211#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -140,8 +158,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>XiV</find>
-      <find>res</find>
       <find>prim_param</find>
       <find>prim_par</find>
       <find>x_v_dx</find>
@@ -165,11 +181,13 @@
       <find>fj</find>
       <find>mxdict</find>
       <find>m</find>
-      <find>hess</find>
       <find>xp</find>
       <find>&quot;x&quot;</find>
       <find>vertsplit</find>
       <find>cout</find>
+      <find>f</find>
+      <find>w.push_back</find>
+      <find>hess</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -393,12 +411,12 @@
       <option name="presentableId" value="Default" />
       <updated>1552313809962</updated>
       <workItem from="1552313812762" duration="20900000" />
-      <workItem from="1553708917700" duration="82728000" />
+      <workItem from="1553708917700" duration="84741000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="103628000" />
+    <option name="totallyTimeSpent" value="105641000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
@@ -430,13 +448,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/callback.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="896">
-          <caret line="66" column="22" selection-start-line="66" selection-start-column="22" selection-end-line="66" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/rosenbrock.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="97">
@@ -637,16 +648,6 @@
         <state relative-caret-position="-1059" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/implicit_runge-kutta.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-920">
-          <caret line="37" column="13" selection-start-line="37" selection-start-column="2" selection-end-line="38" selection-end-column="19" />
-          <folding>
-            <element signature="e#1183#1211#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/casadi_demo2.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="553">
@@ -752,10 +753,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/implicit_runge-kutta.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2534">
+          <caret line="37" column="13" selection-start-line="37" selection-start-column="2" selection-end-line="38" selection-end-column="19" />
+          <folding>
+            <element signature="e#1183#1211#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/casadi/core/x_function.hpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="349">
+          <caret line="237" column="22" selection-start-line="237" selection-start-column="22" selection-end-line="237" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_sens_v4clean.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="576">
-          <caret line="115" column="22" selection-start-line="115" selection-start-column="2" selection-end-line="115" selection-end-column="22" />
+        <state relative-caret-position="414">
+          <caret line="123" column="71" lean-forward="true" selection-start-line="116" selection-start-column="2" selection-end-line="123" selection-end-column="71" />
           <folding>
             <element signature="e#1048#1067#0" expanded="true" />
           </folding>
@@ -764,8 +782,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/direct_collocation.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="430">
-          <caret line="104" column="6" lean-forward="true" selection-start-line="104" selection-start-column="6" selection-end-line="104" selection-end-column="6" />
+        <state relative-caret-position="638">
+          <caret line="244" column="28" selection-start-line="244" selection-start-column="28" selection-end-line="244" selection-end-column="28" />
         </state>
       </provider>
     </entry>

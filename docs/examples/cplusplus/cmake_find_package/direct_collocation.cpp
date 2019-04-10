@@ -68,23 +68,24 @@ int main() {
   double T = 10.0;
 
   // Declare model variables
-  /*
+
   MX x1 = MX::sym("x1");
   MX x2 = MX::sym("x2");
   MX x = MX::vertcat({x1,x2});
-  */
+  /*
   MX x = MX::sym("x", 2);
   vector<MX> xx = vertsplit(x);
   MX x1 = xx[0];
   MX x2 = xx[1];
-
+  */
   MX u = MX::sym("u");
 
   int nx = x.size1();
   int nu = u.size1();
+  cout << "nx = " << nx << ",  " << "nu = " << nu << endl;
   // model equations
   MX xdot = vertcat(
-            (1 - pow(x2, 2))*x1 - x2 + u,
+            (1 - x2*x2)*x1 - x2 + u,
             x1
   );
 
@@ -102,8 +103,8 @@ int main() {
 
   vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
   vector<MX> w, g;
-  MX J;
-  cout << "J = " << J << endl;
+  MX J = 0;
+  // cout << "J = " << J << endl;
 
 
   // State at collocation points
@@ -196,7 +197,7 @@ int main() {
     w.push_back(Xk);
     lbw.push_back(-0.25);   lbw.push_back(-inf);
     ubw.push_back(inf);     ubw.push_back(inf);
-    w.push_back(0);         w.push_back(0);
+    w0.push_back(0);        w0.push_back(0);
 
     // cout << "checkpoint 3" << endl;
 
@@ -209,10 +210,21 @@ int main() {
   }
 
 
+
+  cout << "w size = " << w.size() << endl;
+  cout << "w size = " << MX::vertcat(w).size() << endl;
+  cout << "lbw size = " << lbw.size() << endl;
+  cout << "ubw size = " << ubw.size() << endl;
+  cout << "lbg size = " << lbg.size() << endl;
+  cout << "ubg size = " << ubg.size() << endl;
+  cout << "g size = " << MX::vertcat(g).size() << endl;
+
+
   // cout << "1" << endl;
   /// Create an NLP solver
-  MXDict nlp = {{"f", J},
+  MXDict nlp = {
                 {"x", MX::vertcat(w)},
+                {"f", J},
                 {"g", MX::vertcat(g)}};
 
   Function solver = nlpsol("solver", "ipopt", nlp);
@@ -227,7 +239,15 @@ int main() {
   arg["x0"] = w0;
   res = solver(arg);
 
-  cout << res << endl;
+
+  // Print the solution
+  cout << "-----" << endl;
+  cout << "Optimal solution" << endl;
+  cout << setw(30) << "Objective: " << res.at("f") << endl;
+  cout << setw(30) << "Primal solution: " << res.at("x") << endl;
+  cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
+  cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
+  cout << setw(30) << "Dual solution (p): " << res.at("lam_p") << endl;
 
 
   return 0;
