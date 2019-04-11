@@ -71,4 +71,8 @@ target_link_libraries(race_car casadi)
 add_executable(direct_collocation direct_collocation.cpp)
 target_link_libraries(direct_collocation casadi)
 
+add_executable(cstr_v1 cstr_v1.cpp)
+target_link_libraries(cstr_v1 casadi)
+
+
 
