@@ -17,8 +17,7 @@ int main() {
   int d = 3;
 
   // Choose collocation points
-  vector<double> tau_root = collocation_points(d, "radau");
-  //vector<double> tau_root = collocation_points(d, "legendre");
+  vector<double> tau_root = collocation_points(d, "radau");   // "legendre"
   tau_root.insert(tau_root.begin(), 0);
 
 
@@ -72,17 +71,11 @@ int main() {
   MX x1 = MX::sym("x1");
   MX x2 = MX::sym("x2");
   MX x = MX::vertcat({x1,x2});
-  /*
-  MX x = MX::sym("x", 2);
-  vector<MX> xx = vertsplit(x);
-  MX x1 = xx[0];
-  MX x2 = xx[1];
-  */
   MX u = MX::sym("u");
 
   int nx = x.size1();
   int nu = u.size1();
-  cout << "nx = " << nx << ",  " << "nu = " << nu << endl;
+
   // model equations
   MX xdot = vertcat(
             (1 - x2*x2)*x1 - x2 + u,
@@ -100,12 +93,9 @@ int main() {
   double h = T/N;   // step size
 
   // start with an empty NLP
-
   vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
   vector<MX> w, g;
-  MX J = 0;
-  // cout << "J = " << J << endl;
-
+  MX J = 0;  // cost function
 
   // State at collocation points
   vector<MX> Xkj(d);
@@ -132,7 +122,6 @@ int main() {
     w0.push_back(0);
 
     // State at collocation points
-    // vector<MX> Xkj(d);
     for (int j = 0; j < d; ++j) {
       Xkj[j] = MX::sym("X_" + std::to_string(k) + "_" + std::to_string(j+1), nx);
       w.push_back(Xkj[j]);
@@ -145,27 +134,17 @@ int main() {
     }
 
 
-    // cout << "checkpoint 1" << endl;
+
     // Loop over collocation points
     MX Xk_end = D[0]*Xk;
 
-    // cout << "checkpoint 1.0" << endl;
     for (int j = 0; j < d; ++j) {
       // Expression for the state derivative at the collocation point
-      // cout << "Xk_end = " << Xk_end << endl;
-
       MX xp = C[0][j+1] * Xk;
-      // cout << "xp = " << xp << endl;
-      // cout << "checkpoint 1.01" << endl;
 
       for (int r = 0; r < d; ++r) {
         xp += C[r+1][j+1] * Xkj[r];
-        // cout << "checkpoint 1.02" << endl;
       }
-
-
-      // cout << "checkpoint 1.1" << endl;
-
 
       // Append collocation equations
       vector<MX> XU{Xkj[j], Uk};
@@ -177,19 +156,12 @@ int main() {
       lbg.push_back(0);  lbg.push_back(0);
       ubg.push_back(0);  ubg.push_back(0);
 
-
-      // cout << "checkpoint 1.2" << endl;
-
-
       // Add contribution to the end state
       Xk_end += D[j+1]*Xkj[j];
 
       // Add contribution to quadrature function
       J += B[j+1]*qj*h;
-      // cout << J << endl;
     }
-
-    // cout << "checkpoint 2" << endl;
 
 
     // New NLP variable for state at end of interval
@@ -198,8 +170,6 @@ int main() {
     lbw.push_back(-0.25);   lbw.push_back(-inf);
     ubw.push_back(inf);     ubw.push_back(inf);
     w0.push_back(0);        w0.push_back(0);
-
-    // cout << "checkpoint 3" << endl;
 
     // Add equality constraint
     // for continuity between intervals
@@ -210,7 +180,7 @@ int main() {
   }
 
 
-
+  /*
   cout << "w size = " << w.size() << endl;
   cout << "w size = " << MX::vertcat(w).size() << endl;
   cout << "lbw size = " << lbw.size() << endl;
@@ -218,9 +188,8 @@ int main() {
   cout << "lbg size = " << lbg.size() << endl;
   cout << "ubg size = " << ubg.size() << endl;
   cout << "g size = " << MX::vertcat(g).size() << endl;
+  */
 
-
-  // cout << "1" << endl;
   /// Create an NLP solver
   MXDict nlp = {
                 {"x", MX::vertcat(w)},
@@ -239,15 +208,20 @@ int main() {
   arg["x0"] = w0;
   res = solver(arg);
 
+  int N_tot = res.at("x").size1();
+  DM x1_opt = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
+  DM x2_opt = res.at("x")(Slice(1, N_tot, nu+nx+nx*d));
+  DM u_opt = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
+
 
   // Print the solution
   cout << "-----" << endl;
   cout << "Optimal solution" << endl;
   cout << setw(30) << "Objective: " << res.at("f") << endl;
-  cout << setw(30) << "Primal solution: " << res.at("x") << endl;
-  cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
-  cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
-  cout << setw(30) << "Dual solution (p): " << res.at("lam_p") << endl;
+  cout << setw(30) << "Primal solution (x1): " << x1_opt << endl;
+  cout << setw(30) << "Primal solution (x2): " << x2_opt << endl;
+  cout << setw(30) << "Primal solution (u): "  << u_opt << endl;
+
 
 
   return 0;
