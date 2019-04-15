@@ -181,33 +181,37 @@ int main() {
      1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
   );
 
-  // u values from the last step
-  //MX F_prev  = MX(Finit);
-  //MX QK_prev = MX(QKinit);
-  //MX F_prev, QK_prev;
-  // MX F_prev  = Finit;
-  //MX QK_prev = QKinit;
 
+  // initialize u_prev values
   MX F_prev  = MX::sym("F_prev");
   MX QK_prev = MX::sym("QK_prev");
-  // cout << F_prev << endl;
+
 
 
   // Objective
   MX L = (CB - CBref) * (CB - CBref) + r1 *(F-F_prev)*(F-F_prev) + r2 *(QK-QK_prev)*(QK-QK_prev);
   // MX L = (CB - CBref) * (CB - CBref) + r1*F*F + r2*QK*QK;
-  // cout << "checkpoint -1" << endl;
+
   // Continuous time dynamics
-  //Function f("f", {x, u}, {xdot, L});
   Function f("f", {x, u, F_prev, QK_prev}, {xdot, L});
-  // cout << "checkpoint -1.1" << endl;
+  /*
+  vector<double> xx = {0.8, 0.5, 135, 134};
+  vector<double> uu = {5, 0};
+
+
+  vector<MX> xxx{xx, uu, 10, -100};
+  vector<MX> fff = f(xxx);
+  MX fj = fff[0];
+  MX qj = fff[1];
+  cout << "fj = " << fj << endl;
+  cout << "qj = " << qj << endl;
+
+  */
+
 
   // have to do the initialization _after_ constructing Function f
   F_prev = Finit;
   QK_prev = QKinit;
-
-  // Function cost("cost", {x, u, F_prev, QK_prev}, {L});
-
 
 
   // start with an empty NLP
@@ -221,17 +225,14 @@ int main() {
   // "lift" initial conditions
   MX Xk = MX::sym("x0", nx);
   w.push_back(Xk);
-
   for (int iw = 0; iw < nx; ++iw) {
     lbw.push_back(xinit[iw]);
     ubw.push_back(xinit[iw]);
     w0.push_back(xinit[iw]);
   }
 
-  // cout << "checkpoint 0" << endl;
 
   /// Formulate the NLP
-  //for (int k = 0; k < 1; ++k) {
   for (int k = 0; k < N; ++k) {
     // New NLP variable for the control
     MX Uk = MX::sym("U_" + str(k), nu);
@@ -243,6 +244,7 @@ int main() {
     }
 
     // State at collocation points
+    // vector<MX> Xkj(d);
     for (int j = 0; j < d; ++j) {
       Xkj[j] = MX::sym("X_" + str(k) + "_" + str(j+1), nx);
       w.push_back(Xkj[j]);
@@ -269,13 +271,9 @@ int main() {
       // Append collocation equations
       vector<MX> XU{Xkj[j], Uk, F_prev, QK_prev};
       //vector<MX> XU{Xkj[j], Uk};
-      //cout << "1" << endl;
       vector<MX> fL = f(XU);
-      //cout << "2" << endl;
       MX fj = fL[0];
       MX qj = fL[1];
-      cout << "fj = " << fj << endl;
-      cout << "qj = " << qj << endl;
 
 
       g.push_back(h*fj - xp);
@@ -289,9 +287,9 @@ int main() {
 
       // Add contribution to quadrature function
       J += B[j+1]*qj*h;
-      // cout << "qj = " << qj << endl;
-      // cout << "J = " << J << endl;
     }
+
+
 
 
     // New NLP variable for state at end of interval
@@ -312,17 +310,28 @@ int main() {
     }
 
     // update the previous u
+    /*
+    MX u_prev = MX::sym("Uprev_" + str(k), nu);
+    u_prev = Uk;
+    vector<MX> u_prev_split = vertsplit(u_prev);
+    F_prev  = u_prev_split[0];
+    QK_prev = u_prev_split[1];
+    // cout << F_prev << endl;
+    */
     vector<MX> u_prev = vertsplit(Uk);
     F_prev  = u_prev[0];
     QK_prev = u_prev[1];
-    // cout << F_prev << endl;
 
 
 
   }
 
+  //cout << "lbw = " << lbw << endl;
+  //cout << "ubw = " << ubw << endl;
+  //cout << "lbg = " << lbg << endl;
+  //cout << "ubg = " << ubg << endl;
 
-  /*
+
   cout << "w size = " << w.size() << endl;
   cout << "w size = " << MX::vertcat(w).size() << endl;
   cout << "lbw size = " << lbw.size() << endl;
@@ -330,7 +339,7 @@ int main() {
   cout << "lbg size = " << lbg.size() << endl;
   cout << "ubg size = " << ubg.size() << endl;
   cout << "g size = " << MX::vertcat(g).size() << endl;
-  */
+
 
 
 
@@ -350,7 +359,9 @@ int main() {
   arg["ubx"] = ubw;
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
-  arg["x0"] = w0;
+  arg["x0"]  = w0;
+  arg["p"]   = p0;
+  // arg["p"]   = {0, 0};
   res = solver(arg);
 
   int N_tot = res.at("x").size1();
@@ -366,7 +377,7 @@ int main() {
 
   // Print the solution
   cout << "-----" << endl;
-  cout << "Optimal solution" << endl;
+  cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: " << res.at("f") << endl;
   cout << setw(30) << "Primal solution (CA): " << CA_opt << endl;
   cout << setw(30) << "Primal solution (CB): " << CB_opt << endl;
