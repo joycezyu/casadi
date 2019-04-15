@@ -74,5 +74,7 @@ target_link_libraries(direct_collocation casadi)
 add_executable(cstr_v1 cstr_v1.cpp)
 target_link_libraries(cstr_v1 casadi)
 
+add_executable(cstr_v2 cstr_v2.cpp)
+target_link_libraries(cstr_v2 casadi)
 
 

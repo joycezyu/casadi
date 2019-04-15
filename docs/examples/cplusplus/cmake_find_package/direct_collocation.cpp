@@ -151,6 +151,8 @@ int main() {
       vector<MX> fL = f(XU);
       MX fj = fL[0];
       MX qj = fL[1];
+      cout << "fj = " << fj << endl;
+      cout << "qj = " << qj << endl;
 
       g.push_back(h*fj - xp);
       lbg.push_back(0);  lbg.push_back(0);
@@ -161,6 +163,7 @@ int main() {
 
       // Add contribution to quadrature function
       J += B[j+1]*qj*h;
+      cout << "J = " << J << endl;
     }
 
 
