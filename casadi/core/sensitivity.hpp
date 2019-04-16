@@ -31,7 +31,7 @@
 namespace casadi {
 
   CASADI_EXPORT
-DM NLPsensitivity(std::map<std::string, DM>& res,
+DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
                   const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
                   std::vector<double>& p0, std::vector<double>& p1);
 

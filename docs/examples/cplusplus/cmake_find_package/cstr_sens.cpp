@@ -6,6 +6,7 @@
 
 #include <casadi/casadi.hpp>
 #include <casadi/core/sensitivity.hpp>
+#include <casadi/core/timing.hpp>
 
 
 
@@ -357,7 +358,7 @@ int main() {
   opts["verbose_init"] = true;
 
   Function solver = nlpsol("solver", "ipopt", nlp, opts);
-  cout << "print solver status" << solver.stats() << endl;
+  //cout << "print solver status" << solver.stats() << endl;
   std::map<std::string, DM> arg, res;
 
 
@@ -369,7 +370,16 @@ int main() {
   arg["x0"]  = w0;
   arg["p"]   = p0;
   // arg["p"]   = {0, 0};
+
+  /// keep record of timing
+  FStats time;
+  time.tic();
   res = solver(arg);
+  time.toc();
+  cout << "nlp t_wall time = " << time.t_wall << endl;
+  cout << "nlp t_proc time = " << time.t_proc << endl;
+
+
 
   int N_tot = res.at("x").size1();
   DM CA_opt = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
@@ -406,7 +416,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity(res, L, constraints, variables, p, p0, p0);
+  DM ds = NLPsensitivity("qr", res, L, constraints, variables, p, p0, p0);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();

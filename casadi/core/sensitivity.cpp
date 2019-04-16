@@ -8,7 +8,7 @@
 using namespace std;
 namespace casadi {
 
-DM NLPsensitivity(std::map<std::string, DM>& res,
+DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
                   const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
                   std::vector<double>& p0, std::vector<double>& p1) {
 
@@ -52,11 +52,12 @@ DM NLPsensitivity(std::map<std::string, DM>& res,
   time.tic();
 
   /// Solve linear system
-  MX sensitivity = solve(KKTprimer, -phi);
+
+  MX sensitivity = solve(KKTprimer, -phi, lsolver);
   // can use the following sparse linear solvers if large-scale
   //MX sensitivity = solve(KKTprimer, -phi, "ma27");
   //MX sensitivity = solve(KKTprimer, -phi, "csparse");
-  //MX sensitivity = solve(KKTprimer, -phi, "ldl");
+  // MX sensitivity = solve(KKTprimer, -phi, "ldl");
   //MX sensitivity = solve(KKTprimer, -phi, "qr");
 
   // MX p  = MX::sym("p", np);
