@@ -458,29 +458,49 @@ int main() {
   */
 
 
-  DM ds = NLPsensitivity(res, L, constraints, variables, p, p0, p1);
+  DM ds = NLPsensitivity(res, L, constraints, variables, p, p0, p0);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
+  // int s_tot = s1.size1();
+  // cout << "s vector dimension = " << s_tot << endl;
+  // cout << "x vector dimension = " << N_tot << endl;
+
+  // cout << "ds = " << ds(Slice(0, N_tot)) << endl;
+
+  DM CA_pert = s1(Slice(0, N_tot, nu+nx+nx*d));
+  DM CB_pert = s1(Slice(1, N_tot, nu+nx+nx*d));
+  DM TR_pert = s1(Slice(2, N_tot, nu+nx+nx*d));
+  DM TK_pert = s1(Slice(3, N_tot, nu+nx+nx*d));
+
+  DM F_pert  = s1(Slice(4, N_tot, nu+nx+nx*d));
+  DM QK_pert = s1(Slice(5, N_tot, nu+nx+nx*d));
+
+
+  DM CA_ds = ds(Slice(0, N_tot, nu+nx+nx*d));
+  DM CB_ds = ds(Slice(1, N_tot, nu+nx+nx*d));
+  DM TR_ds = ds(Slice(2, N_tot, nu+nx+nx*d));
+  DM TK_ds = ds(Slice(3, N_tot, nu+nx+nx*d));
+
+  DM F_ds  = ds(Slice(4, N_tot, nu+nx+nx*d));
+  DM QK_ds = ds(Slice(5, N_tot, nu+nx+nx*d));
 
 
 
-
-  DM CA_pert = s1(Slice(0, N_tot, nu+nx+nx*d+ng+nx));
-  DM CB_pert = s1(Slice(1, N_tot, nu+nx+nx*d+ng+nx));
-  DM TR_pert = s1(Slice(2, N_tot, nu+nx+nx*d+ng+nx));
-  DM TK_pert = s1(Slice(3, N_tot, nu+nx+nx*d+ng+nx));
-
-  DM F_pert  = s1(Slice(4, N_tot, nu+nx+nx*d+ng+nx));
-  DM QK_pert = s1(Slice(5, N_tot, nu+nx+nx*d+ng+nx));
+  cout << setw(30) << "ds(CA): " << CA_ds << endl;
+  cout << setw(30) << "ds(CB): " << CB_ds << endl;
+  cout << setw(30) << "ds(TR): " << TR_ds << endl;
+  cout << setw(30) << "ds(TK): " << TK_ds << endl;
+  cout << setw(30) << "ds(F):  " << F_ds  << endl;
+  cout << setw(30) << "ds(QK): " << QK_ds << endl;
 
 
 
-  cout << setw(30) << "Primal solution (CA): " << CA_pert << endl;
-  cout << setw(30) << "Primal solution (CB): " << CB_pert << endl;
-  cout << setw(30) << "Primal solution (TR): " << TR_pert << endl;
-  cout << setw(30) << "Primal solution (TK): " << TK_pert << endl;
-  cout << setw(30) << "Primal solution (F):  " << F_pert  << endl;
-  cout << setw(30) << "Primal solution (QK): " << QK_pert << endl;
+  cout << setw(30) << "Perturbed solution (CA): " << CA_pert << endl;
+  cout << setw(30) << "Perturbed solution (CB): " << CB_pert << endl;
+  cout << setw(30) << "Perturbed solution (TR): " << TR_pert << endl;
+  cout << setw(30) << "Perturbed solution (TK): " << TK_pert << endl;
+  cout << setw(30) << "Perturbed solution (F):  " << F_pert  << endl;
+  cout << setw(30) << "Perturbed solution (QK): " << QK_pert << endl;
 
   return 0;
 

@@ -43,6 +43,9 @@ add_executable(paper_example_sens_v4clean paper_example_sens_v4clean.cpp)
 target_link_libraries(paper_example_sens_v4clean casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
+add_executable(paper_example_module paper_example_module.cpp)
+target_link_libraries(paper_example_module casadi)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 
 add_executable(parametric_nlp parametric_nlp.cpp)

@@ -7,6 +7,27 @@
 
 #include "casadi/core/function.hpp"
 
+
+
+/**
+*  Sensitivity calculates MΔs = -N, where
+*      [ W    A   -I ]            [∇ₓL]           [Δx]
+*  M = [ Aᵀ   0    0 ]   ,  N  =  [ c ]   ,  Δs = [Δλ]
+*      [ V    0    X ]            [ 0 ]           [Δν]
+*
+*  Instead of solving the nonsymmetric linear system, equivalently we solve
+*
+*  M = [ W + X⁻¹V  A ]  ,   N =  [∇ₓL] ,  Δs = [Δx]
+*      [  Aᵀ       0 ]           [ c ]         [Δλ]
+*
+*  and Δν = -X⁻¹V Δx
+*
+*
+*/
+
+
+
+
 namespace casadi {
 
   CASADI_EXPORT
