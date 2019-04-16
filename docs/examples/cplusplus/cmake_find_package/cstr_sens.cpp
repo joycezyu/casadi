@@ -341,14 +341,16 @@ int main() {
   cout << "g size = " << MX::vertcat(g).size() << endl;
 
 
+  MX variables   = MX::vertcat(w);
+  MX constraints = MX::vertcat(g);
 
 
   /// Create an NLP solver
   MXDict nlp = {
-  {"x", MX::vertcat(w)},
+  {"x", variables},
   {"p", p},
   {"f", J},
-  {"g", MX::vertcat(g)}};
+  {"g", constraints}};
 
   Function solver = nlpsol("solver", "ipopt", nlp);
   std::map<std::string, DM> arg, res;
@@ -455,7 +457,30 @@ int main() {
 
   */
 
-  cout << NLPsensitivity(res, nw, ng, p0, p1) << endl;
+
+  DM ds = NLPsensitivity(res, L, constraints, variables, p, p0, p1);
+  DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
+  DM s1 = s + ds;
+
+
+
+
+  DM CA_pert = s1(Slice(0, N_tot, nu+nx+nx*d+ng+nx));
+  DM CB_pert = s1(Slice(1, N_tot, nu+nx+nx*d+ng+nx));
+  DM TR_pert = s1(Slice(2, N_tot, nu+nx+nx*d+ng+nx));
+  DM TK_pert = s1(Slice(3, N_tot, nu+nx+nx*d+ng+nx));
+
+  DM F_pert  = s1(Slice(4, N_tot, nu+nx+nx*d+ng+nx));
+  DM QK_pert = s1(Slice(5, N_tot, nu+nx+nx*d+ng+nx));
+
+
+
+  cout << setw(30) << "Primal solution (CA): " << CA_pert << endl;
+  cout << setw(30) << "Primal solution (CB): " << CB_pert << endl;
+  cout << setw(30) << "Primal solution (TR): " << TR_pert << endl;
+  cout << setw(30) << "Primal solution (TK): " << TK_pert << endl;
+  cout << setw(30) << "Primal solution (F):  " << F_pert  << endl;
+  cout << setw(30) << "Primal solution (QK): " << QK_pert << endl;
 
   return 0;
 
