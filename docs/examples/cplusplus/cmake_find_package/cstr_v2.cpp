@@ -370,7 +370,7 @@ int main() {
   DM TR_opt = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
   DM TK_opt = res.at("x")(Slice(3, N_tot, nu+nx+nx*d));
 
-  DM F_opt = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
+  DM F_opt  = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
   DM QK_opt = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
 
 
@@ -378,12 +378,12 @@ int main() {
   // Print the solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
-  cout << setw(30) << "Objective: " << res.at("f") << endl;
+  cout << setw(30) << "Objective: "   << res.at("f") << endl;
   cout << setw(30) << "Primal solution (CA): " << CA_opt << endl;
   cout << setw(30) << "Primal solution (CB): " << CB_opt << endl;
   cout << setw(30) << "Primal solution (TR): " << TR_opt << endl;
   cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
-  cout << setw(30) << "Primal solution (F): "  << F_opt  << endl;
+  cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
   cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
 
 

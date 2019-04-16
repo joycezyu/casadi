@@ -6,7 +6,7 @@ endif()
 
 # Writing a multiple shooting code from scratch
 if(WITH_SUNDIALS AND IPOPT_FOUND)
-  add_executable(blocksqp_multiple_shooting blocksqp_multiple_shooting.cpp)
+  add_executable(blocksqp_multiple_shooting blocksqp_multiple_shooting.cpp ../casadi/core/sensitivity.hpp)
   target_link_libraries(blocksqp_multiple_shooting casadi)
 
   add_executable(blocksqp_test blocksqp_test.cpp)

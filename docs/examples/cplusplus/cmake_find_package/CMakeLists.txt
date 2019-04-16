@@ -54,10 +54,6 @@ add_executable(rosenbrock rosenbrock.cpp)
 target_link_libraries(rosenbrock casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
-add_executable(callback callback.cpp)
-target_link_libraries(callback casadi)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
-
 
 
 add_executable(collocation_example collocation_example.cpp)
@@ -77,4 +73,6 @@ target_link_libraries(cstr_v1 casadi)
 add_executable(cstr_v2 cstr_v2.cpp)
 target_link_libraries(cstr_v2 casadi)
 
+add_executable(cstr_sens cstr_sens.cpp)
+target_link_libraries(cstr_sens casadi)
 

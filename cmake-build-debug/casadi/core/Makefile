@@ -1867,6 +1867,33 @@ rootfinder.cpp.s:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f casadi/core/CMakeFiles/casadi.dir/build.make casadi/core/CMakeFiles/casadi.dir/rootfinder.cpp.s
 .PHONY : rootfinder.cpp.s
 
+sensitivity.o: sensitivity.cpp.o
+
+.PHONY : sensitivity.o
+
+# target to build an object file
+sensitivity.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f casadi/core/CMakeFiles/casadi.dir/build.make casadi/core/CMakeFiles/casadi.dir/sensitivity.cpp.o
+.PHONY : sensitivity.cpp.o
+
+sensitivity.i: sensitivity.cpp.i
+
+.PHONY : sensitivity.i
+
+# target to preprocess a source file
+sensitivity.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f casadi/core/CMakeFiles/casadi.dir/build.make casadi/core/CMakeFiles/casadi.dir/sensitivity.cpp.i
+.PHONY : sensitivity.cpp.i
+
+sensitivity.s: sensitivity.cpp.s
+
+.PHONY : sensitivity.s
+
+# target to generate assembly for a file
+sensitivity.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f casadi/core/CMakeFiles/casadi.dir/build.make casadi/core/CMakeFiles/casadi.dir/sensitivity.cpp.s
+.PHONY : sensitivity.cpp.s
+
 shared_object.o: shared_object.cpp.o
 
 .PHONY : shared_object.o
@@ -2608,6 +2635,9 @@ help:
 	@echo "... rootfinder.o"
 	@echo "... rootfinder.i"
 	@echo "... rootfinder.s"
+	@echo "... sensitivity.o"
+	@echo "... sensitivity.i"
+	@echo "... sensitivity.s"
 	@echo "... shared_object.o"
 	@echo "... shared_object.i"
 	@echo "... shared_object.s"

@@ -81,6 +81,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/casadi.dir/dae_builder.cpp.o"
   "CMakeFiles/casadi.dir/optistack.cpp.o"
   "CMakeFiles/casadi.dir/optistack_internal.cpp.o"
+  "CMakeFiles/casadi.dir/sensitivity.cpp.o"
   "../../lib/libcasadi.pdb"
   "../../lib/libcasadi.3.5.dylib"
   "../../lib/libcasadi.dylib"

@@ -53,5 +53,16 @@ CMake Deprecation Warning at CMakeLists.txt:191 (cmake_policy):
  * worhp-interface, Interface to the NLP solver Worhp (requires gfortran, gomp).
 
 -- Configuring done
+CMake Error at docs/examples/cplusplus/CMakeLists.txt:13 (add_executable):
+  Cannot find source file:
+
+    callback.cpp
+
+  Tried extensions .c .C .c++ .cc .cpp .cxx .m .M .mm .h .hh .h++ .hm .hpp
+  .hxx .in .txx
+
+
+CMake Error: CMake can not determine linker language for target: callback
+CMake Error: Cannot determine link language for target "callback".
 -- Generating done
 -- Build files have been written to: /Users/zhouyu/Apps/casadi/cmake-build-debug

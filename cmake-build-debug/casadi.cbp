@@ -3161,6 +3161,12 @@
 		<Unit filename="/Users/zhouyu/Apps/casadi/casadi/core/runtime/casadi_trans.hpp">
 			<Option target="casadi"/>
 		</Unit>
+		<Unit filename="/Users/zhouyu/Apps/casadi/casadi/core/sensitivity.cpp">
+			<Option target="casadi"/>
+		</Unit>
+		<Unit filename="/Users/zhouyu/Apps/casadi/casadi/core/sensitivity.hpp">
+			<Option target="casadi"/>
+		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/casadi/core/setnonzeros.hpp">
 			<Option target="casadi"/>
 		</Unit>
@@ -3524,14 +3530,8 @@
 		<Unit filename="/Users/zhouyu/Apps/casadi/cmake-build-debug/casadi/config.h">
 			<Option target="casadi"/>
 		</Unit>
-		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/callback.cpp">
-			<Option target="callback"/>
-		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/casadi_error_handling.cpp">
 			<Option target="casadi_error_handling"/>
-		</Unit>
-		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/cmake_find_package/collocation_example.cpp">
-			<Option target="callback"/>
 		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/codegen_usage.cpp">
 			<Option target="codegen_usage"/>
