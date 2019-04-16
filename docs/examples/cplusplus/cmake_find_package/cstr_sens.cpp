@@ -5,6 +5,7 @@
 
 
 #include <casadi/casadi.hpp>
+#include <casadi/core/sensitivity.hpp>
 
 
 
@@ -352,7 +353,11 @@ int main() {
   {"f", J},
   {"g", constraints}};
 
-  Function solver = nlpsol("solver", "ipopt", nlp);
+  Dict opts;
+  opts["verbose_init"] = true;
+
+  Function solver = nlpsol("solver", "ipopt", nlp, opts);
+  cout << "print solver status" << solver.stats() << endl;
   std::map<std::string, DM> arg, res;
 
 
@@ -399,63 +404,6 @@ int main() {
 
   int ng = MX::vertcat(g).size1();   // ng = number of constraints g
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
-  /*
-  // the symbolic expression for x, λ, ν
-  MX lambda = MX::sym("lambda", ng);
-  MX v      = MX::sym("v", nw);
-  MX V      = MX::diag(v);
-  MX X      = MX::diag(x);
-  MX XiV    = mtimes(inv(X), V);
-  //MX XiV    = MX::diag(dot(v,1/x));      // equivalent results, not sure about efficiency
-
-
-  MX grad = jacobian(MX::vertcat(g), x);
-  // construct the lagrangian function
-  MX lagrangian = f + dot(lambda, MX::vertcat(g)) - dot(v, x);
-  MX jac_lagrangian = jacobian(lagrangian, x);
-  MX hess = hessian(lagrangian, x);
-
-  /// Assemble KKT matrix
-  // sparse zero matrix
-  MX M0 = MX(ng, ng);
-
-  // LHS
-  MX KKTprimer = MX::horzcat({MX::vertcat({hess + XiV, grad}),
-                              MX::vertcat({grad.T(), M0})});
-
-  // RHS
-  MX phi = MX::vertcat({jac_lagrangian.T(), MX::vertcat(g)});
-
-  /// Solve linear system
-  // MX sensitivity = solve(KKTprimer, -phi);
-  // can use the following sparse linear solvers if large-scale
-  //MX sensitivity = solve(KKTprimer, -phi, "ma27");
-  MX sensitivity = solve(KKTprimer, -phi, "csparse");
-  //MX sensitivity = solve(KKTprimer, -phi, "ldl");
-  //MX sensitivity = solve(KKTprimer, -phi, "qr");
-
-  Function sens_eval("sens", {x, lambda, v, p}, {sensitivity});
-  vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
-  // solution vector for 2x2 system is [Δx, Δλ]ᵀ
-  DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
-
-  // compute Δν
-  MX dx = MX::sym("dx", nw);
-  MX dv = -mtimes(XiV, dx);
-  Function dv_eval("dv", {x, v, dx}, {dv});
-  vector<DM> x_v_dx{res.at("x"), res.at("lam_x"), dx_dl(Slice(0, nw))};
-  DM dv0 = DM::vertcat({dv_eval(x_v_dx)});
-
-  // assemble ds matrix
-  DM ds = DM::vertcat({dx_dl, dv0});
-  DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
-  DM s1 = s + ds;
-
-  // print the solution for sensitivity calculation
-  cout << "ds = " << ds << endl;
-  cout << "s1 = " << s1 << endl;
-
-  */
 
 
   DM ds = NLPsensitivity(res, L, constraints, variables, p, p0, p0);

@@ -298,6 +298,33 @@ casadi_error_handling/fast:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/build.make docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/build
 .PHONY : casadi_error_handling/fast
 
+callback.o: callback.cpp.o
+
+.PHONY : callback.o
+
+# target to build an object file
+callback.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/callback.cpp.o
+.PHONY : callback.cpp.o
+
+callback.i: callback.cpp.i
+
+.PHONY : callback.i
+
+# target to preprocess a source file
+callback.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/callback.cpp.i
+.PHONY : callback.cpp.i
+
+callback.s: callback.cpp.s
+
+.PHONY : callback.s
+
+# target to generate assembly for a file
+callback.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/callback.cpp.s
+.PHONY : callback.cpp.s
+
 casadi_error_handling.o: casadi_error_handling.cpp.o
 
 .PHONY : casadi_error_handling.o
@@ -509,6 +536,9 @@ help:
 	@echo "... test_linsol"
 	@echo "... install"
 	@echo "... casadi_error_handling"
+	@echo "... callback.o"
+	@echo "... callback.i"
+	@echo "... callback.s"
 	@echo "... casadi_error_handling.o"
 	@echo "... casadi_error_handling.i"
 	@echo "... casadi_error_handling.s"

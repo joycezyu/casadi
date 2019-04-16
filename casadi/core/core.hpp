@@ -63,7 +63,5 @@
 #include "xml_file.hpp"
 #include "optistack.hpp"
 
-// Customized tools
-#include "sensitivity.hpp"
 
 #endif // CASADI_CORE_HPP

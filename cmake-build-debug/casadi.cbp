@@ -3530,6 +3530,9 @@
 		<Unit filename="/Users/zhouyu/Apps/casadi/cmake-build-debug/casadi/config.h">
 			<Option target="casadi"/>
 		</Unit>
+		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/callback.cpp">
+			<Option target="callback"/>
+		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/casadi_error_handling.cpp">
 			<Option target="casadi_error_handling"/>
 		</Unit>

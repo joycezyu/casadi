@@ -27,6 +27,7 @@
 #include <fstream>
 #include <ctime>
 #include <casadi/casadi.hpp>
+#include <casadi/core/timing.hpp>
 
 
 using namespace casadi;
@@ -158,17 +159,28 @@ int main() {
   MX phi = MX::vertcat({jac_lagrangian.T(), g});
 
   /// Solve linear system
-  // MX sensitivity = solve(KKTprimer, -phi);
+
+
+  FStats time;
+  time.tic();
+  MX sensitivity = solve(KKTprimer, -phi);
   // can use the following sparse linear solvers if large-scale
   //MX sensitivity = solve(KKTprimer, -phi, "ma27");
-  MX sensitivity = solve(KKTprimer, -phi, "csparse");
+  //MX sensitivity = solve(KKTprimer, -phi, "csparse");
   //MX sensitivity = solve(KKTprimer, -phi, "ldl");
   //MX sensitivity = solve(KKTprimer, -phi, "qr");
+
+  time.toc();
+  cout << "t_wall time = " << time.t_wall << endl;
+  cout << "t_proc time = " << time.t_proc << endl;
 
   Function sens_eval("sens", {x, lambda, v, p}, {sensitivity});
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
+
+  //cout << "sens_eval status" << sens_eval.solve() << endl;
+  // these is no stats for sens_eval
 
   // compute Δν
   MX dx = MX::sym("dx", nx);

@@ -3,6 +3,7 @@
 //
 
 #include "sensitivity.hpp"
+#include "timing.hpp"
 
 using namespace std;
 namespace casadi {
@@ -46,6 +47,10 @@ DM NLPsensitivity(std::map<std::string, DM>& res,
   // RHS
   MX phi = MX::vertcat({jac_lagrangian.T(), g});
 
+  /// keep track of the solving time
+  FStats time;
+  time.tic();
+
   /// Solve linear system
   MX sensitivity = solve(KKTprimer, -phi);
   // can use the following sparse linear solvers if large-scale
@@ -55,6 +60,9 @@ DM NLPsensitivity(std::map<std::string, DM>& res,
   //MX sensitivity = solve(KKTprimer, -phi, "qr");
 
   // MX p  = MX::sym("p", np);
+  time.toc();
+  cout << "linear system t_wall time = " << time.t_wall << endl;
+  cout << "linear system t_proc time = " << time.t_proc << endl;
 
 
   Function sens_eval("sens", {x, lambda, v, p}, {sensitivity});

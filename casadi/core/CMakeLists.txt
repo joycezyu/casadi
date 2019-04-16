@@ -169,7 +169,6 @@ set(CASADI_INTERNAL
   variable.cpp
   dae_builder.cpp
   optistack.cpp               optistack_internal.cpp               optistack_internal.hpp
-
   sensitivity.cpp
 
   # Runtime headers

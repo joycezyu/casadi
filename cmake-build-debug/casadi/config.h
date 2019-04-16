@@ -29,8 +29,8 @@
 #define CASADI_PATCH_VERSION 5
 #define CASADI_IS_RELEASE 1
 #define CASADI_VERSION_STRING "3.4.5"
-#define CASADI_GIT_REVISION "bd4f237e72b39d21e1e1e6130d7e97b025f9fb82"  // NOLINT(whitespace/line_length)
-#define CASADI_GIT_DESCRIBE "3.3.0-240.bd4f237e7"  // NOLINT(whitespace/line_length)
+#define CASADI_GIT_REVISION "e96c23de9bdd0c67cf8ebd454448d40ff5e69335"  // NOLINT(whitespace/line_length)
+#define CASADI_GIT_DESCRIBE "3.3.0-243.e96c23de9"  // NOLINT(whitespace/line_length)
 #define CASADI_FEATURE_LIST ""  // NOLINT(whitespace/line_length)
 #define CASADI_BUILD_TYPE "Debug"  // NOLINT(whitespace/line_length)
 #define CASADI_COMPILER_ID "Clang"  // NOLINT(whitespace/line_length)
