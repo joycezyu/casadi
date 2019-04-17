@@ -176,14 +176,22 @@ int main() {
 
 
   // model equations
+  
   MX xdot = vertcat(
      F * (CAin - CA) - k1 * CA - k3 * CA*CA,
     -F * CB          + k1 * CA - k2 * CB,
      F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) - (k1*CA*delHAB + k2*CB*delHBC + k3*CA*CA*delHAD)/(rho*Cp),
      1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
   );
-
-
+  /*
+  MX xdot = vertcat(
+  F * (CAin - CA) - k01 * exp( -EA1R / (TR + absT) ) * CA - k03 * exp( -EA3R / (TR + absT) ) * CA*CA,
+  -F * CB          + k01 * exp( -EA1R / (TR + absT) ) * CA - k02 * exp( -EA2R / (TR + absT) ) * CB,
+  F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) -
+  (k01 * exp( -EA1R / (TR + absT) )*CA*delHAB + k02 * exp( -EA2R / (TR + absT) )*CB*delHBC + k03 * exp( -EA3R / (TR + absT) )*CA*CA*delHAD)/(rho*Cp),
+  1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
+  );
+  */
   // initialize u_prev values
   MX F_prev  = MX::sym("F_prev");
   MX QK_prev = MX::sym("QK_prev");
@@ -402,6 +410,8 @@ int main() {
   cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
   cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
   cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
+  cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
+  cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
 
 
 
@@ -416,7 +426,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("qr", res, L, constraints, variables, p, p0, p0);
+  DM ds = NLPsensitivity("csparse", res, L, constraints, variables, p, p1, p1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();

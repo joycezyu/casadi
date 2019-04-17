@@ -179,6 +179,11 @@ int main() {
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
 
+
+  Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
+  DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
+  cout << "RHS = " << RHS << endl;
+
   //cout << "sens_eval status" << sens_eval.solve() << endl;
   // these is no stats for sens_eval
 

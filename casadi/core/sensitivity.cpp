@@ -67,9 +67,26 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
 
   Function sens_eval("sens", {x, lambda, v, p}, {sensitivity});
+  int x_tot  = res.at("x").size1();
+  int lg_tot = res.at("lam_g").size1();
+  int lx_tot = res.at("lam_x").size1();
+
+  // the below is for testing RHS = 0
+  // vector<double> x0(x_tot, 1e-12);
+  // vector<double> lg0(lg_tot, 1e-12);
+  // vector<double> lx0(lx_tot, 1e-12);
+  // vector<DM> prim_dual_param{x0, lg0, lx0, p1};
+
+
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
+
+  // take a look at RHS
+  Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
+  DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
+  cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
+  cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
 
   // compute Δν
   MX dx = MX::sym("dx", nx);
