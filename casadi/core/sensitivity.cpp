@@ -26,9 +26,9 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   MX v      = MX::sym("v", nx);
   MX V      = MX::diag(v);
   MX X      = MX::diag(x);
-  MX XiV    = mtimes(inv(X), V);
+  //MX XiV    = mtimes(inv(X), V);
   //MX XiV    = MX::diag(dot(v,1/x));      // equivalent results, not sure about efficiency
-
+  MX XiV    = MX::diag(v/x);
 
   MX grad = jacobian(g, x);
   // construct the lagrangian function
@@ -43,6 +43,9 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   // LHS
   MX KKTprimer = MX::horzcat({MX::vertcat({hess + XiV, grad}),
                               MX::vertcat({grad.T(), M0})});
+
+  MX KKT_noaugment = MX::horzcat({MX::vertcat({hess, grad}),
+                                  MX::vertcat({grad.T(), M0})});
 
   // RHS
   MX phi = MX::vertcat({jac_lagrangian.T(), g});
@@ -82,11 +85,38 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
 
+
   // take a look at RHS
   Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
   DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
   cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
   cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
+  
+  /*
+  // take a look at KKT
+  Function KKT_eval("KKT", {x, lambda, v, p}, {KKTprimer});
+  DM KKT = DM::vertcat({KKT_eval(prim_dual_param)});
+  DM Wa  = KKT(Slice(0, x_tot), Slice(0, x_tot));
+  DM A   = KKT(Slice(0, x_tot), Slice(x_tot, x_tot + lg_tot));
+
+  cout << "W + Σ = " ;
+  for (int i=0; i<Wa.size1(); ++i) {
+    cout << "row " << i << " = " << Wa(Slice(i, i+1), Slice(0, Wa.size1())) << endl;
+  }
+
+  cout << "A = "     << A  << endl;
+
+  Function KKT0_eval("KKT0", {x, lambda, v, p}, {KKT_noaugment});
+  DM KKT0 = DM::vertcat({KKT0_eval(prim_dual_param)});
+  DM W = KKT0(Slice(0, x_tot), Slice(0, x_tot));
+  //cout << "W = " << W << endl;
+  cout << "W = ";
+  for (int i=0; i<W.size1(); ++i) {
+    cout << "row " << i << " = " << W(Slice(i, i+1), Slice(0, W.size1())) << endl;
+  }
+
+  */
+
 
   // compute Δν
   MX dx = MX::sym("dx", nx);

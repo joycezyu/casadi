@@ -176,7 +176,7 @@ int main() {
 
 
   // model equations
-  
+
   MX xdot = vertcat(
      F * (CAin - CA) - k1 * CA - k3 * CA*CA,
     -F * CB          + k1 * CA - k2 * CB,
@@ -227,7 +227,7 @@ int main() {
   // start with an empty NLP
   vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
   vector<MX> w, g;
-  MX J = 0;  // cost function
+  MX Cost = 0;  // cost function
 
   // State at collocation points
   vector<MX> Xkj(d);
@@ -296,7 +296,7 @@ int main() {
       Xk_end += D[j+1]*Xkj[j];
 
       // Add contribution to quadrature function
-      J += B[j+1]*qj*h;
+      Cost += B[j+1]*qj*h;
     }
 
 
@@ -359,7 +359,7 @@ int main() {
   MXDict nlp = {
   {"x", variables},
   {"p", p},
-  {"f", J},
+  {"f", Cost},
   {"g", constraints}};
 
   Dict opts;
@@ -410,8 +410,8 @@ int main() {
   cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
   cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
   cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
-  cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
-  cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
+  //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
+  //cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
 
 
 
@@ -426,7 +426,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("csparse", res, L, constraints, variables, p, p1, p1);
+  DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p0);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();

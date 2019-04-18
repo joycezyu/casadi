@@ -27,6 +27,7 @@
 #include <fstream>
 #include <ctime>
 #include <casadi/casadi.hpp>
+#include <casadi/core/sensitivity.hpp>
 
 
 using namespace casadi;
@@ -114,7 +115,7 @@ int main() {
 
 
   /// Sensitivity calculation
-  DM ds = NLPsensitivity(res, f, g, x, p, p0, p1);
+  DM ds = NLPsensitivity("csparse", res, f, g, x, p, p0, p1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
 
