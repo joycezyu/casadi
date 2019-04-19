@@ -426,7 +426,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p0);
+  DM ds = NLPsensitivity("ma27", res, Cost, constraints, variables, p, p0, p0);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();

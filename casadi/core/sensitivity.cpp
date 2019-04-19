@@ -91,7 +91,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
   cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
   cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
-  
+
   /*
   // take a look at KKT
   Function KKT_eval("KKT", {x, lambda, v, p}, {KKTprimer});
