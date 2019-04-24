@@ -12,6 +12,11 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
                   const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
                   std::vector<double>& p0, std::vector<double>& p1) {
 
+  cout << "********************************" << endl;
+  cout << "Start of sensitivity calculation" << endl;
+  cout << "With linear solver = " << lsolver << endl;
+
+
   const MX& f = objective;
   const MX& g = constraints;
   const MX& x = variables;
@@ -89,33 +94,37 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   // take a look at RHS
   Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
   DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
-  cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
-  cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
+  //cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
+  //cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
 
-  /*
-  // take a look at KKT
+
+  /// take a look at KKT
   Function KKT_eval("KKT", {x, lambda, v, p}, {KKTprimer});
   DM KKT = DM::vertcat({KKT_eval(prim_dual_param)});
   DM Wa  = KKT(Slice(0, x_tot), Slice(0, x_tot));
   DM A   = KKT(Slice(0, x_tot), Slice(x_tot, x_tot + lg_tot));
 
-  cout << "W + Σ = " ;
+  // cout << "W + Σ = "  ;
+  /*
   for (int i=0; i<Wa.size1(); ++i) {
     cout << "row " << i << " = " << Wa(Slice(i, i+1), Slice(0, Wa.size1())) << endl;
   }
-
+  */
+  cout << "W + Σ ="  << Wa << endl;
   cout << "A = "     << A  << endl;
 
   Function KKT0_eval("KKT0", {x, lambda, v, p}, {KKT_noaugment});
   DM KKT0 = DM::vertcat({KKT0_eval(prim_dual_param)});
   DM W = KKT0(Slice(0, x_tot), Slice(0, x_tot));
-  //cout << "W = " << W << endl;
+  cout << "W = " << W << endl;
+
+  /*
   cout << "W = ";
   for (int i=0; i<W.size1(); ++i) {
     cout << "row " << i << " = " << W(Slice(i, i+1), Slice(0, W.size1())) << endl;
   }
-
   */
+
 
 
   // compute Δν
@@ -128,7 +137,8 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   // assemble ds matrix
   DM ds = DM::vertcat({dx_dl, dv0});
 
-
+  cout << "******************************" << endl;
+  cout << "End of sensitivity calculation" << endl;
   return ds;
 };
 

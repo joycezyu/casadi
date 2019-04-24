@@ -87,7 +87,10 @@ int main() {
   vector<double> p1  = {4.50, 1.00};
 
   // Create NLP solver and buffers
-  Function solver = nlpsol("solver", "ipopt", nlp);
+  Dict opts;
+  opts["ipopt.linear_solver"] = "ma57";
+
+  Function solver = nlpsol("solver", "ipopt", nlp, opts);
   std::map<std::string, DM> arg, res;
 
 
@@ -115,7 +118,7 @@ int main() {
 
 
   /// Sensitivity calculation
-  DM ds = NLPsensitivity("csparse", res, f, g, x, p, p0, p1);
+  DM ds = NLPsensitivity("ma27", res, f, g, x, p, p0, p1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
 

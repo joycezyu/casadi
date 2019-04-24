@@ -70,7 +70,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 40; // number of control intervals
+  int N = 3; // number of control intervals
   double h = T/N;   // step size
 
 
@@ -363,7 +363,8 @@ int main() {
   {"g", constraints}};
 
   Dict opts;
-  opts["verbose_init"] = true;
+  //opts["verbose_init"] = true;
+  opts["ipopt.linear_solver"] = "ma27";
 
   Function solver = nlpsol("solver", "ipopt", nlp, opts);
   //cout << "print solver status" << solver.stats() << endl;
@@ -410,8 +411,8 @@ int main() {
   cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
   cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
   cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
-  //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
-  //cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
+  cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
+  cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
 
 
 
@@ -426,7 +427,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("ma27", res, Cost, constraints, variables, p, p0, p0);
+  DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p0);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();
