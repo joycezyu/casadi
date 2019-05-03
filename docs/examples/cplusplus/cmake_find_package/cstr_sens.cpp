@@ -355,6 +355,11 @@ int main() {
   MX constraints = MX::vertcat(g);
 
 
+  // print cost function
+  cout << "cost function = " << Cost << endl;
+
+
+
   /// Create an NLP solver
   MXDict nlp = {
   {"x", variables},
@@ -365,8 +370,14 @@ int main() {
   Dict opts;
   //opts["verbose_init"] = true;
   opts["ipopt.linear_solver"] = "ma27";
+  opts["ipopt.print_info_string"] = "yes";
+  //opts["ipopt.print_level"] = 12;
+  opts["ipopt.linear_system_scaling"] = "none";
+  //opts["ipopt.fixed_variable_treatment"] = "make_constraint";
+  opts["ipopt.fixed_variable_treatment"] = "relax_bounds";
 
   Function solver = nlpsol("solver", "ipopt", nlp, opts);
+  cout << "ipopt hessian = " << solver.get_function("nlp_hess_l") << endl;
   //cout << "print solver status" << solver.stats() << endl;
   std::map<std::string, DM> arg, res;
 
@@ -416,8 +427,17 @@ int main() {
 
 
 
+  //vector<DM> input_hess{res.at("x"), p1,  res.at("lam_g")};
+  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
+  // nlp_hess_l:(x[58],p[2],lam_f,lam_g[48])->(hess_gamma_x_x[58x58,82nz]) MXFunction
+  // nlp_grad_f:(x[58],p[2])->(f,grad_f_x[58]) MXFunction
 
-
+  vector<DM> input_grad_f{res.at("x"), p1};
+  cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
+  DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
+  //vector<DM> input_hess{res.at("x"), p1, grad_f, res.at("lam_g")};
+  vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
+  cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
 
   ///****************************************************
   /// Sensitivity calculation
@@ -470,6 +490,9 @@ int main() {
   cout << setw(30) << "Perturbed solution (TK): " << TK_pert << endl;
   cout << setw(30) << "Perturbed solution (F):  " << F_pert  << endl;
   cout << setw(30) << "Perturbed solution (QK): " << QK_pert << endl;
+
+
+
 
   return 0;
 

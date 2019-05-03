@@ -2,6 +2,8 @@
 // Created by Zhou Yu on 4/15/19.
 //
 
+#include <iostream>
+#include <fstream>
 #include "sensitivity.hpp"
 #include "timing.hpp"
 
@@ -21,6 +23,8 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   const MX& g = constraints;
   const MX& x = variables;
   const MX& p = parameters;
+  cout << "f = " << f << endl;
+  cout << "g = " << g << endl;
 
   int ng = g.size1();  // ng = number of constraints g
   int nx = x.size1();  // nx = number of variables x
@@ -94,8 +98,8 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   // take a look at RHS
   Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
   DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
-  //cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
-  //cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
+  cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
+  cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
 
 
   /// take a look at KKT
@@ -103,6 +107,20 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   DM KKT = DM::vertcat({KKT_eval(prim_dual_param)});
   DM Wa  = KKT(Slice(0, x_tot), Slice(0, x_tot));
   DM A   = KKT(Slice(0, x_tot), Slice(x_tot, x_tot + lg_tot));
+
+
+  /// evaluate ds
+  // the below is for testing RHS = 0
+  vector<double> x0(x_tot, 0);
+  vector<double> lg0(lg_tot, 0);
+  vector<double> lx0(lx_tot, 0);
+  vector<DM> prim_dual_param0{x0, lg0, lx0, p1};
+  DM RHS0 = DM::vertcat({x0, lg0});
+  cout << "RHS0 (should be all zero) = " << RHS0 << endl;
+
+  //DM KKT_num = solve(KKT, -RHS, lsolver);
+  DM KKT_num = solve(KKT, -RHS0, lsolver);
+  cout << "KKT_num = " << KKT_num << endl;
 
   // cout << "W + Σ = "  ;
   /*
@@ -139,6 +157,51 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
   cout << "******************************" << endl;
   cout << "End of sensitivity calculation" << endl;
+
+
+  /// Output KKT matrix to matlab file
+
+  // Create Matlab script to plot the solution
+  ofstream file;
+  string filename = "sensitivity_results_KKT.m";
+  file.open(filename.c_str());
+  file << "% Results file from " __FILE__ << endl;
+  file << "% Generated " __DATE__ " at " __TIME__ << endl;
+  file << endl;
+  //file << "W_r = " << Wa << ";" << endl;
+  //file << "A   = " << A  << ";" << endl;
+  file << "KKT = [" ;
+  for (int i = 0; i < KKT.size1(); ++i) {
+    for (int j = 0; j < KKT.size2(); ++j) {
+      file << KKT(i, j)  ;
+        if (j < KKT.size2()-1) {
+          file << "," ;
+        }
+    }
+    if (i < KKT.size2()-1) {
+      file << ";" << endl;
+    }
+  }
+  file << "];" << endl;
+
+  file << "RHS = [" ;
+  for (int i = 0; i < RHS.size1(); ++i) {
+    file << RHS(i, 0) << ";" << endl;
+  }
+  file << "]" << endl;
+  file << "cond(KKT)" << endl;
+  file << "eig_KKT = eig(KKT);" << endl;
+  file << "spy(KKT)"  << endl;
+
+
+
+  file.close();
+  cout << "Results saved to \"" << filename << "\"" << endl;
+
+
+
+
+
   return ds;
 };
 
