@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <iomanip>      // std::setprecision
 #include "sensitivity.hpp"
 #include "timing.hpp"
 
@@ -99,7 +100,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
   DM RHS = DM::vertcat({RHS_eval(prim_dual_param)});
   cout << "RHS_x = "    << RHS(Slice(0, x_tot)) << endl;
-  cout << "RHS_lamg = " << RHS(Slice(x_tot + 1, x_tot + lg_tot)) << endl;
+  cout << "RHS_lamg = " << RHS(Slice(x_tot, x_tot + lg_tot)) << endl;
 
 
   /// take a look at KKT
@@ -111,9 +112,9 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
   /// evaluate ds
   // the below is for testing RHS = 0
-  vector<double> x0(x_tot, 0);
-  vector<double> lg0(lg_tot, 0);
-  vector<double> lx0(lx_tot, 0);
+  vector<double> x0(x_tot, 1e-20);
+  vector<double> lg0(lg_tot, 1e-20);
+  vector<double> lx0(lx_tot, 1e-20);
   vector<DM> prim_dual_param0{x0, lg0, lx0, p1};
   DM RHS0 = DM::vertcat({x0, lg0});
   cout << "RHS0 (should be all zero) = " << RHS0 << endl;
@@ -128,13 +129,17 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
     cout << "row " << i << " = " << Wa(Slice(i, i+1), Slice(0, Wa.size1())) << endl;
   }
   */
+  std::cout << std::fixed;
+  cout << setprecision(10);
+
   cout << "W + Σ ="  << Wa << endl;
-  cout << "A = "     << A  << endl;
+  cout << "A = "     <<  A << endl;
 
   Function KKT0_eval("KKT0", {x, lambda, v, p}, {KKT_noaugment});
   DM KKT0 = DM::vertcat({KKT0_eval(prim_dual_param)});
   DM W = KKT0(Slice(0, x_tot), Slice(0, x_tot));
   cout << "W = " << W << endl;
+  cout << "W(52, 52) = " << setprecision(15) << W(52, 52) << endl;
 
   /*
   cout << "W = ";
@@ -173,7 +178,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   file << "KKT = [" ;
   for (int i = 0; i < KKT.size1(); ++i) {
     for (int j = 0; j < KKT.size2(); ++j) {
-      file << KKT(i, j)  ;
+      file << setprecision(10) << KKT(i, j)  ;
         if (j < KKT.size2()-1) {
           file << "," ;
         }
@@ -186,7 +191,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
   file << "RHS = [" ;
   for (int i = 0; i < RHS.size1(); ++i) {
-    file << RHS(i, 0) << ";" << endl;
+    file << setprecision(10) << RHS(i, 0) << ";" << endl;
   }
   file << "]" << endl;
   file << "cond(KKT)" << endl;
@@ -195,7 +200,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
 
 
-  file.close();
+  //file.close();
   cout << "Results saved to \"" << filename << "\"" << endl;
 
 

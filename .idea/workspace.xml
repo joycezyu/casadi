@@ -49,7 +49,6 @@
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/casadi/core/sensitivity.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/casadi/core/sensitivity.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/casadi/interfaces/ipopt/ipopt_interface.hpp" beforeDir="false" afterPath="$PROJECT_DIR$/casadi/interfaces/ipopt/ipopt_interface.hpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_sens.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_sens.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -63,14 +62,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="cstr_sens.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="cstr_sens.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_sens.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-411">
-              <caret line="268" lean-forward="true" selection-start-line="268" selection-end-line="268" />
-              <folding>
-                <element signature="e#42#70#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="-5089">
+              <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -108,11 +104,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="sensitivity.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="sensitivity.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
-              <caret line="165" column="44" selection-start-line="165" selection-start-column="44" selection-end-line="165" selection-end-column="44" />
+            <state relative-caret-position="356">
+              <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
               <folding>
                 <element signature="e#41#60#0" expanded="true" />
               </folding>
@@ -145,25 +141,17 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>t</find>
-      <find>timing</find>
-      <find>inte</find>
-      <find>N_tot</find>
-      <find>LDL factorization has zeros in D</find>
-      <find>time</find>
       <find>lsqr</find>
       <find>ma27</find>
       <find>solver</find>
       <find>size1()</find>
       <find>L</find>
       <find>J</find>
-      <find>cout</find>
       <find>Cost</find>
       <find>collocation_point</find>
       <find>eigenvalue</find>
       <find>MAtrix</find>
       <find>conditi</find>
-      <find>solve</find>
       <find>eigen</find>
       <find>take</find>
       <find>cost</find>
@@ -175,6 +163,14 @@
       <find>nlp_gra</find>
       <find>ipoptmemory</find>
       <find>res</find>
+      <find>nlp_hess_l</find>
+      <find>cost function</find>
+      <find>solve</find>
+      <find>sensitivity</find>
+      <find>sens_eval</find>
+      <find>dx_dl</find>
+      <find>cout</find>
+      <find>W_</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -212,8 +208,8 @@
         <option value="$PROJECT_DIR$/casadi/core/sensitivity.hpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/paper_example_module.cpp" />
         <option value="$PROJECT_DIR$/casadi/interfaces/ipopt/ipopt_interface.hpp" />
-        <option value="$PROJECT_DIR$/casadi/core/sensitivity.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_sens.cpp" />
+        <option value="$PROJECT_DIR$/casadi/core/sensitivity.cpp" />
       </list>
     </option>
   </component>
@@ -228,9 +224,8 @@
   </component>
   <component name="OCFindUsagesOptions" text="true" ivars="false" properties="true" derivedClasses="false" />
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="1440" />
-    <option name="width" value="1920" />
-    <option name="height" value="1080" />
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -412,18 +407,18 @@
       <workItem from="1555512625249" duration="10659000" />
       <workItem from="1555717301500" duration="3458000" />
       <workItem from="1555880091907" duration="12298000" />
-      <workItem from="1556570119169" duration="11352000" />
+      <workItem from="1556570119169" duration="15692000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207433000" />
+    <option name="totallyTimeSpent" value="211773000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13489583" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15416667" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="CMake" order="7" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -772,13 +767,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/rocket_ipopt.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="948">
@@ -789,22 +777,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.cpp">
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_sens.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
-          <caret line="165" column="44" selection-start-line="165" selection-start-column="44" selection-end-line="165" selection-end-column="44" />
-          <folding>
-            <element signature="e#41#60#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-5089">
+          <caret line="6" column="18" selection-start-line="6" selection-start-column="18" selection-end-line="6" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/cmake_find_package/cstr_sens.cpp">
+    <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.hpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-411">
-          <caret line="268" lean-forward="true" selection-start-line="268" selection-end-line="268" />
+        <state relative-caret-position="480">
+          <caret line="32" column="1" selection-start-line="32" selection-start-column="1" selection-end-line="32" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="356">
+          <caret line="137" column="25" selection-start-line="137" selection-start-column="25" selection-end-line="137" selection-end-column="25" />
           <folding>
-            <element signature="e#42#70#0" expanded="true" />
+            <element signature="e#41#60#0" expanded="true" />
           </folding>
         </state>
       </provider>

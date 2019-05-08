@@ -3,7 +3,8 @@
 //
 
 
-
+#include <iostream>
+#include <fstream>
 #include <casadi/casadi.hpp>
 #include <casadi/core/sensitivity.hpp>
 #include <casadi/core/timing.hpp>
@@ -235,9 +236,14 @@ int main() {
   // "lift" initial conditions
   MX Xk = MX::sym("x0", nx);
   w.push_back(Xk);
+  g.push_back(Xk - xinit);
   for (int iw = 0; iw < nx; ++iw) {
-    lbw.push_back(xinit[iw]);
-    ubw.push_back(xinit[iw]);
+    //lbw.push_back(xinit[iw]);
+    //ubw.push_back(xinit[iw]);
+    lbw.push_back(xmin[iw]);
+    ubw.push_back(xmax[iw]);
+    lbg.push_back(0);
+    ubg.push_back(0);
     w0.push_back(xinit[iw]);
   }
 
@@ -377,7 +383,7 @@ int main() {
   opts["ipopt.fixed_variable_treatment"] = "relax_bounds";
 
   Function solver = nlpsol("solver", "ipopt", nlp, opts);
-  cout << "ipopt hessian = " << solver.get_function("nlp_hess_l") << endl;
+  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l") << endl;
   //cout << "print solver status" << solver.stats() << endl;
   std::map<std::string, DM> arg, res;
 
@@ -432,12 +438,15 @@ int main() {
   // nlp_hess_l:(x[58],p[2],lam_f,lam_g[48])->(hess_gamma_x_x[58x58,82nz]) MXFunction
   // nlp_grad_f:(x[58],p[2])->(f,grad_f_x[58]) MXFunction
 
+
   vector<DM> input_grad_f{res.at("x"), p1};
   cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
   DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
   //vector<DM> input_hess{res.at("x"), p1, grad_f, res.at("lam_g")};
   vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
   cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
+
+
 
   ///****************************************************
   /// Sensitivity calculation
@@ -447,7 +456,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p0);
+  DM ds = NLPsensitivity("ma27", res, Cost, constraints, variables, p, p0, p0);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();
