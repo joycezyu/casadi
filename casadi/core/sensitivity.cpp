@@ -139,7 +139,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   DM KKT0 = DM::vertcat({KKT0_eval(prim_dual_param)});
   DM W = KKT0(Slice(0, x_tot), Slice(0, x_tot));
   cout << "W = " << W << endl;
-  cout << "W(52, 52) = " << setprecision(15) << W(52, 52) << endl;
+  //cout << "W(52, 52) = " << setprecision(15) << W(52, 52) << endl;
 
   /*
   cout << "W = ";
