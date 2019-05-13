@@ -168,7 +168,7 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
   // Create Matlab script to plot the solution
   ofstream file;
-  string filename = "sensitivity_results_KKT.m";
+  string filename = "sensitivity_results_KKT_dummy.m";
   file.open(filename.c_str());
   file << "% Results file from " __FILE__ << endl;
   file << "% Generated " __DATE__ " at " __TIME__ << endl;
