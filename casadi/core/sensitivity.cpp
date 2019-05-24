@@ -42,9 +42,14 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
   MX grad = jacobian(g, x);
   // construct the lagrangian function
-  MX lagrangian = f + dot(lambda, g) - dot(v, x);
+  MX lagrangian = f + dot(lambda, g) + dot(v, x);
   MX jac_lagrangian = jacobian(lagrangian, x);
   MX hess = hessian(lagrangian, x);
+
+  cout << "hessian = " << hess << endl;
+
+  Function hess_eval("W", {x, lambda, v, p}, {hess});
+
 
   /// Assemble KKT matrix
   // sparse zero matrix
@@ -117,11 +122,11 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   vector<double> lx0(lx_tot, 1e-20);
   vector<DM> prim_dual_param0{x0, lg0, lx0, p1};
   DM RHS0 = DM::vertcat({x0, lg0});
-  cout << "RHS0 (should be all zero) = " << RHS0 << endl;
+  //cout << "RHS0 (should be all zero) = " << RHS0 << endl;
 
   //DM KKT_num = solve(KKT, -RHS, lsolver);
   DM KKT_num = solve(KKT, -RHS0, lsolver);
-  cout << "KKT_num = " << KKT_num << endl;
+  //cout << "KKT_num = " << KKT_num << endl;
 
   // cout << "W + Σ = "  ;
   /*
@@ -147,6 +152,16 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
     cout << "row " << i << " = " << W(Slice(i, i+1), Slice(0, W.size1())) << endl;
   }
   */
+
+
+
+  /// testing for W
+  DM hess_raw = DM::vertcat({hess_eval(prim_dual_param)});
+  cout << "W0 = "    << hess_raw << endl;
+
+
+
+
 
 
 

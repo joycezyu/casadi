@@ -71,9 +71,9 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 3; // number of control intervals
+  int N = 2; // number of control intervals
   double h = T/N;   // step size
-
+  //cout << "h = " << h << endl;
 
   // Declare model variables
 
@@ -348,6 +348,8 @@ int main() {
   //cout << "ubg = " << ubg << endl;
 
 
+  cout << "w = " << MX::vertcat(w) << endl;
+  cout << "g = " << MX::vertcat(g) << endl;
   cout << "w size = " << w.size() << endl;
   cout << "w size = " << MX::vertcat(w).size() << endl;
   cout << "lbw size = " << lbw.size() << endl;
@@ -380,9 +382,11 @@ int main() {
   //opts["ipopt.print_level"] = 12;
   opts["ipopt.linear_system_scaling"] = "none";
   //opts["ipopt.fixed_variable_treatment"] = "make_constraint";
-  opts["ipopt.fixed_variable_treatment"] = "relax_bounds";
+  //opts["ipopt.fixed_variable_treatment"] = "relax_bounds";
 
   Function solver = nlpsol("solver", "ipopt", nlp, opts);
+  //MX hess_l = solver.get_function("nlp_hess_l");
+  //cout << "ipopt hessian = " << hess_l << endl;
   //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l") << endl;
   //cout << "print solver status" << solver.stats() << endl;
   std::map<std::string, DM> arg, res;
@@ -422,12 +426,46 @@ int main() {
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: "   << res.at("f") << endl;
-  cout << setw(30) << "Primal solution (CA): " << CA_opt << endl;
-  cout << setw(30) << "Primal solution (CB): " << CB_opt << endl;
-  cout << setw(30) << "Primal solution (TR): " << TR_opt << endl;
-  cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
-  cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
-  cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
+  cout << setw(30) << "Primal solution (CA): [";
+
+  for (int i=0; i<CA_opt.size1(); ++i) {
+    cout  << setprecision(20) << double(CA_opt(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+  cout << setw(30) << "Primal solution (CB): [" ;
+  for (int i=0; i<CB_opt.size1(); ++i) {
+    cout  << setprecision(20) << double(CB_opt(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+
+  cout << setw(30) << "Primal solution (TR): [" ;
+  for (int i=0; i<TR_opt.size1(); ++i) {
+    cout  << setprecision(20) << double(TR_opt(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+  cout << setw(30) << "Primal solution (TK): [";
+  for (int i=0; i<TK_opt.size1(); ++i) {
+    cout  << setprecision(20) << double(TK_opt(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+  cout << setw(30) << "Primal solution (F): [";
+  for (int i=0; i<F_opt.size1(); ++i) {
+    cout  << setprecision(20) << double(F_opt(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+
+  cout << setw(30) << "Primal solution (QK): [";
+  for (int i=0; i<QK_opt.size1(); ++i) {
+    cout  << setprecision(20) << double(QK_opt(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+
   cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
   cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
 
@@ -446,6 +484,7 @@ int main() {
   vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
   cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
 
+  //cout << "ipopt interface lagrangian" << solver.get_function("hess_lag")(input_hess) << endl;
 
 
   ///****************************************************
@@ -456,7 +495,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("ma27", res, Cost, constraints, variables, p, p0, p0);
+  DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();
@@ -499,6 +538,19 @@ int main() {
   cout << setw(30) << "Perturbed solution (TK): " << TK_pert << endl;
   cout << setw(30) << "Perturbed solution (F):  " << F_pert  << endl;
   cout << setw(30) << "Perturbed solution (QK): " << QK_pert << endl;
+
+
+
+  arg["p"]   = p1;
+  res = solver(arg);
+
+  // Print the new solution
+  cout << "-----" << endl;
+  cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
+  cout << setw(30) << "Objective: " << res.at("f") << endl;
+  cout << setw(30) << "Primal solution: " << res.at("x") << endl;
+  cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
+  cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
 
 
 
