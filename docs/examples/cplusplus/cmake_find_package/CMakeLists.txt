@@ -82,5 +82,10 @@ target_link_libraries(cstr_sens casadi)
 add_executable(cstr_sens_dummy cstr_sens_dummy.cpp)
 target_link_libraries(cstr_sens_dummy casadi)
 
+
+add_executable(cstr_test cstr_test.cpp)
+target_link_libraries(cstr_test casadi)
+
+
 add_executable(ipopt_multiplier_example ipopt_multiplier_example.cpp)
 target_link_libraries(ipopt_multiplier_example casadi)
