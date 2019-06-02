@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 2; // number of control intervals
+  int N = 3; // number of control intervals
   double h = T/N;   // step size
   //cout << "h = " << h << endl;
 
@@ -348,8 +348,8 @@ int main() {
   //cout << "ubg = " << ubg << endl;
 
 
-  cout << "w = " << MX::vertcat(w) << endl;
-  cout << "g = " << MX::vertcat(g) << endl;
+  //cout << "w = " << MX::vertcat(w) << endl;
+  //cout << "g = " << MX::vertcat(g) << endl;
   cout << "w size = " << w.size() << endl;
   cout << "w size = " << MX::vertcat(w).size() << endl;
   cout << "lbw size = " << lbw.size() << endl;
@@ -389,7 +389,7 @@ int main() {
   //cout << "ipopt hessian = " << hess_l << endl;
   //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l") << endl;
   //cout << "print solver status" << solver.stats() << endl;
-  std::map<std::string, DM> arg, res;
+  std::map<std::string, DM> arg;
 
 
   // Solve the NLP
@@ -404,15 +404,18 @@ int main() {
   /// keep record of timing
   FStats time;
   time.tic();
-  res = solver(arg);
+  auto res = solver(arg);
   time.toc();
   cout << "nlp t_wall time = " << time.t_wall << endl;
   cout << "nlp t_proc time = " << time.t_proc << endl;
 
 
+  cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << "res = " << evalf(res["x"]) << endl;
+
+
 
   int N_tot = res.at("x").size1();
-  DM CA_opt = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
+  auto CA_opt = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
   DM CB_opt = res.at("x")(Slice(1, N_tot, nu+nx+nx*d));
   DM TR_opt = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
   DM TK_opt = res.at("x")(Slice(3, N_tot, nu+nx+nx*d));
@@ -421,14 +424,25 @@ int main() {
   DM QK_opt = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
 
 
+  cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
+
 
   // Print the solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: "   << res.at("f") << endl;
+
+  cout << setw(30) << "x  solution     : [ ";
+  for (int i=0; i<res.at("x").size1(); ++i) {
+    cout  << setprecision(20) << double(res.at("x")(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+
   cout << setw(30) << "Primal solution (CA): [";
 
   for (int i=0; i<CA_opt.size1(); ++i) {
+    //cout  << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1)  << evalf(CA_opt(i))<< "  ";
     cout  << setprecision(20) << double(CA_opt(i)) << "  ";
   }
   cout << "]" << endl;
@@ -466,8 +480,26 @@ int main() {
   cout << "]" << endl;
 
 
-  cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
-  cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
+
+
+  cout << setw(30) << "lam_g  solution     : [ ";
+  for (int i=0; i<res.at("lam_g").size1(); ++i) {
+    cout  << setprecision(20) << double(res.at("lam_g")(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+  cout << setw(30) << "lam_x  solution     : [ ";
+  for (int i=0; i<res.at("lam_x").size1(); ++i) {
+    cout  << setprecision(20) << double(res.at("lam_x")(i)) << "  ";
+  }
+  cout << "]" << endl;
+
+
+
+  //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
+  //cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
+
+
 
 
 

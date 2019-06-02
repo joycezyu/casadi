@@ -34,8 +34,8 @@ int main() {
   MX x1 = MX::sym("x1");
   MX f = x0 * (3 + x1*x1);
 
-  //MX g = x0 - 1;
-  MX g = 0;
+  MX g = x0 - 1;
+  //MX g = 0;
 
   MX x = MX::vertcat({x0, x1});
   MXDict nlp = {{"x", x}, {"g", g}, {"f", f}};
@@ -44,19 +44,20 @@ int main() {
 
 
   vector<double> xinit = {-1,  -1};
-  vector<double> lbx   = { 1, -10};
-  vector<double> ubx   = { 1,  10};
-  //vector<double> lbx   = { -inf, -10};
-  //vector<double> ubx   = {  inf,  10};
-  //vector<double> lbg   = { 0};
-  //vector<double> ubg   = { 0};
-  vector<double> lbg   = { -inf};
-  vector<double> ubg   = { inf};
+  //vector<double> lbx   = { 1, -10};
+  //vector<double> ubx   = { 1,  10};
+  vector<double> lbx   = { -inf, -10};
+  vector<double> ubx   = {  inf,  10};
+  vector<double> lbg   = { 0};
+  vector<double> ubg   = { 0};
+  //vector<double> lbg   = { -inf};
+  //vector<double> ubg   = { inf};
 
 
   Dict opts;
   //opts["ipopt.linear_solver"] = "ma57";
   opts["ipopt.linear_system_scaling"] = "none";
+  opts["ipopt.print_level"] = 12;
   //opts["ipopt.fixed_variable_treatment"] = "make_constraint";
   //opts["ipopt.fixed_variable_treatment"] = "relax_bounds";
 

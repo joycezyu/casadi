@@ -11,9 +11,9 @@
 using namespace std;
 namespace casadi {
 
-DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
+DM NLPsensitivity(const std::string& lsolver, const std::map<std::string, DM>& res,
                   const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
-                  std::vector<double>& p0, std::vector<double>& p1) {
+                  const std::vector<double>& p0, const std::vector<double>& p1) {
 
   cout << "********************************" << endl;
   cout << "Start of sensitivity calculation" << endl;
@@ -24,8 +24,8 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   const MX& g = constraints;
   const MX& x = variables;
   const MX& p = parameters;
-  cout << "f = " << f << endl;
-  cout << "g = " << g << endl;
+  //cout << "f = " << f << endl;
+  //cout << "g = " << g << endl;
 
   int ng = g.size1();  // ng = number of constraints g
   int nx = x.size1();  // nx = number of variables x
@@ -43,10 +43,14 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   MX grad = jacobian(g, x);
   // construct the lagrangian function
   MX lagrangian = f + dot(lambda, g) + dot(v, x);
+  //MX lagrangian = f + dot(lambda, g);
   MX jac_lagrangian = jacobian(lagrangian, x);
-  MX hess = hessian(lagrangian, x);
+  // writing hessian in the following two different ways does change the numerical results a bit
+  // however, it is NOT the reason for inconsistent W with ipopt
+  //MX hess = hessian(lagrangian, x);
+  MX hess = jacobian(jac_lagrangian, x);
 
-  cout << "hessian = " << hess << endl;
+  //cout << "hessian = " << hess << endl;
 
   Function hess_eval("W", {x, lambda, v, p}, {hess});
 
@@ -97,6 +101,15 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
 
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
+
+  cout << "prim_dual_param = ";
+  for (int i=0; i<prim_dual_param.size(); ++i) {
+    for (int j=0; j<prim_dual_param[i].size1(); ++j) {
+      cout << setprecision(20) << double(prim_dual_param[i](j)) << ",    " ;
+    }
+    cout << endl;
+  }
+
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
 
@@ -149,7 +162,10 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
   /*
   cout << "W = ";
   for (int i=0; i<W.size1(); ++i) {
-    cout << "row " << i << " = " << W(Slice(i, i+1), Slice(0, W.size1())) << endl;
+    for (int j=0; j<W.size2(); ++j) {
+      cout << "W[" << i << ", " << j << "] = " << setprecision(15) << W(i)(j) << endl;
+    }
+    //cout << "row " << i << " = " << W(Slice(i, i+1), Slice(0, W.size1())) << endl;
   }
   */
 
@@ -183,17 +199,35 @@ DM NLPsensitivity(const std::string& lsolver, std::map<std::string, DM>& res,
 
   // Create Matlab script to plot the solution
   ofstream file;
-  string filename = "sensitivity_results_KKT_dummy.m";
+  string filename = "sensitivity_results_KKT_N=1.m";
   file.open(filename.c_str());
   file << "% Results file from " __FILE__ << endl;
   file << "% Generated " __DATE__ " at " __TIME__ << endl;
   file << endl;
   //file << "W_r = " << Wa << ";" << endl;
   //file << "A   = " << A  << ";" << endl;
+
+  file << "W = [" ;
+  for (int i = 0; i < W.size1(); ++i) {
+    for (int j = 0; j < W.size2(); ++j) {
+      file << setprecision(20) << double(W(i, j))  ;
+      if (j < W.size2()-1) {
+        file << "," ;
+      }
+    }
+    if (i < W.size2()-1) {
+      file << ";" << endl;
+    }
+  }
+  file << "];" << endl;
+
+
+
+
   file << "KKT = [" ;
   for (int i = 0; i < KKT.size1(); ++i) {
     for (int j = 0; j < KKT.size2(); ++j) {
-      file << setprecision(10) << KKT(i, j)  ;
+      file << setprecision(20) << double(KKT(i, j))  ;
         if (j < KKT.size2()-1) {
           file << "," ;
         }
