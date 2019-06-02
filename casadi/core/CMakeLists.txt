@@ -64,7 +64,7 @@ set(CASADI_PUBLIC
   optistack.hpp
   sensitivity.hpp
 
-  # User include class with the most essential includes
+        # User include class with the most essential includes
   core.hpp
 )
 
@@ -171,7 +171,7 @@ set(CASADI_INTERNAL
   optistack.cpp               optistack_internal.cpp               optistack_internal.hpp
   sensitivity.cpp
 
-  # Runtime headers
+        # Runtime headers
   runtime/casadi_runtime.hpp
 )
 
