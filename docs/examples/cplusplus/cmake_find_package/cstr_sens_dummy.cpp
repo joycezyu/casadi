@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 3; // number of control intervals
+  int N = 1; // number of control intervals
   double h = T/N;   // step size
 
 
@@ -476,7 +476,7 @@ int main() {
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
 
-  DM ds = NLPsensitivity("ma27", res, Cost, constraints, variables, p_val, p0, p0);
+  DM ds = NLPsensitivity("ma27", res, Cost, constraints, variables, p_val, p0, p1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();

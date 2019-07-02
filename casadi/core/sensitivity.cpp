@@ -354,7 +354,7 @@ DM NLPsensitivity_p(const std::string& lsolver, const std::map<std::string, DM>&
   // vector<double> lx0(lx_tot, 1e-12);
   // vector<DM> prim_dual_param{x0, lg0, lx0, p1};
 
-
+  /// choose to evaluate the solution of linear system at p0 or p1
   vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
 
   cout << "prim_dual_param = ";
