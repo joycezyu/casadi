@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 3; // number of control intervals
+  int N = 1; // number of control intervals
   double h = T/N;   // step size
   //cout << "h = " << h << endl;
 
