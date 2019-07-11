@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 1; // number of control intervals
+  int N = 40; // number of control intervals
   double h = T/N;   // step size
   //cout << "h = " << h << endl;
 
@@ -128,6 +128,8 @@ int main() {
   double EA1R     = 9758.3;
   double EA2R     = 9758.3;
   double EA3R_nom = 8560;
+  double EA3R_lo  = EA3R_nom * (1 - 0.1);
+
 
   double delHAB   = 4.2;
   double delHBC   = -11;
@@ -142,7 +144,7 @@ int main() {
   double kW       = 4032;
 
   double CAin_nom = 5.1;
-  double CAin_lo  = CAin_nom * (1 - 0.1);
+  double CAin_lo  = CAin_nom * (1 - 0.01);
 
 
   double CBref    = 0.5;
@@ -364,7 +366,7 @@ int main() {
 
 
   // print cost function
-  cout << "cost function = " << Cost << endl;
+  // cout << "cost function = " << Cost << endl;
 
 
 
@@ -410,7 +412,7 @@ int main() {
   cout << "nlp t_proc time = " << time.t_proc << endl;
 
 
-  cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << "res = " << evalf(res["x"]) << endl;
+  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << "res = " << evalf(res["x"]) << endl;
 
 
 
@@ -424,7 +426,7 @@ int main() {
   DM QK_opt = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
 
 
-  cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
+  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
 
 
   // Print the solution
@@ -432,6 +434,15 @@ int main() {
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: "   << res.at("f") << endl;
 
+  cout << setw(30) << "Primal solution (CA): " << CA_opt << endl;
+  cout << setw(30) << "Primal solution (CB): " << CB_opt << endl;
+  cout << setw(30) << "Primal solution (TR): " << TR_opt << endl;
+  cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
+  cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
+  cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
+
+
+  /*
   cout << setw(30) << "x  solution     : [ ";
   for (int i=0; i<res.at("x").size1(); ++i) {
     cout  << setprecision(20) << double(res.at("x")(i)) << "  ";
@@ -494,6 +505,8 @@ int main() {
   }
   cout << "]" << endl;
 
+  */
+
 
 
   //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
@@ -510,7 +523,7 @@ int main() {
 
 
   vector<DM> input_grad_f{res.at("x"), p1};
-  cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
+  // cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
   DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
   //vector<DM> input_hess{res.at("x"), p1, grad_f, res.at("lam_g")};
   vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
@@ -581,10 +594,27 @@ int main() {
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: " << res.at("f") << endl;
-  cout << setw(30) << "Primal solution: " << res.at("x") << endl;
-  cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
-  cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
+  //cout << setw(30) << "Primal solution: " << res.at("x") << endl;
+  //cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
+  //cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
 
+
+  DM CA_optm = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
+  DM CB_optm = res.at("x")(Slice(1, N_tot, nu+nx+nx*d));
+  DM TR_optm = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
+  DM TK_optm = res.at("x")(Slice(3, N_tot, nu+nx+nx*d));
+
+  DM F_optm  = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
+  DM QK_optm = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
+
+
+
+  cout << setw(30) << "Optimal solution for p1 (CA): " << CA_optm << endl;
+  cout << setw(30) << "Optimal solution for p1 (CB): " << CB_optm << endl;
+  cout << setw(30) << "Optimal solution for p1 (TR): " << TR_optm << endl;
+  cout << setw(30) << "Optimal solution for p1 (TK): " << TK_optm << endl;
+  cout << setw(30) << "Optimal solution for p1 (F):  " << F_optm  << endl;
+  cout << setw(30) << "Optimal solution for p1 (QK): " << QK_optm << endl;
 
 
 

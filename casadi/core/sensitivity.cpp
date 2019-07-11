@@ -102,6 +102,7 @@ DM NLPsensitivity(const std::string& lsolver, const std::map<std::string, DM>& r
 
   vector<DM> prim_dual_param{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
 
+  /*
   cout << "prim_dual_param = ";
   for (int i=0; i<prim_dual_param.size(); ++i) {
     for (int j=0; j<prim_dual_param[i].size1(); ++j) {
@@ -109,6 +110,7 @@ DM NLPsensitivity(const std::string& lsolver, const std::map<std::string, DM>& r
     }
     cout << endl;
   }
+  */
 
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_param)});
@@ -357,7 +359,7 @@ DM NLPsensitivity_p(const std::string& lsolver, const std::map<std::string, DM>&
   /// choose to evaluate the solution of linear system at p0 or p1
   vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
   vector<DM> prim_dual_p1{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
-
+  /*
   cout << "prim_dual_param = ";
   for (int i=0; i<prim_dual_p0.size(); ++i) {
     for (int j=0; j<prim_dual_p0[i].size1(); ++j) {
@@ -365,7 +367,7 @@ DM NLPsensitivity_p(const std::string& lsolver, const std::map<std::string, DM>&
     }
     cout << endl;
   }
-
+  */
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   //DM dx_dl = DM::vertcat({sens_eval(prim_dual_p0)});
   DM dx_dl = DM::vertcat({sens_eval(prim_dual_p1)});
