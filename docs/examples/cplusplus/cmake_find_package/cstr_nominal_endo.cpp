@@ -1,5 +1,5 @@
 //
-// Created by Zhou Yu on 4/5/19.
+// Created by Zhou Yu on 7/11/19.
 //
 
 
@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 1; // number of control intervals
+  int N = 40; // number of control intervals
   double h = T/N;   // step size
   //cout << "h = " << h << endl;
 
@@ -89,7 +89,8 @@ int main() {
 
   MX CAin = MX::sym("CAin");
   MX EA3R = MX::sym("EA3R");
-  MX p  = MX::vertcat({CAin, EA3R});
+  MX p  = MX::vertcat({EA3R});
+  //MX p  = MX::vertcat({CAin, EA3R});
 
   int nx = x.size1();
   int nu = u.size1();
@@ -163,9 +164,9 @@ int main() {
 
 
   // Original parameter values
-  vector<double> p0  = {CAin_nom, EA3R_nom};
+  vector<double> p0  = {EA3R_nom};
   // new parameter values
-  vector<double> p1  = {CAin_lo, EA3R_nom};
+  vector<double> p1  = {EA3R_nom};
 
 
 
@@ -174,7 +175,9 @@ int main() {
   MX k2 = k02 * exp( -EA2R / (TR + absT) );
   MX k3 = k03 * exp( -EA3R / (TR + absT) );
 
-
+  /// set the d as a function of u
+  CAin = CAin_nom * (1 + (F - 5)/100);
+  //CAin = CAin_nom;
 
 
 
@@ -186,15 +189,7 @@ int main() {
      F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) - (k1*CA*delHAB + k2*CB*delHBC + k3*CA*CA*delHAD)/(rho*Cp),
      1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
   );
-  /*
-  MX xdot = vertcat(
-  F * (CAin - CA) - k01 * exp( -EA1R / (TR + absT) ) * CA - k03 * exp( -EA3R / (TR + absT) ) * CA*CA,
-  -F * CB          + k01 * exp( -EA1R / (TR + absT) ) * CA - k02 * exp( -EA2R / (TR + absT) ) * CB,
-  F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) -
-  (k01 * exp( -EA1R / (TR + absT) )*CA*delHAB + k02 * exp( -EA2R / (TR + absT) )*CB*delHBC + k03 * exp( -EA3R / (TR + absT) )*CA*CA*delHAD)/(rho*Cp),
-  1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
-  );
-  */
+
   // initialize u_prev values
   MX F_prev  = MX::sym("F_prev");
   MX QK_prev = MX::sym("QK_prev");
@@ -207,20 +202,6 @@ int main() {
 
   // Continuous time dynamics
   Function f("f", {x, u, F_prev, QK_prev}, {xdot, L});
-  /*
-  vector<double> xx = {0.8, 0.5, 135, 134};
-  vector<double> uu = {5, 0};
-
-
-  vector<MX> xxx{xx, uu, 10, -100};
-  vector<MX> fff = f(xxx);
-  MX fj = fff[0];
-  MX qj = fff[1];
-  cout << "fj = " << fj << endl;
-  cout << "qj = " << qj << endl;
-
-  */
-
 
   // have to do the initialization _after_ constructing Function f
   F_prev = Finit;
@@ -328,14 +309,6 @@ int main() {
     }
 
     // update the previous u
-    /*
-    MX u_prev = MX::sym("Uprev_" + str(k), nu);
-    u_prev = Uk;
-    vector<MX> u_prev_split = vertsplit(u_prev);
-    F_prev  = u_prev_split[0];
-    QK_prev = u_prev_split[1];
-    // cout << F_prev << endl;
-    */
     vector<MX> u_prev = vertsplit(Uk);
     F_prev  = u_prev[0];
     QK_prev = u_prev[1];
@@ -344,14 +317,7 @@ int main() {
 
   }
 
-  //cout << "lbw = " << lbw << endl;
-  //cout << "ubw = " << ubw << endl;
-  //cout << "lbg = " << lbg << endl;
-  //cout << "ubg = " << ubg << endl;
 
-
-  //cout << "w = " << MX::vertcat(w) << endl;
-  //cout << "g = " << MX::vertcat(g) << endl;
   cout << "w size = " << w.size() << endl;
   cout << "w size = " << MX::vertcat(w).size() << endl;
   cout << "lbw size = " << lbw.size() << endl;
@@ -441,87 +407,11 @@ int main() {
   cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
   cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
 
+  cout << "CAin value = " << CAin << endl;
+
+
 
   /*
-  cout << setw(30) << "x  solution     : [ ";
-  for (int i=0; i<res.at("x").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("x")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (CA): [";
-
-  for (int i=0; i<CA_opt.size1(); ++i) {
-    //cout  << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1)  << evalf(CA_opt(i))<< "  ";
-    cout  << setprecision(20) << double(CA_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (CB): [" ;
-  for (int i=0; i<CB_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(CB_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (TR): [" ;
-  for (int i=0; i<TR_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(TR_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (TK): [";
-  for (int i=0; i<TK_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(TK_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (F): [";
-  for (int i=0; i<F_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(F_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (QK): [";
-  for (int i=0; i<QK_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(QK_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-
-
-  cout << setw(30) << "lam_g  solution     : [ ";
-  for (int i=0; i<res.at("lam_g").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("lam_g")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "lam_x  solution     : [ ";
-  for (int i=0; i<res.at("lam_x").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("lam_x")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  */
-
-
-
-  //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
-  //cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
-
-
-
-
-
-  //vector<DM> input_hess{res.at("x"), p1,  res.at("lam_g")};
-  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
-  // nlp_hess_l:(x[58],p[2],lam_f,lam_g[48])->(hess_gamma_x_x[58x58,82nz]) MXFunction
-  // nlp_grad_f:(x[58],p[2])->(f,grad_f_x[58]) MXFunction
-
-
   vector<DM> input_grad_f{res.at("x"), p1};
   // cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
   DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
@@ -531,10 +421,12 @@ int main() {
 
   //cout << "ipopt interface lagrangian" << solver.get_function("hess_lag")(input_hess) << endl;
 
+  */
 
   ///****************************************************
   /// Sensitivity calculation
 
+  /*
 
   int ng = MX::vertcat(g).size1();   // ng = number of constraints g
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
@@ -544,11 +436,7 @@ int main() {
   DM ds = NLPsensitivity_p("csparse", res, Cost, constraints, variables, p, p0, p1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
-  // int s_tot = s1.size1();
-  // cout << "s vector dimension = " << s_tot << endl;
-  // cout << "x vector dimension = " << N_tot << endl;
 
-  // cout << "ds = " << ds(Slice(0, N_tot)) << endl;
 
   DM CA_pert = s1(Slice(0, N_tot, nu+nx+nx*d));
   DM CB_pert = s1(Slice(1, N_tot, nu+nx+nx*d));
@@ -617,6 +505,7 @@ int main() {
   cout << setw(30) << "Optimal solution for p1 (QK): " << QK_optm << endl;
 
 
+  */
 
   return 0;
 
