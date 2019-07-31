@@ -31,15 +31,17 @@
 namespace casadi {
 
   CASADI_EXPORT
-DM NLPsensitivity(const std::string& lsolver, const std::map<std::string, DM>& res,
+DM NLPsensitivity(const std::map<std::string, DM>& res,
                   const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
-                  const std::vector<double>& p0, const std::vector<double>& p1);
+                  const std::vector<double>& p0, const std::vector<double>& p1,
+                  const std::string& lsolver="ma27");
 
 
   CASADI_EXPORT
-DM NLPsensitivity_p(const std::string& lsolver, const std::map<std::string, DM>& res,
+DM NLPsensitivity_p(const std::map<std::string, DM>& res,
                     const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
-                    const std::vector<double>& p0, const std::vector<double>& p1);
+                    const std::vector<double>& p0, const std::vector<double>& p1,
+                    const std::string& lsolver="ma27");
 
 
 }  // namespace casadi

@@ -11,9 +11,10 @@
 using namespace std;
 namespace casadi {
 
-DM NLPsensitivity(const std::string& lsolver, const std::map<std::string, DM>& res,
+DM NLPsensitivity(const std::map<std::string, DM>& res,
                   const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
-                  const std::vector<double>& p0, const std::vector<double>& p1) {
+                  const std::vector<double>& p0, const std::vector<double>& p1,
+                  const std::string& lsolver) {
 
   cout << "********************************" << endl;
   cout << "Start of sensitivity calculation" << endl;
@@ -267,9 +268,10 @@ DM NLPsensitivity(const std::string& lsolver, const std::map<std::string, DM>& r
 
 
 
-DM NLPsensitivity_p(const std::string& lsolver, const std::map<std::string, DM>& res,
+DM NLPsensitivity_p(const std::map<std::string, DM>& res,
                     const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
-                    const std::vector<double>& p0, const std::vector<double>& p1) {
+                    const std::vector<double>& p0, const std::vector<double>& p1,
+                    const std::string& lsolver) {
 
 
   cout << "********************************" << endl;
