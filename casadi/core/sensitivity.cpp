@@ -369,8 +369,9 @@ DM NLPsensitivity_p(const std::string& lsolver, const std::map<std::string, DM>&
   }
   */
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
-  //DM dx_dl = DM::vertcat({sens_eval(prim_dual_p0)});
-  DM dx_dl = DM::vertcat({sens_eval(prim_dual_p1)});
+  DM dx_dl_p0 = DM::vertcat({sens_eval(prim_dual_p0)});
+  DM dx_dl_p1 = DM::vertcat({sens_eval(prim_dual_p1)});
+  DM dx_dl = 0.5*dx_dl_p0 + 0.5*dx_dl_p1;
 
   // take a look at RHS
   Function RHS_eval("RHS", {x, lambda, v, p}, {phi});

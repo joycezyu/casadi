@@ -1,5 +1,5 @@
 //
-// Created by Zhou Yu on 4/5/19.
+// Created by Joyce Yu on 7/22/19.
 //
 
 
@@ -71,28 +71,29 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 40; // number of control intervals
+  int N = 1; // number of control intervals
   double h = T/N;   // step size
-  //cout << "h = " << h << endl;
+
 
   // Declare model variables
 
-  MX CA = MX::sym("CA");
-  MX CB = MX::sym("CB");
-  MX TR = MX::sym("TR");
-  MX TK = MX::sym("TK");
+  MX CA = MX::sym("CA", N+1);
+  MX CB = MX::sym("CB", N+1);
+  MX TR = MX::sym("TR", N+1);
+  MX TK = MX::sym("TK", N+1);
   MX x  = MX::vertcat({CA, CB, TR, TK});
 
-  MX F  = MX::sym("F");
-  MX QK = MX::sym("QK");
+  MX F  = MX::sym("F", N+1);
+  MX QK = MX::sym("QK", N+1);
   MX u  = MX::vertcat({F, QK});
 
   MX CAin = MX::sym("CAin");
   MX EA3R = MX::sym("EA3R");
   MX p  = MX::vertcat({CAin, EA3R});
 
-  int nx = x.size1();
-  int nu = u.size1();
+  //TODO: the below definitions of nx and nu are updated
+  int nx = x.size1()/(N+1);
+  int nu = u.size1()/(N+1);
   int np = p.size1();
 
   // Declare model parameters (fixed) and fixed bounds value
@@ -144,7 +145,7 @@ int main() {
   double kW       = 4032;
 
   double CAin_nom = 5.1;
-  double CAin_lo  = CAin_nom * (1 - 0.05);
+  double CAin_lo  = CAin_nom * (1 - 0.01);
 
 
   double CBref    = 0.5;
@@ -165,7 +166,7 @@ int main() {
   // Original parameter values
   vector<double> p0  = {CAin_nom, EA3R_nom};
   // new parameter values
-  vector<double> p1  = {CAin_lo, EA3R_nom};
+  vector<double> p1  = {CAin_lo, EA3R_lo};
 
 
 

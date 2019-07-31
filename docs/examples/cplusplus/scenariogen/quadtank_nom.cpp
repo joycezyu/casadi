@@ -1,5 +1,5 @@
 //
-// Created by Zhou Yu on 4/5/19.
+// Created by Joyce Yu on 7/22/19.
 //
 
 
@@ -69,33 +69,162 @@ int main() {
   /// Model building
 
   // Time horizon
-  double T = 0.2;
+  // double T = 0.2;
   // Control discretization
-  int N = 40; // number of control intervals
-  double h = T/N;   // step size
-  //cout << "h = " << h << endl;
+  int N = 25; // number of control intervals
+  double h = 10;   // step size  T/N
+
 
   // Declare model variables
+  MX z10 = MX::sym("z10", N+1);
+  MX z20 = MX::sym("z20", N+1);
+  MX z30 = MX::sym("z30", N+1);
+  MX z40 = MX::sym("z40", N+1);
 
-  MX CA = MX::sym("CA");
-  MX CB = MX::sym("CB");
-  MX TR = MX::sym("TR");
-  MX TK = MX::sym("TK");
+  MX z1  = MX::sym("z1", N+1, d);
+  MX z2  = MX::sym("z2", N+1, d);
+  MX z3  = MX::sym("z3", N+1, d);
+  MX z4  = MX::sym("z4", N+1, d);
+
+  MX z1dot  = MX::sym("dz1", N+1, d);
+  MX z2dot  = MX::sym("dz2", N+1, d);
+  MX z3dot  = MX::sym("dz3", N+1, d);
+  MX z4dot  = MX::sym("dz4", N+1, d);
+
+  MX v1  = MX::sym("v1", N+1);
+  MX v2  = MX::sym("v2", N+1);
+
+
+  // Declare model parameters (fixed) and fixed bounds value
+  double g        = 981;
+  double T0       = 0;
+  vector<double> smalla{0.233, 0.242, 0.127, 0.127};
+  vector<double> bigA{50.27, 50.27, 28.27, 28.27};
+  vector<double> xss{14, 14, 14.2, 21.3};
+  vector<double> uss{43.4, 35.4};
+
+  vector<double> xmin{-6.5, -6.5, -10.7, -16.8};
+  vector<double> xmax{14, 14, 13.8, 6.7};
+  vector<double> umin{-43.4, -35.4};
+  vector<double> umax{16.6, 24.6};
+
+  double gamma1 = 0.4;
+  double gamma2 = 0.4;
+  double u1init = -43.4;
+  double u2init = -35.4;
+
+  // start with an empty NLP
+  vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
+  vector<MX> w, g;
+  MX Cost = 0;  // cost function
+
+
+  /// Formulate the NLP
+  for (int k = 0; k < N; ++k) {
+    for (int j = 0; j < d; ++j) {
+      // z1dot
+      g.push_back(z1dot - (-(smalla[0]/bigA[0])*sqrt(2*g*(z1[i,j]+xss[0])) +
+      (smalla[2]/bigA[0])*sqrt(2*g*(z3[i,j]+xss[2])) + (gamma1/bigA[0]*(v1[i]+uss[0]))
+                          ));
+      lbg.push_back(0);
+      ubg.push_back(0);
+      // z2dot
+      g.push_back(z2dot - (-(smalla[1]/bigA[1])*sqrt(2*g*(z2[i,j]+xss[1])) +
+                           (smalla[3]/bigA[1])*sqrt(2*g*(z4[i,j]+xss[3])) + (gamma2/bigA[1]*(v2[i]+uss[1]))
+      ));
+      lbg.push_back(0);
+      ubg.push_back(0);
+      // z3dot
+      g.push_back(z3dot - (-(smalla[2]/bigA[2])*sqrt(2*g*(z3[i,j]+xss[2])) +
+                            ((1-gamma2)/bigA[2]*(v2[i]+uss[1]))
+      ));
+      lbg.push_back(0);
+      ubg.push_back(0);
+      // z4dot
+      g.push_back(z4dot - (-(smalla[3]/bigA[3])*sqrt(2*g*(z4[i,j]+xss[3])) +
+                           ((1-gamma1)/bigA[3]*(v1[i]+uss[0]))
+      ));
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z1[i,j] - (z10[i] + h*(omega[0,j]*z1dot[i,0] + omega[1,j]*z1dot[i,1] + omega[2,j]*z1dot[i,2])));
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z2[i,j] - (z20[i] + h*(omega[0,j]*z2dot[i,0] + omega[1,j]*z2dot[i,1] + omega[2,j]*z2dot[i,2])));
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z3[i,j] - (z30[i] + h*(omega[0,j]*z3dot[i,0] + omega[1,j]*z3dot[i,1] + omega[2,j]*z3dot[i,2])));
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z4[i,j] - (z40[i] + h*(omega[0,j]*z4dot[i,0] + omega[1,j]*z4dot[i,1] + omega[2,j]*z4dot[i,2])));
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+    }
+    if (i > 0) {
+      g.push_back(z10[i] - z1[i-1, d]);
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z20[i] - z2[i-1, d]);
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z30[i] - z3[i-1, d]);
+      lbg.push_back(0);
+      ubg.push_back(0);
+
+      g.push_back(z40[i] - z4[i-1, d]);
+      lbg.push_back(0);
+      ubg.push_back(0);
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //MX w   = MX::vert
+
+
+  MX CA = MX::sym("CA", N+1);
+  MX CB = MX::sym("CB", N+1);
+  MX TR = MX::sym("TR", N+1);
+  MX TK = MX::sym("TK", N+1);
   MX x  = MX::vertcat({CA, CB, TR, TK});
 
-  MX F  = MX::sym("F");
-  MX QK = MX::sym("QK");
+  MX F  = MX::sym("F", N+1);
+  MX QK = MX::sym("QK", N+1);
   MX u  = MX::vertcat({F, QK});
 
   MX CAin = MX::sym("CAin");
   MX EA3R = MX::sym("EA3R");
   MX p  = MX::vertcat({CAin, EA3R});
 
-  int nx = x.size1();
-  int nu = u.size1();
+  //TODO: the below definitions of nx and nu are updated
+  int nx = x.size1()/(N+1);
+  int nu = u.size1()/(N+1);
   int np = p.size1();
 
   // Declare model parameters (fixed) and fixed bounds value
+
+  double g        = 981;
+  double T0       = 0;
+
+
   double CAinit   = 0.8;
   double CBinit   = 0.5;
   double TRinit   = 134.14;
@@ -144,7 +273,7 @@ int main() {
   double kW       = 4032;
 
   double CAin_nom = 5.1;
-  double CAin_lo  = CAin_nom * (1 - 0.05);
+  double CAin_lo  = CAin_nom * (1 - 0.01);
 
 
   double CBref    = 0.5;
@@ -165,7 +294,7 @@ int main() {
   // Original parameter values
   vector<double> p0  = {CAin_nom, EA3R_nom};
   // new parameter values
-  vector<double> p1  = {CAin_lo, EA3R_nom};
+  vector<double> p1  = {CAin_lo, EA3R_lo};
 
 
 

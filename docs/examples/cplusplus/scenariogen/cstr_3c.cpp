@@ -1,5 +1,5 @@
 //
-// Created by Zhou Yu on 4/5/19.
+// Created by Joyce Yu on 7/22/19.
 //
 
 
@@ -17,10 +17,10 @@ using namespace std;
 int main() {
 
   // Pre-computed radau collocation matrix
-  vector<vector<double>> omega(3);
-  omega[0] = { 0.19681547722366,  0.39442431473909, 0.37640306270047};
-  omega[1] = {-0.06553542585020,  0.29207341166523, 0.51248582618842};
-  omega[2] = { 0.02377097434822, -0.04154875212600, 0.11111111111111};
+  vector <vector<double>> omega(3);
+  omega[0] = {0.19681547722366, 0.39442431473909, 0.37640306270047};
+  omega[1] = {-0.06553542585020, 0.29207341166523, 0.51248582618842};
+  omega[2] = {0.02377097434822, -0.04154875212600, 0.11111111111111};
 
 
   // Degree of interpolating polynomial
@@ -32,16 +32,16 @@ int main() {
 
 
   // Coefficients of the collocation equation
-  vector<vector<double> > C(d+1,vector<double>(d+1,0));
+  vector <vector<double>> C(d + 1, vector<double>(d + 1, 0));
 
   // Coefficients of the continuity equation
-  vector<double> D(d+1,0);
+  vector<double> D(d + 1, 0);
 
   // Coefficients of the quadrature function
-  vector<double> B(d+1,0);
+  vector<double> B(d + 1, 0);
 
   // For all collocation points
-  for(int j=0; j<d+1; ++j) {
+  for (int j = 0; j < d + 1; ++j) {
 
     // Construct Lagrange polynomials to get the polynomial basis at the collocation point
     Polynomial p = 1;
@@ -71,91 +71,94 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 40; // number of control intervals
-  double h = T/N;   // step size
-  //cout << "h = " << h << endl;
+  int N = 1; // number of control intervals
+  double h = T / N;   // step size
+
+  // Number of scenarios
+  int ns = 3;
+
 
   // Declare model variables
 
-  MX CA = MX::sym("CA");
-  MX CB = MX::sym("CB");
-  MX TR = MX::sym("TR");
-  MX TK = MX::sym("TK");
-  MX x  = MX::vertcat({CA, CB, TR, TK});
+  MX CA = MX::sym("CA", ns);
+  MX CB = MX::sym("CB", ns);
+  MX TR = MX::sym("TR", ns);
+  MX TK = MX::sym("TK", ns);
+  MX x = MX::vertcat({CA, CB, TR, TK});
 
-  MX F  = MX::sym("F");
-  MX QK = MX::sym("QK");
-  MX u  = MX::vertcat({F, QK});
+  MX F = MX::sym("F", ns);
+  MX QK = MX::sym("QK", ns);
+  MX u = MX::vertcat({F, QK});
 
   MX CAin = MX::sym("CAin");
   MX EA3R = MX::sym("EA3R");
-  MX p  = MX::vertcat({CAin, EA3R});
+  MX p = MX::vertcat({CAin, EA3R});
 
-  int nx = x.size1();
-  int nu = u.size1();
+  int nx = x.size1() / ns;
+  int nu = u.size1() / ns;
   int np = p.size1();
 
   // Declare model parameters (fixed) and fixed bounds value
-  double CAinit   = 0.8;
-  double CBinit   = 0.5;
-  double TRinit   = 134.14;
-  double TKinit   = 134.0;
-  double T0       = 0;
+  double CAinit = 0.8;
+  double CBinit = 0.5;
+  double TRinit = 134.14;
+  double TKinit = 134.0;
+  double T0 = 0;
 
-  double Finit    = 18.83;
-  double QKinit   = -4495.7;
+  double Finit = 18.83;
+  double QKinit = -4495.7;
 
-  double r1       = 1e-7;
-  double r2       = 1e-11;
+  double r1 = 1e-7;
+  double r2 = 1e-11;
 
-  double CAmin    = 0.1;
-  double CAmax    = 1;
-  double CBmin    = 0.1;
-  double CBmax    = 1;
-  double TRmin    = 50;
-  double TRmax    = 140;
-  double TKmin    = 50;
-  double TKmax    = 180;
+  double CAmin = 0.1;
+  double CAmax = 1;
+  double CBmin = 0.1;
+  double CBmax = 1;
+  double TRmin = 50;
+  double TRmax = 140;
+  double TKmin = 50;
+  double TKmax = 180;
 
-  double Fmin     = 5;
-  double Fmax     = 100;
-  double QKmin    = -8500;
-  double QKmax    = 0;
+  double Fmin = 5;
+  double Fmax = 100;
+  double QKmin = -8500;
+  double QKmax = 0;
 
-  double k01      = 1.287e12;
-  double k02      = 1.287e12;
-  double k03      = 9.043e9;
-  double EA1R     = 9758.3;
-  double EA2R     = 9758.3;
+  double k01 = 1.287e12;
+  double k02 = 1.287e12;
+  double k03 = 9.043e9;
+  double EA1R = 9758.3;
+  double EA2R = 9758.3;
   double EA3R_nom = 8560;
-  double EA3R_lo  = EA3R_nom * (1 - 0.01);
+  double EA3R_lo = EA3R_nom * (1 - 0.01);
 
 
-  double delHAB   = 4.2;
-  double delHBC   = -11;
-  double delHAD   = -41.85;
-  double rho      = 0.9342;
-  double Cp       = 3.01;
-  double CpK      = 2.0;
-  double Area     = 0.215;
-  double VR       = 10.01;
-  double mk       = 5.0;
-  double Tin      = 130.0;
-  double kW       = 4032;
+  double delHAB = 4.2;
+  double delHBC = -11;
+  double delHAD = -41.85;
+  double rho = 0.9342;
+  double Cp = 3.01;
+  double CpK = 2.0;
+  double Area = 0.215;
+  double VR = 10.01;
+  double mk = 5.0;
+  double Tin = 130.0;
+  double kW = 4032;
 
   double CAin_nom = 5.1;
-  double CAin_lo  = CAin_nom * (1 - 0.05);
+  double CAin_lo = CAin_nom * (1 - 0.01);
 
 
-  double CBref    = 0.5;
+  double CBref = 0.5;
 
 
   vector<double> xinit{CAinit, CBinit, TRinit, TKinit};
   vector<double> uinit{Finit, QKinit};
   vector<double> xmin{CAmin, CBmin, TRmin, TKmin};
   vector<double> xmax{CAmax, CBmax, TRmax, TKmax};
-  vector<double> umin{Fmin,  QKmin};
-  vector<double> umax{Fmax,  QKmax};
+  vector<double> umin{Fmin, QKmin};
+  vector<double> umax{Fmax, QKmax};
 
 
 
@@ -163,46 +166,40 @@ int main() {
 
 
   // Original parameter values
-  vector<double> p0  = {CAin_nom, EA3R_nom};
+  vector<double> p0 = {CAin_nom, EA3R_nom};
   // new parameter values
-  vector<double> p1  = {CAin_lo, EA3R_nom};
-
+  vector<double> p1 = {CAin_lo, EA3R_lo};
 
 
   double absT = 273.15;
-  MX k1 = k01 * exp( -EA1R / (TR + absT) );
-  MX k2 = k02 * exp( -EA2R / (TR + absT) );
-  MX k3 = k03 * exp( -EA3R / (TR + absT) );
+  MX k1 = k01 * exp(-EA1R / (TR + absT));
+  MX k2 = k02 * exp(-EA2R / (TR + absT));
+  MX k3 = k03 * exp(-EA3R / (TR + absT));
 
-
-
-
+  // k1.size() = [3,1]
 
   // model equations
 
   MX xdot = vertcat(
-     F * (CAin - CA) - k1 * CA - k3 * CA*CA,
-    -F * CB          + k1 * CA - k2 * CB,
-     F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) - (k1*CA*delHAB + k2*CB*delHBC + k3*CA*CA*delHAD)/(rho*Cp),
-     1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
+  F * (CAin - CA) - k1 * CA - k3 * CA * CA,
+  -F * CB + k1 * CA - k2 * CB,
+  F * (Tin - TR) + kW * Area / (rho * Cp * VR) * (TK - TR) -
+  (k1 * CA * delHAB + k2 * CB * delHBC + k3 * CA * CA * delHAD) / (rho * Cp),
+  1 / (mk * CpK) * (QK + kW * Area * (TR - TK))
   );
-  /*
-  MX xdot = vertcat(
-  F * (CAin - CA) - k01 * exp( -EA1R / (TR + absT) ) * CA - k03 * exp( -EA3R / (TR + absT) ) * CA*CA,
-  -F * CB          + k01 * exp( -EA1R / (TR + absT) ) * CA - k02 * exp( -EA2R / (TR + absT) ) * CB,
-  F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) -
-  (k01 * exp( -EA1R / (TR + absT) )*CA*delHAB + k02 * exp( -EA2R / (TR + absT) )*CB*delHBC + k03 * exp( -EA3R / (TR + absT) )*CA*CA*delHAD)/(rho*Cp),
-  1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
-  );
-  */
+
+  // xdot.size() = [12,1]
+
   // initialize u_prev values
-  MX F_prev  = MX::sym("F_prev");
+  MX F_prev = MX::sym("F_prev");
   MX QK_prev = MX::sym("QK_prev");
 
 
 
   // Objective
-  MX L = (CB - CBref) * (CB - CBref) + r1 *(F-F_prev)*(F-F_prev) + r2 *(QK-QK_prev)*(QK-QK_prev);
+  MX L = (CB - CBref) * (CB - CBref) + r1 * (F - F_prev) * (F - F_prev) + r2 * (QK - QK_prev) * (QK - QK_prev);
+
+  // L size = [3,1]
   // MX L = (CB - CBref) * (CB - CBref) + r1*F*F + r2*QK*QK;
 
   // Continuous time dynamics
@@ -229,125 +226,134 @@ int main() {
 
   // start with an empty NLP
   vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
-  vector<MX> w, g;
+  vector <MX> w, g;
   MX Cost = 0;  // cost function
 
   // State at collocation points
-  vector<MX> Xkj(d);
+  vector <MX> Xkj(d);
 
   // "lift" initial conditions
-  MX Xk = MX::sym("x0", nx);
-  w.push_back(Xk);
-  g.push_back(Xk - xinit);
-  for (int iw = 0; iw < nx; ++iw) {
-    //lbw.push_back(xinit[iw]);
-    //ubw.push_back(xinit[iw]);
-    lbw.push_back(xmin[iw]);
-    ubw.push_back(xmax[iw]);
-    lbg.push_back(0);
-    ubg.push_back(0);
-    w0.push_back(xinit[iw]);
+  MX Xk = MX::sym("x0", nx, ns);
+  //w.push_back(Xk);
+  for (int ic = 0; ic < ns; ++ic) {
+    w.push_back(Xk(Slice(), ic));
+    g.push_back(Xk(Slice(), ic) - xinit);
+
+    for (int iw = 0; iw < nx; ++iw) {
+      //lbw.push_back(xinit[iw]);
+      //ubw.push_back(xinit[iw]);
+      lbw.push_back(xmin[iw]);
+      ubw.push_back(xmax[iw]);
+      lbg.push_back(0);
+      ubg.push_back(0);
+      w0.push_back(xinit[iw]);
+    }
   }
+  cout << MX::vertcat(w).size() << endl;
+  cout << MX::vertcat(g).size() << endl;
+  cout << w0.size() << endl;
+
 
 
   /// Formulate the NLP
-  for (int k = 0; k < N; ++k) {
-    // New NLP variable for the control
-    MX Uk = MX::sym("U_" + str(k), nu);
-    w.push_back(Uk);
-    for (int iu = 0; iu < nu; ++iu) {
-      lbw.push_back(umin[iu]);
-      ubw.push_back(umax[iu]);
-      w0.push_back(uinit[iu]);
-    }
+  // for each scenario
+  for (int ic = 0; ic < ns; ++ic) {
 
-    // State at collocation points
-    // vector<MX> Xkj(d);
-    for (int j = 0; j < d; ++j) {
-      Xkj[j] = MX::sym("X_" + str(k) + "_" + str(j+1), nx);
-      w.push_back(Xkj[j]);
+    for (int k = 0; k < N; ++k) {
+      // New NLP variable for the control
+      MX Uk = MX::sym("U_" + str(k), nu);
+      w.push_back(Uk);
+      for (int iu = 0; iu < nu; ++iu) {
+        lbw.push_back(umin[iu]);
+        ubw.push_back(umax[iu]);
+        w0.push_back(uinit[iu]);
+      }
+
+      // State at collocation points
+      // vector<MX> Xkj(d);
+      for (int j = 0; j < d; ++j) {
+        Xkj[j] = MX::sym("X_" + str(k) + "_" + str(j + 1), nx);
+        w.push_back(Xkj[j]);
+        for (int iw = 0; iw < nx; ++iw) {
+          lbw.push_back(xmin[iw]);
+          ubw.push_back(xmax[iw]);
+          w0.push_back(xinit[iw]);
+        }
+      }
+
+
+      cout << "checkpoint 10" << endl;
+      // Loop over collocation points
+      MX Xk_end = D[0] * Xk(Slice(), ic);
+
+      for (int j = 0; j < d; ++j) {
+        // Expression for the state derivative at the collocation point
+        MX xp = C[0][j + 1] * Xk(Slice(), ic);
+
+        for (int r = 0; r < d; ++r) {
+          xp += C[r + 1][j + 1] * Xkj[r];
+        }
+
+        // Append collocation equations
+        vector <MX> XU{Xkj[j], Uk, F_prev, QK_prev};
+        //vector<MX> XU{Xkj[j], Uk};
+        vector <MX> fL = f(XU);
+        MX fj = fL[0];
+        MX qj = fL[1];
+
+        cout << "checkpoint 1" << endl;
+
+        g.push_back(h * fj - xp);
+        for (int iw = 0; iw < nx; ++iw) {
+          lbg.push_back(0);
+          ubg.push_back(0);
+        }
+
+        // Add contribution to the end state
+        Xk_end += D[j + 1] * Xkj[j];
+
+        // Add contribution to quadrature function
+        Cost += B[j + 1] * qj * h;
+      }
+
+      cout << "checkpoint 11" << endl;
+
+
+      // New NLP variable for state at end of interval
+      Xk = MX::sym("X_" + str(k + 1), nx);
+      w.push_back(Xk);
       for (int iw = 0; iw < nx; ++iw) {
         lbw.push_back(xmin[iw]);
         ubw.push_back(xmax[iw]);
         w0.push_back(xinit[iw]);
       }
-    }
 
-
-
-    // Loop over collocation points
-    MX Xk_end = D[0]*Xk;
-
-    for (int j = 0; j < d; ++j) {
-      // Expression for the state derivative at the collocation point
-      MX xp = C[0][j+1] * Xk;
-
-      for (int r = 0; r < d; ++r) {
-        xp += C[r+1][j+1] * Xkj[r];
-      }
-
-      // Append collocation equations
-      vector<MX> XU{Xkj[j], Uk, F_prev, QK_prev};
-      //vector<MX> XU{Xkj[j], Uk};
-      vector<MX> fL = f(XU);
-      MX fj = fL[0];
-      MX qj = fL[1];
-
-
-      g.push_back(h*fj - xp);
+      cout << "checkpoint 12" << endl;
+      // Add equality constraint
+      // for continuity between intervals
+      g.push_back(Xk_end - Xk);
       for (int iw = 0; iw < nx; ++iw) {
         lbg.push_back(0);
         ubg.push_back(0);
       }
 
-      // Add contribution to the end state
-      Xk_end += D[j+1]*Xkj[j];
+      // update the previous u
+      /*
+      MX u_prev = MX::sym("Uprev_" + str(k), nu);
+      u_prev = Uk;
+      vector<MX> u_prev_split = vertsplit(u_prev);
+      F_prev  = u_prev_split[0];
+      QK_prev = u_prev_split[1];
+      // cout << F_prev << endl;
+      */
+      vector <MX> u_prev = vertsplit(Uk);
+      F_prev = u_prev[0];
+      QK_prev = u_prev[1];
+    } // finite element N
 
-      // Add contribution to quadrature function
-      Cost += B[j+1]*qj*h;
-    }
-
-
-
-
-    // New NLP variable for state at end of interval
-    Xk = MX::sym("X_" + str(k+1), nx);
-    w.push_back(Xk);
-    for (int iw = 0; iw < nx; ++iw) {
-      lbw.push_back(xmin[iw]);
-      ubw.push_back(xmax[iw]);
-      w0.push_back(xinit[iw]);
-    }
-
-    // Add equality constraint
-    // for continuity between intervals
-    g.push_back(Xk_end - Xk);
-    for (int iw = 0; iw < nx; ++iw) {
-      lbg.push_back(0);
-      ubg.push_back(0);
-    }
-
-    // update the previous u
-    /*
-    MX u_prev = MX::sym("Uprev_" + str(k), nu);
-    u_prev = Uk;
-    vector<MX> u_prev_split = vertsplit(u_prev);
-    F_prev  = u_prev_split[0];
-    QK_prev = u_prev_split[1];
-    // cout << F_prev << endl;
-    */
-    vector<MX> u_prev = vertsplit(Uk);
-    F_prev  = u_prev[0];
-    QK_prev = u_prev[1];
+  } // scenario parsing
 
 
-
-  }
-
-  //cout << "lbw = " << lbw << endl;
-  //cout << "ubw = " << ubw << endl;
-  //cout << "lbg = " << lbg << endl;
-  //cout << "ubg = " << ubg << endl;
 
 
   //cout << "w = " << MX::vertcat(w) << endl;
