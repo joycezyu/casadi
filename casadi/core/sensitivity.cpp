@@ -6,6 +6,7 @@
 #include <fstream>
 #include <iomanip>      // std::setprecision
 #include "sensitivity.hpp"
+#include "linsol.hpp"
 #include "timing.hpp"
 
 using namespace std;
@@ -373,7 +374,7 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
   // solution vector for 2x2 system is [Δx, Δλ]ᵀ
   DM dx_dl_p0 = DM::vertcat({sens_eval(prim_dual_p0)});
   DM dx_dl_p1 = DM::vertcat({sens_eval(prim_dual_p1)});
-  DM dx_dl = 0.5*dx_dl_p0 + 0.5*dx_dl_p1;
+  DM dx_dl = 1*dx_dl_p0;
 
   // take a look at RHS
   Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
@@ -444,10 +445,141 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
 };
 
 
+  DM NLPsensitivity_p_factor(const std::map<std::string, DM>& res,
+                      const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
+                      const std::vector<double>& p0, const std::vector<double>& p1,
+                      const std::string& lsolver, bool prefactor) {
+
+    cout << "********************************" << endl;
+    cout << "Start of sensitivity calculation" << endl;
+    cout << "With linear solver = " << lsolver << endl;
+
+
+    const MX &f = objective;
+    const MX &g = constraints;
+    const MX &x = variables;
+    const MX &p = parameters;
+
+
+    int ng = g.size1();  // ng = number of constraints g
+    int nx = x.size1();  // nx = number of variables x
+    int np = p0.size();
+
+    // the symbolic expression for x, λ, ν
+    MX lambda = MX::sym("lambda", ng);
+    MX v = MX::sym("v", nx);
+    MX V = MX::diag(v);
+    MX X = MX::diag(x);
+    //MX XiV    = mtimes(inv(X), V);
+    //MX XiV    = MX::diag(dot(v,1/x));      // equivalent results, not sure about efficiency
+    MX XiV = MX::diag(v / x);
+
+    MX grad = jacobian(g, x);
+    // construct the lagrangian function
+    MX lagrangian = f + dot(lambda, g) + dot(v, x);
+    //MX lagrangian = f + dot(lambda, g);
+    MX jac_lagrangian = jacobian(lagrangian, x);
+    // writing hessian in the following two different ways does change the numerical results a bit
+    // however, it is NOT the reason for inconsistent W with ipopt
+    //MX hess = hessian(lagrangian, x);
+    MX hess = jacobian(jac_lagrangian, x);
+
+    MX lag_xp = jacobian(jac_lagrangian, p);
+    MX g_p = jacobian(g, p);
 
 
 
-}  // namespace casadi
+    //cout << "hessian = " << hess << endl;
+
+    Function hess_eval("W", {x, lambda, v, p}, {hess});
+
+
+    /// Assemble KKT matrix
+    // sparse zero matrix
+    MX M0 = MX(ng, ng);
+
+    // LHS
+    MX KKTprimer = MX::horzcat({MX::vertcat({hess + XiV, grad}),
+                                MX::vertcat({grad.T(), M0})});
+
+    MX KKT_noaugment = MX::horzcat({MX::vertcat({hess, grad}),
+                                    MX::vertcat({grad.T(), M0})});
+
+    // RHS
+    //MX phi = MX::vertcat({jac_lagrangian.T(), g});
+    MX phi = MX::vertcat({lag_xp, g_p});
+
+
+
+    /// evaluate the KKT matrix and RHS
+    Function KKT_eval("KKT", {x, lambda, v, p}, {KKTprimer});
+    Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
+
+    vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
+    vector<DM> prim_dual_p1{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
+
+    DM KKT_p0 = DM::vertcat({KKT_eval(prim_dual_p0)});
+    DM RHS_p0 = DM::vertcat({RHS_eval(prim_dual_p0)});
+    DM KKT_p1 = DM::vertcat({KKT_eval(prim_dual_p1)});
+    DM RHS_p1 = DM::vertcat({RHS_eval(prim_dual_p1)});
+
+    DM KKT = KKT_p0;
+    DM RHS = RHS_p0;
+
+
+    /// try assembling the KKT matrix before solve
+    auto solver = Linsol("linear_solver", lsolver, KKT.sparsity());
+
+    if (prefactor) {
+      solver.sfact(KKT);
+    }
+
+    //solver.nfact(KKT);
+
+    /// keep track of the solving time
+    FStats time;
+    time.tic();
+
+
+    DM dx_dl = solver.solve(KKT, -RHS);
+
+    time.toc();
+    cout << "linear system t_wall time = " << time.t_wall << endl;
+    cout << "linear system t_proc time = " << time.t_proc << endl;
+
+    /// compute Δν
+    Function XiV_eval("XiV", {x, v}, {XiV});
+    vector<DM> curr_x_v{res.at("x"), res.at("lam_x")};
+    DM curr_XiV = DM::vertcat({XiV_eval(curr_x_v)});
+    DM dv = -mtimes(curr_XiV, dx_dl(Slice(0, nx), Slice()));
+
+    cout << "dv = " << dv << endl;
+
+
+
+    // assemble ds matrix
+    DM dsdp = DM::vertcat({dx_dl, dv});
+    cout << "dsdp = " << dsdp << endl;
+    vector<double> delta_p;
+    for (int i = 0; i < p1.size(); ++i) {
+      delta_p.push_back(p1[i] - p0[i]);
+    }
+
+    DM dp = delta_p;
+
+    DM ds = mtimes(dsdp, dp);
+
+    cout << "******************************" << endl;
+    cout << "End of sensitivity calculation" << endl;
+
+    return ds;
+  }
+
+
+
+
+
+  }  // namespace casadi
 
 
 

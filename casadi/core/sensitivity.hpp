@@ -43,6 +43,12 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
                     const std::vector<double>& p0, const std::vector<double>& p1,
                     const std::string& lsolver="ma27");
 
+  CASADI_EXPORT
+  DM NLPsensitivity_p_factor(const std::map<std::string, DM>& res,
+                      const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
+                      const std::vector<double>& p0, const std::vector<double>& p1,
+                      const std::string& lsolver="ma27", bool prefactor = true);
+
 
 }  // namespace casadi
 
