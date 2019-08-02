@@ -470,7 +470,7 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
     MX v = MX::sym("v", nx);
     MX V = MX::diag(v);
     MX X = MX::diag(x);
-    //MX XiV    = mtimes(inv(X), V);
+    //MX XiV    = mtimes(inv(X), V);         // inv efficient? https://github.com/casadi/casadi/issues/1871
     //MX XiV    = MX::diag(dot(v,1/x));      // equivalent results, not sure about efficiency
     MX XiV = MX::diag(v / x);
 
@@ -530,8 +530,17 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
     /// try assembling the KKT matrix before solve
     auto solver = Linsol("linear_solver", lsolver, KKT.sparsity());
 
+    cout << "prefactor = " << prefactor << endl;
     if (prefactor) {
+      FStats factorization_time;
+      factorization_time.tic();
+
       solver.sfact(KKT);
+
+      factorization_time.toc();
+
+      cout << "KKT matrix factorization t_wall time = " << factorization_time.t_wall << endl;
+      cout << "KKT matrix factorization t_proc time = " << factorization_time.t_proc << endl;
     }
 
     //solver.nfact(KKT);

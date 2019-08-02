@@ -543,7 +543,10 @@ int main() {
   //DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p1);
   //DM ds = NLPsensitivity_p(res, Cost, constraints, variables, p, p0, p1);
 
-  DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "csparse", true);
+  //DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "csparse", true);
+
+  DM ds1 = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "ma27", true);
+  //DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "ma27", false);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();
