@@ -71,8 +71,8 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int N = 40; // number of control intervals
-  double h = T/N;   // step size
+  int horN = 1; // number of control intervals
+  double h = T/horN;   // step size
   //cout << "h = " << h << endl;
 
   // Declare model variables
@@ -129,7 +129,7 @@ int main() {
   double EA2R     = 9758.3;
   double EA3R_nom = 8560;
   double EA3R_lo  = EA3R_nom * (1 - 0.01);
-
+  double EA3R_up  = EA3R_nom * (1 + 0.01);
 
   double delHAB   = 4.2;
   double delHBC   = -11;
@@ -144,7 +144,8 @@ int main() {
   double kW       = 4032;
 
   double CAin_nom = 5.1;
-  double CAin_lo  = CAin_nom * (1 - 0.05);
+  double CAin_lo  = CAin_nom * (1 - 0.1);
+  double CAin_up  = CAin_nom * (1 + 0.1);
 
 
   double CBref    = 0.5;
@@ -166,6 +167,7 @@ int main() {
   vector<double> p0  = {CAin_nom, EA3R_nom};
   // new parameter values
   vector<double> p1  = {CAin_lo, EA3R_nom};
+  vector<double> p2  = {CAin_up, EA3R_nom};
 
 
 
@@ -251,7 +253,7 @@ int main() {
 
 
   /// Formulate the NLP
-  for (int k = 0; k < N; ++k) {
+  for (int k = 0; k < horN; ++k) {
     // New NLP variable for the control
     MX Uk = MX::sym("U_" + str(k), nu);
     w.push_back(Uk);
@@ -444,84 +446,6 @@ int main() {
   cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
 
 
-  /*
-  cout << setw(30) << "x  solution     : [ ";
-  for (int i=0; i<res.at("x").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("x")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (CA): [";
-
-  for (int i=0; i<CA_opt.size1(); ++i) {
-    //cout  << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1)  << evalf(CA_opt(i))<< "  ";
-    cout  << setprecision(20) << double(CA_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (CB): [" ;
-  for (int i=0; i<CB_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(CB_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (TR): [" ;
-  for (int i=0; i<TR_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(TR_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (TK): [";
-  for (int i=0; i<TK_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(TK_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (F): [";
-  for (int i=0; i<F_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(F_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (QK): [";
-  for (int i=0; i<QK_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(QK_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-
-
-  cout << setw(30) << "lam_g  solution     : [ ";
-  for (int i=0; i<res.at("lam_g").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("lam_g")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "lam_x  solution     : [ ";
-  for (int i=0; i<res.at("lam_x").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("lam_x")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  */
-
-
-
-  //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
-  //cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
-
-
-
-
-
-  //vector<DM> input_hess{res.at("x"), p1,  res.at("lam_g")};
-  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
-  // nlp_hess_l:(x[58],p[2],lam_f,lam_g[48])->(hess_gamma_x_x[58x58,82nz]) MXFunction
-  // nlp_grad_f:(x[58],p[2])->(f,grad_f_x[58]) MXFunction
 
 
   vector<DM> input_grad_f{res.at("x"), p1};
@@ -535,22 +459,113 @@ int main() {
 
 
   ///****************************************************
-  /// Sensitivity calculation
+  /// scenario generation with Schur-complement
+
+  int nr = 1;
+
+  //vector<int> NACindex(int nx, int nu, int nr) {
+  vector<int> NAC_Ctrl_index;
+  for (int i = 0; i < nr; ++i) {
+    for (int j = 0; j < nu; ++j) {
+      NAC_Ctrl_index.push_back(nx*(i+1) + nx*d*i + nu*i + j);
+    };
+  };
+    //return res;
+  //};
+
+  cout << "NAC index list = " << NAC_Ctrl_index << endl;
 
 
-  int ng = MX::vertcat(g).size1();   // ng = number of constraints g
-  int nw = MX::vertcat(w).size1();  // nw = number of variables x
+  /// scenario construction
+  int length = lbw.size() + lbg.size();
+
+  int ns = 3;
+  int mNAC = 2;
+  vector<DM> N(ns);
+  N[0] = DM(length,mNAC);
+  N[1] = DM(length,mNAC);
+  N[2] = DM(length,mNAC);
+  for (auto ind:NAC_Ctrl_index) {
+    // scenario 1
+    // need NACs for NAC constraint index 0 and 1
+    N[0](ind, 0) = 1;
+    N[0](ind, 1) = 1;
+    // scenario 2 only for NAC index 0
+    N[1](ind, 0) = -1;
+    // scenario 3 only for NAC index 1
+    N[2](ind, 1) = -1;
+
+  }
 
 
-  //DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p1);
-  //DM ds = NLPsensitivity_p(res, Cost, constraints, variables, p, p0, p1);
+  cout << "all N blocks = " << N << endl;
 
-  //DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "csparse", true);
+  ///start counting time
+  FStats NACtime;
+  NACtime.tic();
 
-  //DM ds1 = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "ma27", false);
-  DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1);
-  DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
-  DM s1 = s + ds;
+  /// construct the multiplier gamma vector
+  DM gamma(mNAC,1);
+  vector<vector<DM>> KR(ns);
+
+
+
+  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p0);
+  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p1);
+  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p2);
+
+  vector<DM> K(ns), R(ns);
+  K[0] = KR1[0];
+  R[0] = KR1[1];
+  K[1] = KR2[0];
+  R[1] = KR2[1];
+  K[2] = KR3[0];
+  R[2] = KR3[1];
+
+  // LHS
+  vector<DM> KiN(ns);
+  DM totLHS(mNAC, mNAC);
+  for (int is = 0; is < ns; ++is) {
+    KiN[is] = solve(K[is], N[is], "ma27");
+    totLHS += mtimes(N[is].T(), KiN[is]);
+  }
+
+  //auto linear_solver = Linsol("linear_solver", "ma27", K1.sparsity());
+  //linear_solver.sfact(K1);
+
+  // RHS
+  vector<DM> Kir(ns);
+  DM totRHS(mNAC, 1);
+  for (int is = 0; is < ns; ++is) {
+    Kir[is] = solve(K[is], R[is], "ma27");
+    totRHS += mtimes(N[is].T(), Kir[is]);
+  }
+
+  gamma = solve(totLHS, -totRHS, "ma27");
+
+  cout << "gamma = " << gamma << endl;
+
+  DM newR1 = R[0] + mtimes(N[0], gamma);
+  DM ds1 = solve(K[0], -newR1, "ma27");
+  cout << "ds1 = " << ds1 << endl;
+
+  DM newR2 = R[1] + mtimes(N[1], gamma);
+  DM ds2 = solve(K[1], -newR2, "ma27");
+  cout << "ds2 = " << ds2 << endl;
+
+  DM newR3 = R[2] + mtimes(N[2], gamma);
+  DM ds3 = solve(K[2], -newR3, "ma27");
+  cout << "ds3 = " << ds3 << endl;
+
+
+  /// end time
+  NACtime.toc();
+  cout << "total t_wall time = " << NACtime.t_wall << endl;
+  cout << "total t_proc time = " << NACtime.t_proc << endl;
+
+
+  DM s  = DM::vertcat({res.at("x"), res.at("lam_g")});
+  DM s1 = s + ds1;
   // int s_tot = s1.size1();
   // cout << "s vector dimension = " << s_tot << endl;
   // cout << "x vector dimension = " << N_tot << endl;
@@ -566,13 +581,13 @@ int main() {
   DM QK_pert = s1(Slice(5, N_tot, nu+nx+nx*d));
 
 
-  DM CA_ds = ds(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_ds = ds(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_ds = ds(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_ds = ds(Slice(3, N_tot, nu+nx+nx*d));
+  DM CA_ds = ds1(Slice(0, N_tot, nu+nx+nx*d));
+  DM CB_ds = ds1(Slice(1, N_tot, nu+nx+nx*d));
+  DM TR_ds = ds1(Slice(2, N_tot, nu+nx+nx*d));
+  DM TK_ds = ds1(Slice(3, N_tot, nu+nx+nx*d));
 
-  DM F_ds  = ds(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_ds = ds(Slice(5, N_tot, nu+nx+nx*d));
+  DM F_ds  = ds1(Slice(4, N_tot, nu+nx+nx*d));
+  DM QK_ds = ds1(Slice(5, N_tot, nu+nx+nx*d));
 
 
 
@@ -592,36 +607,6 @@ int main() {
   cout << setw(30) << "Perturbed solution (F):  " << F_pert  << endl;
   cout << setw(30) << "Perturbed solution (QK): " << QK_pert << endl;
 
-
-
-  arg["p"]   = p1;
-  res = solver(arg);
-
-  // Print the new solution
-  cout << "-----" << endl;
-  cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
-  cout << setw(30) << "Objective: " << res.at("f") << endl;
-  //cout << setw(30) << "Primal solution: " << res.at("x") << endl;
-  //cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
-  //cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
-
-
-  DM CA_optm = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_optm = res.at("x")(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_optm = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_optm = res.at("x")(Slice(3, N_tot, nu+nx+nx*d));
-
-  DM F_optm  = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_optm = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
-
-
-
-  cout << setw(30) << "Optimal solution for p1 (CA): " << CA_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (CB): " << CB_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (TR): " << TR_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (TK): " << TK_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (F):  " << F_optm  << endl;
-  cout << setw(30) << "Optimal solution for p1 (QK): " << QK_optm << endl;
 
 
 
