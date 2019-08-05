@@ -431,121 +431,36 @@ int main() {
   // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << "res = " << evalf(res["x"]) << endl;
 
 
-
-  int N_tot = res.at("x").size1();
-  auto CA_opt = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_opt = res.at("x")(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_opt = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_opt = res.at("x")(Slice(3, N_tot, nu+nx+nx*d));
-
-  DM F_opt  = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_opt = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
-
-
-  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
-
-
-  // Print the solution
+  /// Print the solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: "   << res.at("f") << endl;
 
-  cout << setw(30) << "Primal solution (CA): " << CA_opt << endl;
-  cout << setw(30) << "Primal solution (CB): " << CB_opt << endl;
-  cout << setw(30) << "Primal solution (TR): " << TR_opt << endl;
-  cout << setw(30) << "Primal solution (TK): " << TK_opt << endl;
-  cout << setw(30) << "Primal solution (F):  " << F_opt  << endl;
-  cout << setw(30) << "Primal solution (QK): " << QK_opt << endl;
+  int N_tot = res.at("x").size1();
+  int N_per_s = N_tot / ns;
+  vector<DM> CA_opt(ns), CB_opt(ns), TR_opt(ns), TK_opt(ns), F_opt(ns), QK_opt(ns);
+
+  for (int is = 0; is < ns; ++is) {
+    CA_opt[is] = res.at("x")(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    CB_opt[is] = res.at("x")(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TR_opt[is] = res.at("x")(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TK_opt[is] = res.at("x")(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    F_opt[is]  = res.at("x")(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    QK_opt[is] = res.at("x")(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
 
 
-  /*
-  cout << setw(30) << "x  solution     : [ ";
-  for (int i=0; i<res.at("x").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("x")(i)) << "  ";
+    cout << setw(30) << " For scenario s = " << is << endl;
+    cout << setw(30) << "CA: " << CA_opt[is] << endl;
+    cout << setw(30) << "CB: " << CB_opt[is] << endl;
+    cout << setw(30) << "TR: " << TR_opt[is] << endl;
+    cout << setw(30) << "TK: " << TK_opt[is] << endl;
+    cout << setw(30) << "F:  " << F_opt[is]  << endl;
+    cout << setw(30) << "QK: " << QK_opt[is] << endl;
+
+
   }
-  cout << "]" << endl;
 
 
-  cout << setw(30) << "Primal solution (CA): [";
-
-  for (int i=0; i<CA_opt.size1(); ++i) {
-    //cout  << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1)  << evalf(CA_opt(i))<< "  ";
-    cout  << setprecision(20) << double(CA_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (CB): [" ;
-  for (int i=0; i<CB_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(CB_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (TR): [" ;
-  for (int i=0; i<TR_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(TR_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (TK): [";
-  for (int i=0; i<TK_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(TK_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "Primal solution (F): [";
-  for (int i=0; i<F_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(F_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-  cout << setw(30) << "Primal solution (QK): [";
-  for (int i=0; i<QK_opt.size1(); ++i) {
-    cout  << setprecision(20) << double(QK_opt(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-
-
-
-  cout << setw(30) << "lam_g  solution     : [ ";
-  for (int i=0; i<res.at("lam_g").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("lam_g")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  cout << setw(30) << "lam_x  solution     : [ ";
-  for (int i=0; i<res.at("lam_x").size1(); ++i) {
-    cout  << setprecision(20) << double(res.at("lam_x")(i)) << "  ";
-  }
-  cout << "]" << endl;
-
-  */
-
-
-
-  //cout << setw(30) << "lam_g  solution     : " << res.at("lam_g") << endl;
-  //cout << setw(30) << "lam_x  solution     : " << res.at("lam_x") << endl;
-
-
-
-
-
-  //vector<DM> input_hess{res.at("x"), p1,  res.at("lam_g")};
-  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
-  // nlp_hess_l:(x[58],p[2],lam_f,lam_g[48])->(hess_gamma_x_x[58x58,82nz]) MXFunction
-  // nlp_grad_f:(x[58],p[2])->(f,grad_f_x[58]) MXFunction
-
-
-  vector<DM> input_grad_f{res.at("x"), p1};
-  // cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
-  DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
-  //vector<DM> input_hess{res.at("x"), p1, grad_f, res.at("lam_g")};
-  vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
-  cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
-
-  //cout << "ipopt interface lagrangian" << solver.get_function("hess_lag")(input_hess) << endl;
 
 
   ///****************************************************
