@@ -486,71 +486,82 @@ int main() {
 
   // cout << "ds = " << ds(Slice(0, N_tot)) << endl;
 
-  DM CA_pert = s1(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_pert = s1(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_pert = s1(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_pert = s1(Slice(3, N_tot, nu+nx+nx*d));
+  vector<DM> CA_pert(ns), CB_pert(ns), TR_pert(ns), TK_pert(ns), F_pert(ns), QK_pert(ns);
+  vector<DM> CA_ds(ns), CB_ds(ns), TR_ds(ns), TK_ds(ns), F_ds(ns), QK_ds(ns);
 
-  DM F_pert  = s1(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_pert = s1(Slice(5, N_tot, nu+nx+nx*d));
-
-
-  DM CA_ds = ds(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_ds = ds(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_ds = ds(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_ds = ds(Slice(3, N_tot, nu+nx+nx*d));
-
-  DM F_ds  = ds(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_ds = ds(Slice(5, N_tot, nu+nx+nx*d));
+  for (int is = 0; is < ns; ++is) {
+    CA_pert[is] = s1(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    CB_pert[is] = s1(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TR_pert[is] = s1(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TK_pert[is] = s1(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    F_pert[is]  = s1(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    QK_pert[is] = s1(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
 
 
-
-  cout << setw(30) << "ds(CA): " << CA_ds << endl;
-  cout << setw(30) << "ds(CB): " << CB_ds << endl;
-  cout << setw(30) << "ds(TR): " << TR_ds << endl;
-  cout << setw(30) << "ds(TK): " << TK_ds << endl;
-  cout << setw(30) << "ds(F):  " << F_ds  << endl;
-  cout << setw(30) << "ds(QK): " << QK_ds << endl;
+    CA_ds[is] = ds(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    CB_ds[is] = ds(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TR_ds[is] = ds(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TK_ds[is] = ds(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    F_ds[is]  = ds(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    QK_ds[is] = ds(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
 
 
 
-  cout << setw(30) << "Perturbed solution (CA): " << CA_pert << endl;
-  cout << setw(30) << "Perturbed solution (CB): " << CB_pert << endl;
-  cout << setw(30) << "Perturbed solution (TR): " << TR_pert << endl;
-  cout << setw(30) << "Perturbed solution (TK): " << TK_pert << endl;
-  cout << setw(30) << "Perturbed solution (F):  " << F_pert  << endl;
-  cout << setw(30) << "Perturbed solution (QK): " << QK_pert << endl;
+
+    cout << setw(30) << " For scenario s = " << is << endl;
+
+    cout << setw(30) << "ds(CA): " << CA_ds[is] << endl;
+    cout << setw(30) << "ds(CB): " << CB_ds[is] << endl;
+    cout << setw(30) << "ds(TR): " << TR_ds[is] << endl;
+    cout << setw(30) << "ds(TK): " << TK_ds[is] << endl;
+    cout << setw(30) << "ds(F):  " << F_ds[is]  << endl;
+    cout << setw(30) << "ds(QK): " << QK_ds[is] << endl;
 
 
+    cout << setw(30) << "Perturbed solution CA: " << CA_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution CB: " << CB_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution TR: " << TR_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution TK: " << TK_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution F:  " << F_pert[is]  << endl;
+    cout << setw(30) << "Perturbed solution QK: " << QK_pert[is] << endl;
+
+
+  }
+
+
+
+
+  /// re-solve the NLP using the updated p1
 
   arg["p"]   = p1;
   res = solver(arg);
 
-  // Print the new solution
+  /// Print the new solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: " << res.at("f") << endl;
-  //cout << setw(30) << "Primal solution: " << res.at("x") << endl;
-  //cout << setw(30) << "Dual solution (x): " << res.at("lam_x") << endl;
-  //cout << setw(30) << "Dual solution (g): " << res.at("lam_g") << endl;
+  
+  vector<DM> CA_opt_p1(ns), CB_opt_p1(ns), TR_opt_p1(ns), TK_opt_p1(ns), F_opt_p1(ns), QK_opt_p1(ns);
+
+  for (int is = 0; is < ns; ++is) {
+    CA_opt_p1[is] = res.at("x")(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    CB_opt_p1[is] = res.at("x")(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TR_opt_p1[is] = res.at("x")(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    TK_opt_p1[is] = res.at("x")(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    F_opt_p1[is]  = res.at("x")(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    QK_opt_p1[is] = res.at("x")(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
 
 
-  DM CA_optm = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_optm = res.at("x")(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_optm = res.at("x")(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_optm = res.at("x")(Slice(3, N_tot, nu+nx+nx*d));
+    cout << setw(30) << " For scenario s = " << is << endl;
+    cout << setw(30) << "Optimal solution for p1 CA: " << CA_opt_p1[is] << endl;
+    cout << setw(30) << "Optimal solution for p1 CB: " << CB_opt_p1[is] << endl;
+    cout << setw(30) << "Optimal solution for p1 TR: " << TR_opt_p1[is] << endl;
+    cout << setw(30) << "Optimal solution for p1 TK: " << TK_opt_p1[is] << endl;
+    cout << setw(30) << "Optimal solution for p1 F:  " << F_opt_p1[is]  << endl;
+    cout << setw(30) << "Optimal solution for p1 QK: " << QK_opt_p1[is] << endl;
 
-  DM F_optm  = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_optm = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
 
-
-
-  cout << setw(30) << "Optimal solution for p1 (CA): " << CA_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (CB): " << CB_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (TR): " << TR_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (TK): " << TK_optm << endl;
-  cout << setw(30) << "Optimal solution for p1 (F):  " << F_optm  << endl;
-  cout << setw(30) << "Optimal solution for p1 (QK): " << QK_optm << endl;
+  }
 
 
 
