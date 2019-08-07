@@ -1,5 +1,5 @@
 //
-// Created by Zhou Yu on 4/5/19.
+// Created by Zhou Yu on 08/06/19.
 //
 
 
@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 1; // number of control intervals
+  int horN = 2; // number of control intervals
   double h = T/horN;   // step size
   //cout << "h = " << h << endl;
 
@@ -129,6 +129,7 @@ int main() {
   double EA2R     = 9758.3;
   double EA3R_nom = 8560;
   double EA3R_lo  = EA3R_nom * (1 - 0.01);
+  double EA3R_up  = EA3R_nom * (1 + 0.01);
 
 
   double delHAB   = 4.2;
@@ -145,6 +146,7 @@ int main() {
 
   double CAin_nom = 5.1;
   double CAin_lo  = CAin_nom * (1 - 0.05);
+  double CAin_up  = CAin_nom * (1 + 0.05);
 
 
   double CBref    = 0.5;
@@ -158,20 +160,32 @@ int main() {
   vector<double> umax{Fmax,  QKmax};
 
 
+  // number of scenarios
+  int ns = 3;
+  // Different parameter values for each scenario
+  //vector<vector<double>> param(ns);
+  //param[0] = {CAin_nom, EA3R_nom};
+  //param[1] = {CAin_lo,  EA3R_nom};
+  //param[2] = {CAin_up,  EA3R_nom};
 
+  vector<MX> CAins{CAin_nom, CAin_lo,  CAin_up};
+  vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+  vector<MX> param(ns);
+  for (int is = 0; is < ns; ++is) {
+    param[is] = MX::vertcat({CAins[is], EA3Rs[is]});
+  }
 
-
-
-  // Original parameter values
-  vector<double> p0  = {CAin_nom, EA3R_nom};
-  // new parameter values
-  vector<double> p1  = {CAin_lo, EA3R_nom};
 
 
 
   double absT = 273.15;
   MX k1 = k01 * exp( -EA1R / (TR + absT) );
   MX k2 = k02 * exp( -EA2R / (TR + absT) );
+
+  //vector<MX> k3(ns);
+  //for (int is = 0; is < ns; ++is) {
+  //  k3[is] = k03 * exp( -EA3R[is] / (TR + absT) );
+  //}
   MX k3 = k03 * exp( -EA3R / (TR + absT) );
 
 
@@ -207,8 +221,8 @@ int main() {
   // MX L = (CB - CBref) * (CB - CBref) + r1*F*F + r2*QK*QK;
 
   // Continuous time dynamics
-  Function f("f", {x, u, u_prev}, {xdot, L});
-
+  //Function dynamics("f", {x, u, u_prev}, {xdot, L});
+  Function dynamics("f", {x, u, u_prev, p}, {xdot, L});
 
 
   // have to do the initialization _after_ constructing Function f
@@ -224,9 +238,9 @@ int main() {
   // State at collocation points
   vector<MX> Xkj(d);
 
-  /// number of scenarios
-  int ns = 3;
 
+
+  /// Preparation for model building
   vector<MX> Xk(ns);
   vector<MX> Uk(ns);
   vector<MX> Xk_end(ns);
@@ -296,12 +310,15 @@ int main() {
         }
 
         // Append collocation equations
-        vector<MX> XU{Xkj[j], Uk[is], Uk_prev[is]};
+        vector<MX> XUp{Xkj[j], Uk[is], Uk_prev[is], param[is]};
+        //vector<MX> XU{Xkj[j], Uk[is], Uk_prev[is]};
         //vector<MX> XU{Xkj[j], Uk};
-        vector<MX> fL = f(XU);
+        vector<MX> fL = dynamics(XUp);
         MX fj = fL[0];
-        MX qj = fL[1];
+        MX Lj = fL[1];
 
+        cout << "fj = " << fj << endl;
+        //cout << "Lj = " << Lj << endl;
 
         g.push_back(h * fj - xp);
         for (int iw = 0; iw < nx; ++iw) {
@@ -313,7 +330,7 @@ int main() {
         Xk_end[is] += D[j + 1] * Xkj[j];
 
         // Add contribution to quadrature function
-        Cost += B[j + 1] * qj * h;
+        Cost += B[j + 1] * Lj * h;
       }
 
 
@@ -387,11 +404,20 @@ int main() {
 
 
   /// Create an NLP solver
+  /*
   MXDict nlp = {
   {"x", variables},
   {"p", p},
   {"f", Cost},
   {"g", constraints}};
+  */
+
+  MXDict nlp = {
+  {"x", variables},
+  {"f", Cost},
+  {"g", constraints}};
+
+
 
   Dict opts;
   //opts["verbose_init"] = true;
@@ -416,7 +442,7 @@ int main() {
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
   arg["x0"]  = w0;
-  arg["p"]   = p0;
+  //arg["p"]   = param[0];
   // arg["p"]   = {0, 0};
 
   /// keep record of timing
@@ -433,7 +459,7 @@ int main() {
 
   /// Print the solution
   cout << "-----" << endl;
-  cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
+  //cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: "   << res.at("f") << endl;
 
   int N_tot = res.at("x").size1();
@@ -465,7 +491,7 @@ int main() {
 
   ///****************************************************
   /// Sensitivity calculation
-
+  /*
 
   int ng = MX::vertcat(g).size1();   // ng = number of constraints g
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
@@ -564,6 +590,7 @@ int main() {
   }
 
 
+  */
 
   return 0;
 
