@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 2; // number of control intervals
+  int horN = 3; // number of control intervals
   double h = T/horN;   // step size
   //cout << "h = " << h << endl;
 
@@ -246,6 +246,25 @@ int main() {
   vector<MX> Xk_end(ns);
   vector<MX> Uk_prev(ns);
 
+  /// NAC
+  /*
+  for (int is = 0; is < ns; ++is) {
+    Uk[is] = MX::sym("U^" + str(is) + "_0", nu);
+    w.push_back(Uk[is]);
+  }
+
+  g.push_back(Uk[0] - Uk[1]);
+  lbg.push_back(0);
+  ubg.push_back(0);
+  lbg.push_back(0);
+  ubg.push_back(0);
+
+  g.push_back(Uk[0] - Uk[2]);
+  lbg.push_back(0);
+  ubg.push_back(0);
+  lbg.push_back(0);
+  ubg.push_back(0);
+  */
 
 
   // add everything for each scenario
@@ -277,6 +296,7 @@ int main() {
     for (int k = 0; k < horN; ++k) {
       // New NLP variable for the control
       Uk[is] = MX::sym("U^" + str(is) + "_" + str(k), nu);
+      cout << "U = " << Uk[is] << endl;
       w.push_back(Uk[is]);
       for (int iu = 0; iu < nu; ++iu) {
         lbw.push_back(umin[iu]);
@@ -376,6 +396,8 @@ int main() {
 
 
   }
+
+  cout << " print out Uk[0]" << Uk[0] << endl;
 
   //cout << "lbw = " << lbw << endl;
   //cout << "ubw = " << ubw << endl;

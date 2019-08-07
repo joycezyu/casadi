@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 40; // number of control intervals
+  int horN = 3; // number of control intervals
 
   double h = T/horN;   // step size
   // Number of scenarios

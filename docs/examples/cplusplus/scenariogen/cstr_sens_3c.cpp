@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 1; // number of control intervals
+  int horN = 3; // number of control intervals
   double h = T/horN;   // step size
   //cout << "h = " << h << endl;
 
@@ -545,6 +545,14 @@ int main() {
 
   cout << "gamma = " << gamma << endl;
 
+  vector<DM> schurR(ns);
+  vector<DM> ds(ns);
+  for (int is = 0; is < ns; ++is) {
+    schurR[is] = R[is] + mtimes(N[is], gamma);
+    ds[is] = solve(K[is], -schurR[is], "ma27");
+  }
+
+  /*
   DM newR1 = R[0] + mtimes(N[0], gamma);
   DM ds1 = solve(K[0], -newR1, "ma27");
   cout << "ds1 = " << ds1 << endl;
@@ -556,7 +564,7 @@ int main() {
   DM newR3 = R[2] + mtimes(N[2], gamma);
   DM ds3 = solve(K[2], -newR3, "ma27");
   cout << "ds3 = " << ds3 << endl;
-
+  */
 
   /// end time
   NACtime.toc();
@@ -565,47 +573,49 @@ int main() {
 
 
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g")});
-  DM s1 = s + ds1;
-  // int s_tot = s1.size1();
-  // cout << "s vector dimension = " << s_tot << endl;
-  // cout << "x vector dimension = " << N_tot << endl;
+  DM s1 = s + ds[0];
+  DM s2 = s + ds[1];
+  DM s3 = s + ds[2];
+  vector<DM> s_pert{s1, s2, s3};
 
-  // cout << "ds = " << ds(Slice(0, N_tot)) << endl;
+  vector<DM> CA_pert(ns), CB_pert(ns), TR_pert(ns), TK_pert(ns), F_pert(ns), QK_pert(ns);
+  vector<DM> CA_ds(ns), CB_ds(ns), TR_ds(ns), TK_ds(ns), F_ds(ns), QK_ds(ns);
 
-  DM CA_pert = s1(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_pert = s1(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_pert = s1(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_pert = s1(Slice(3, N_tot, nu+nx+nx*d));
+  for (int is = 0; is < ns; ++is) {
 
-  DM F_pert  = s1(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_pert = s1(Slice(5, N_tot, nu+nx+nx*d));
-
-
-  DM CA_ds = ds1(Slice(0, N_tot, nu+nx+nx*d));
-  DM CB_ds = ds1(Slice(1, N_tot, nu+nx+nx*d));
-  DM TR_ds = ds1(Slice(2, N_tot, nu+nx+nx*d));
-  DM TK_ds = ds1(Slice(3, N_tot, nu+nx+nx*d));
-
-  DM F_ds  = ds1(Slice(4, N_tot, nu+nx+nx*d));
-  DM QK_ds = ds1(Slice(5, N_tot, nu+nx+nx*d));
+    CA_pert[is] = s_pert[is](Slice(0, N_tot, nu+nx+nx*d));
+    CB_pert[is] = s_pert[is](Slice(1, N_tot, nu+nx+nx*d));
+    TR_pert[is] = s_pert[is](Slice(2, N_tot, nu+nx+nx*d));
+    TK_pert[is] = s_pert[is](Slice(3, N_tot, nu+nx+nx*d));
+    F_pert[is]  = s_pert[is](Slice(4, N_tot, nu+nx+nx*d));
+    QK_pert[is] = s_pert[is](Slice(5, N_tot, nu+nx+nx*d));
 
 
+    CA_ds[is] = ds[is](Slice(0, N_tot, nu+nx+nx*d));
+    CB_ds[is] = ds[is](Slice(1, N_tot, nu+nx+nx*d));
+    TR_ds[is] = ds[is](Slice(2, N_tot, nu+nx+nx*d));
+    TK_ds[is] = ds[is](Slice(3, N_tot, nu+nx+nx*d));
+    F_ds[is]  = ds[is](Slice(4, N_tot, nu+nx+nx*d));
+    QK_ds[is] = ds[is](Slice(5, N_tot, nu+nx+nx*d));
 
-  cout << setw(30) << "ds(CA): " << CA_ds << endl;
-  cout << setw(30) << "ds(CB): " << CB_ds << endl;
-  cout << setw(30) << "ds(TR): " << TR_ds << endl;
-  cout << setw(30) << "ds(TK): " << TK_ds << endl;
-  cout << setw(30) << "ds(F):  " << F_ds  << endl;
-  cout << setw(30) << "ds(QK): " << QK_ds << endl;
+    cout << setw(30) << " For scenario s = " << is << endl;
+    cout << setw(30) << "ds(CA): " << CA_ds[is] << endl;
+    cout << setw(30) << "ds(CB): " << CB_ds[is] << endl;
+    cout << setw(30) << "ds(TR): " << TR_ds[is] << endl;
+    cout << setw(30) << "ds(TK): " << TK_ds[is] << endl;
+    cout << setw(30) << "ds(F):  " << F_ds[is]  << endl;
+    cout << setw(30) << "ds(QK): " << QK_ds[is] << endl;
 
 
 
-  cout << setw(30) << "Perturbed solution (CA): " << CA_pert << endl;
-  cout << setw(30) << "Perturbed solution (CB): " << CB_pert << endl;
-  cout << setw(30) << "Perturbed solution (TR): " << TR_pert << endl;
-  cout << setw(30) << "Perturbed solution (TK): " << TK_pert << endl;
-  cout << setw(30) << "Perturbed solution (F):  " << F_pert  << endl;
-  cout << setw(30) << "Perturbed solution (QK): " << QK_pert << endl;
+    cout << setw(30) << "Perturbed solution (CA): " << CA_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution (CB): " << CB_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution (TR): " << TR_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution (TK): " << TK_pert[is] << endl;
+    cout << setw(30) << "Perturbed solution (F):  " << F_pert[is]  << endl;
+    cout << setw(30) << "Perturbed solution (QK): " << QK_pert[is] << endl;
+
+  }
 
 
 
