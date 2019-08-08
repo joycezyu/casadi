@@ -656,7 +656,7 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
     DM KKT_p1 = DM::vertcat({KKT_eval(prim_dual_p1)});
     DM RHS_p1 = DM::vertcat({RHS_eval(prim_dual_p1)});
 
-    DM KKT = KKT_p0;
+    DM KKT = KKT_p1;
     DM RHS = RHS_p1;
 
     std::vector<DM> res_KR(2);

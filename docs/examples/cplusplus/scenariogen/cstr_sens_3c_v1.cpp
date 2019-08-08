@@ -71,9 +71,8 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 3; // number of control intervals
+  int horN = 40; // number of control intervals
   double h = T/horN;   // step size
-  //cout << "h = " << h << endl;
 
   // Declare model variables
 
@@ -188,15 +187,7 @@ int main() {
      F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) - (k1*CA*delHAB + k2*CB*delHBC + k3*CA*CA*delHAD)/(rho*Cp),
      1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
   );
-  /*
-  MX xdot = vertcat(
-  F * (CAin - CA) - k01 * exp( -EA1R / (TR + absT) ) * CA - k03 * exp( -EA3R / (TR + absT) ) * CA*CA,
-  -F * CB          + k01 * exp( -EA1R / (TR + absT) ) * CA - k02 * exp( -EA2R / (TR + absT) ) * CB,
-  F * (Tin - TR)  + kW*Area/(rho*Cp*VR)*(TK-TR) -
-  (k01 * exp( -EA1R / (TR + absT) )*CA*delHAB + k02 * exp( -EA2R / (TR + absT) )*CB*delHBC + k03 * exp( -EA3R / (TR + absT) )*CA*CA*delHAD)/(rho*Cp),
-  1 / (mk*CpK)    * (QK + kW*Area*(TR-TK))
-  );
-  */
+
   // initialize u_prev values
   MX F_prev  = MX::sym("F_prev");
   MX QK_prev = MX::sym("QK_prev");
@@ -205,23 +196,9 @@ int main() {
 
   // Objective
   MX L = (CB - CBref) * (CB - CBref) + r1 *(F-F_prev)*(F-F_prev) + r2 *(QK-QK_prev)*(QK-QK_prev);
-  // MX L = (CB - CBref) * (CB - CBref) + r1*F*F + r2*QK*QK;
 
   // Continuous time dynamics
   Function f("f", {x, u, F_prev, QK_prev}, {xdot, L});
-  /*
-  vector<double> xx = {0.8, 0.5, 135, 134};
-  vector<double> uu = {5, 0};
-
-
-  vector<MX> xxx{xx, uu, 10, -100};
-  vector<MX> fff = f(xxx);
-  MX fj = fff[0];
-  MX qj = fff[1];
-  cout << "fj = " << fj << endl;
-  cout << "qj = " << qj << endl;
-
-  */
 
 
   // have to do the initialization _after_ constructing Function f
@@ -330,14 +307,6 @@ int main() {
     }
 
     // update the previous u
-    /*
-    MX u_prev = MX::sym("Uprev_" + str(k), nu);
-    u_prev = Uk;
-    vector<MX> u_prev_split = vertsplit(u_prev);
-    F_prev  = u_prev_split[0];
-    QK_prev = u_prev_split[1];
-    // cout << F_prev << endl;
-    */
     vector<MX> u_prev = vertsplit(Uk);
     F_prev  = u_prev[0];
     QK_prev = u_prev[1];
@@ -346,14 +315,6 @@ int main() {
 
   }
 
-  //cout << "lbw = " << lbw << endl;
-  //cout << "ubw = " << ubw << endl;
-  //cout << "lbg = " << lbg << endl;
-  //cout << "ubg = " << ubg << endl;
-
-
-  //cout << "w = " << MX::vertcat(w) << endl;
-  //cout << "g = " << MX::vertcat(g) << endl;
   cout << "w size = " << w.size() << endl;
   cout << "w size = " << MX::vertcat(w).size() << endl;
   cout << "lbw size = " << lbw.size() << endl;
@@ -369,8 +330,6 @@ int main() {
 
   cout << "primal variables = " << variables << endl;
 
-  // print cost function
-  // cout << "cost function = " << Cost << endl;
 
 
 
@@ -391,10 +350,6 @@ int main() {
   //opts["ipopt.fixed_variable_treatment"] = "relax_bounds";
 
   Function solver = nlpsol("solver", "ipopt", nlp, opts);
-  //MX hess_l = solver.get_function("nlp_hess_l");
-  //cout << "ipopt hessian = " << hess_l << endl;
-  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l") << endl;
-  //cout << "print solver status" << solver.stats() << endl;
   std::map<std::string, DM> arg;
 
 
@@ -416,9 +371,6 @@ int main() {
   cout << "nlp t_proc time = " << time.t_proc << endl;
 
 
-  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << "res = " << evalf(res["x"]) << endl;
-
-
 
   int N_tot = res.at("x").size1();
   auto CA_opt = res.at("x")(Slice(0, N_tot, nu+nx+nx*d));
@@ -429,8 +381,6 @@ int main() {
   DM F_opt  = res.at("x")(Slice(4, N_tot, nu+nx+nx*d));
   DM QK_opt = res.at("x")(Slice(5, N_tot, nu+nx+nx*d));
 
-
-  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
 
 
   // Print the solution
@@ -449,13 +399,9 @@ int main() {
 
 
   vector<DM> input_grad_f{res.at("x"), p1};
-  // cout << "ipopt nlp_grad_f = " << solver.get_function("nlp_grad_f")(input_grad_f) << endl;
   DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
-  //vector<DM> input_hess{res.at("x"), p1, grad_f, res.at("lam_g")};
   vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
   cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
-
-  //cout << "ipopt interface lagrangian" << solver.get_function("hess_lag")(input_hess) << endl;
 
 
   ///****************************************************
@@ -502,9 +448,6 @@ int main() {
 
   cout << "all N blocks = " << N << endl;
 
-  ///start counting time
-  //FStats NACtime;
-  //NACtime.tic();
 
   /// construct the multiplier gamma vector
   DM gamma(mNAC,1);
@@ -529,13 +472,31 @@ int main() {
   FStats NACtime;
   NACtime.tic();
 
+
+  /*
+  /// try assembling the KKT matrix before solve
+
+  Linsol linear_solver = Linsol("linear_solver", "ma27", K[0].sparsity());
+
+  vector<Linsol> linearsolver(ns);
+  for (int is = 0; is < ns; ++is) {
+    linearsolver[is] = Linsol("linear_solver", "ma27", K[is].sparsity());
+    //linearsolver[is].nfact(K[is]);
+  }
+  */
+
+
+
+
   // LHS
   vector<DM> KiN(ns);
   DM totLHS(mNAC, mNAC);
   for (int is = 0; is < ns; ++is) {
+    //KiN[is] = linearsolver[is].solve(K[is], N[is]);
     KiN[is] = solve(K[is], N[is], "ma27");
     totLHS += mtimes(N[is].T(), KiN[is]);
   }
+
 
   //auto linear_solver = Linsol("linear_solver", "ma27", K1.sparsity());
   //linear_solver.sfact(K1);
@@ -544,6 +505,7 @@ int main() {
   vector<DM> Kir(ns);
   DM totRHS(mNAC, 1);
   for (int is = 0; is < ns; ++is) {
+    // Kir[is] = linearsolver[is].solve(K[is], R[is]);
     Kir[is] = solve(K[is], R[is], "ma27");
     totRHS += mtimes(N[is].T(), Kir[is]);
   }
@@ -556,22 +518,10 @@ int main() {
   vector<DM> ds(ns);
   for (int is = 0; is < ns; ++is) {
     schurR[is] = R[is] + mtimes(N[is], gamma);
+    // ds[is] = linearsolver[is].solve(K[is], -schurR[is]);
     ds[is] = solve(K[is], -schurR[is], "ma27");
   }
 
-  /*
-  DM newR1 = R[0] + mtimes(N[0], gamma);
-  DM ds1 = solve(K[0], -newR1, "ma27");
-  cout << "ds1 = " << ds1 << endl;
-
-  DM newR2 = R[1] + mtimes(N[1], gamma);
-  DM ds2 = solve(K[1], -newR2, "ma27");
-  cout << "ds2 = " << ds2 << endl;
-
-  DM newR3 = R[2] + mtimes(N[2], gamma);
-  DM ds3 = solve(K[2], -newR3, "ma27");
-  cout << "ds3 = " << ds3 << endl;
-  */
 
   /// end time
   NACtime.toc();
