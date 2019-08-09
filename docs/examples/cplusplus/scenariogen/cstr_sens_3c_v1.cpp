@@ -65,13 +65,18 @@ int main() {
 
   }
 
+  cout << " B = " << B << endl;
+  cout << " C = " << C << endl;
+  cout << " D = " << D << endl;
 
+  /// Step 1
+  /// Nominal scenario
   /// Model building
 
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 40; // number of control intervals
+  int horN = 2; // number of control intervals
   double h = T/horN;   // step size
 
   // Declare model variables
@@ -198,7 +203,9 @@ int main() {
   MX L = (CB - CBref) * (CB - CBref) + r1 *(F-F_prev)*(F-F_prev) + r2 *(QK-QK_prev)*(QK-QK_prev);
 
   // Continuous time dynamics
-  Function f("f", {x, u, F_prev, QK_prev}, {xdot, L});
+  Function f_xdot("xdot", {x, u}, {xdot});
+  Function f_L("L", {x, u, F_prev, QK_prev}, {L});
+
 
 
   // have to do the initialization _after_ constructing Function f
@@ -212,12 +219,26 @@ int main() {
   MX Cost = 0;  // cost function
 
   // State at collocation points
-  vector<MX> Xkj(d);
+  //vector<MX> Xkj(d);
+
+
+
+  /// keep track of variables
+  vector<MX> Xk(horN+1);
+  vector<MX> Uk(horN);
+  vector<MX> Xk_end(horN);
+  // vector<MX> Uk_prev(horN - 1);
+
+  vector<vector<MX>> Xkj(horN);
+
+
+
+
 
   // "lift" initial conditions
-  MX Xk = MX::sym("x0", nx);
-  w.push_back(Xk);
-  g.push_back(Xk - xinit);
+  Xk[0] = MX::sym("x0", nx);
+  w.push_back(Xk[0]);
+  g.push_back(Xk[0] - xinit);
   for (int iw = 0; iw < nx; ++iw) {
     //lbw.push_back(xinit[iw]);
     //ubw.push_back(xinit[iw]);
@@ -232,8 +253,8 @@ int main() {
   /// Formulate the NLP
   for (int k = 0; k < horN; ++k) {
     // New NLP variable for the control
-    MX Uk = MX::sym("U_" + str(k), nu);
-    w.push_back(Uk);
+    Uk[k] = MX::sym("U_" + str(k), nu);
+    w.push_back(Uk[k]);
     for (int iu = 0; iu < nu; ++iu) {
       lbw.push_back(umin[iu]);
       ubw.push_back(umax[iu]);
@@ -243,8 +264,8 @@ int main() {
     // State at collocation points
     // vector<MX> Xkj(d);
     for (int j = 0; j < d; ++j) {
-      Xkj[j] = MX::sym("X_" + str(k) + "_" + str(j+1), nx);
-      w.push_back(Xkj[j]);
+      Xkj[k].push_back(MX::sym("X_" + str(k) + "_" + str(j+1), nx));
+      w.push_back(Xkj[k].back());
       for (int iw = 0; iw < nx; ++iw) {
         lbw.push_back(xmin[iw]);
         ubw.push_back(xmax[iw]);
@@ -255,22 +276,22 @@ int main() {
 
 
     // Loop over collocation points
-    MX Xk_end = D[0]*Xk;
+    Xk_end[k] = D[0]*Xk[k];
 
     for (int j = 0; j < d; ++j) {
       // Expression for the state derivative at the collocation point
-      MX xp = C[0][j+1] * Xk;
+      MX xp = C[0][j+1] * Xk[k];
 
       for (int r = 0; r < d; ++r) {
-        xp += C[r+1][j+1] * Xkj[r];
+        xp += C[r+1][j+1] * Xkj[k][r];
       }
 
       // Append collocation equations
-      vector<MX> XU{Xkj[j], Uk, F_prev, QK_prev};
-      //vector<MX> XU{Xkj[j], Uk};
-      vector<MX> fL = f(XU);
-      MX fj = fL[0];
-      MX qj = fL[1];
+      // TODO
+      vector<MX> XUprev{Xkj[k][j], Uk[k], F_prev, QK_prev};
+      vector<MX> XU{Xkj[k][j], Uk[k]};
+      MX fj = f_xdot(XU)[0];
+      MX Lj = f_L(XUprev)[0];
 
 
       g.push_back(h*fj - xp);
@@ -280,18 +301,23 @@ int main() {
       }
 
       // Add contribution to the end state
-      Xk_end += D[j+1]*Xkj[j];
+      Xk_end[k] += D[j+1]*Xkj[k][j];
 
       // Add contribution to quadrature function
-      Cost += B[j+1]*qj*h;
+      Cost += B[j+1]*Lj*h;
     }
+
+    /// alternative way of writing cost
+    //vector<MX> XUprev1{Xk_end[k], Uk[k], F_prev, QK_prev};
+    //MX Lk = f_L(XUprev1)[0];
+    //Cost += Lk * h;
 
 
 
 
     // New NLP variable for state at end of interval
-    Xk = MX::sym("X_" + str(k+1), nx);
-    w.push_back(Xk);
+    Xk[k+1] = MX::sym("X_" + str(k+1), nx);
+    w.push_back(Xk[k+1]);
     for (int iw = 0; iw < nx; ++iw) {
       lbw.push_back(xmin[iw]);
       ubw.push_back(xmax[iw]);
@@ -300,17 +326,22 @@ int main() {
 
     // Add equality constraint
     // for continuity between intervals
-    g.push_back(Xk_end - Xk);
+    g.push_back(Xk_end[k] - Xk[k+1]);
     for (int iw = 0; iw < nx; ++iw) {
       lbg.push_back(0);
       ubg.push_back(0);
     }
 
     // update the previous u
-    vector<MX> u_prev = vertsplit(Uk);
+    vector<MX> u_prev = vertsplit(Uk[k]);
     F_prev  = u_prev[0];
     QK_prev = u_prev[1];
 
+
+
+
+    cout << "Xk = " << Xk[k] << endl;
+    cout << "Uk = " << Uk[k] << endl;
 
 
   }
@@ -405,6 +436,7 @@ int main() {
 
 
   ///****************************************************
+  /// Step 2
   /// scenario generation with Schur-complement
 
   int nr = 1;
@@ -575,6 +607,41 @@ int main() {
 
   }
 
+
+
+  /// Step 3
+  /// Calculate the approximate multistage solutions based on sensitivity
+
+  MX Cost_sens = 0;  // cost function for step 3
+
+
+
+
+
+  /*
+  for (int k = 0; k < horN; ++k) {
+    for (int j = 0; j < d; ++j) {
+
+
+
+      // Append collocation equations
+      vector<MX> XUprev{Xkj[j], Uk, F_prev, QK_prev};
+      MX Lj = f_L(XUprev)[0];
+
+
+      // Add contribution to the end state
+      Xk_end += D[j+1]*Xkj[j];
+
+      // Add contribution to quadrature function
+      Cost += B[j+1]*Lj*h;
+
+
+
+    }
+
+  }
+
+  */
 
 
 
