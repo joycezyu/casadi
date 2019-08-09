@@ -76,7 +76,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 2; // number of control intervals
+  int horN = 5; // number of control intervals
   double h = T/horN;   // step size
 
   // Declare model variables
@@ -308,6 +308,7 @@ int main() {
     }
 
     /// alternative way of writing cost
+    // apparently the belowed code do things differently than above
     //vector<MX> XUprev1{Xk_end[k], Uk[k], F_prev, QK_prev};
     //MX Lk = f_L(XUprev1)[0];
     //Cost += Lk * h;
@@ -456,7 +457,10 @@ int main() {
 
 
   /// scenario construction
-  int length = lbw.size() + lbg.size();
+  int n, m;
+  n = lbw.size();
+  m = lbg.size();
+  int length = n + m;
 
   int ns = 3;
   int mNAC = 2;
@@ -614,34 +618,73 @@ int main() {
 
   MX Cost_sens = 0;  // cost function for step 3
 
-
-
-
-
   /*
-  for (int k = 0; k < horN; ++k) {
-    for (int j = 0; j < d; ++j) {
+   * Don't need the following part
 
-
-
-      // Append collocation equations
-      vector<MX> XUprev{Xkj[j], Uk, F_prev, QK_prev};
-      MX Lj = f_L(XUprev)[0];
-
-
-      // Add contribution to the end state
-      Xk_end += D[j+1]*Xkj[j];
-
-      // Add contribution to quadrature function
-      Cost += B[j+1]*Lj*h;
-
-
-
-    }
-
+  vector<MX> dsMX(ns);
+  for (int is = 0; is < ns; ++is) {
+    dsMX[is] = MX::sym("ds_" + str(is), length);
+    dsMX[is] = ds[is](Slice(0, length));
+    cout << "dsMX = " << dsMX[is] << endl;
   }
 
+  casadi_assert(dsMX[0].size() == ds[0].size(), "check if dsMX and ds are one-to-one mapping");
   */
+
+
+  vector<vector<MX>> Xkj_sens(horN);
+  vector<MX> Uk_sens(horN);
+
+
+  for (int is = 0; is < ns; ++is) {
+    F_prev = Finit;
+    QK_prev = QKinit;
+
+    for (int k = 0; k < horN; ++k) {
+      Uk_sens[k] = Uk[k] + ds[is](Slice(nx*(k+1) + nu*k + nx*d*k, nx*(k+1) + nu*(k+1) + nx*d*k, 1));
+
+      for (int j = 0; j < d; ++j) {
+
+        // We need to update Xkj_sens and Uk_sens for each scenario
+
+        Xkj_sens[k].push_back( Xkj[k][j] +
+                     ds[is](Slice(nx*(k+1) + nu*(k+1) + nx*(j+d*k), nx*(k+1) + nu*(k+1) + nx*(j+1+d*k), 1 )) ) ;
+
+
+
+        // Append collocation equations
+        vector<MX> XUprev_sens{Xkj_sens[k][j], Uk_sens[k], F_prev, QK_prev};
+
+        MX Lj_sens = f_L(XUprev_sens)[0];
+
+
+
+        // Add contribution to quadrature function
+        Cost_sens += B[j+1]*Lj_sens*h;
+
+
+
+      } // collocation
+
+      // update the previous u
+      vector<MX> u_prev = vertsplit(Uk_sens[k]);
+      F_prev  = u_prev[0];
+      QK_prev = u_prev[1];
+
+    } // horizon
+
+  } // scenario
+
+
+  cout << "ds0 = " << dsMX[0]<< endl;
+  cout << "ds1 = " << dsMX[1]<< endl;
+  cout << "ds2 = " << dsMX[2] << endl;
+
+  cout << "Uk_sens = " << Uk_sens << endl;
+
+
+
+
 
 
 
