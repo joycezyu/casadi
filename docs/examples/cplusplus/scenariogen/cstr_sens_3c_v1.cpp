@@ -76,7 +76,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 5; // number of control intervals
+  int horN = 2; // number of control intervals
   double h = T/horN;   // step size
 
   // Declare model variables
@@ -676,13 +676,54 @@ int main() {
   } // scenario
 
 
-  cout << "ds0 = " << dsMX[0]<< endl;
-  cout << "ds1 = " << dsMX[1]<< endl;
-  cout << "ds2 = " << dsMX[2] << endl;
 
   cout << "Uk_sens = " << Uk_sens << endl;
+  cout << "cost_sens = " << Cost_sens << endl;
 
 
+  /// re-solve
+  nlp = {
+  {"x", variables},
+  {"p", p},
+  {"f", Cost_sens},
+  {"g", constraints}};
+
+
+  // need to update solver
+  solver = nlpsol("solver", "ipopt", nlp, opts);
+
+
+  FStats newtime;
+  newtime.tic();
+  res = solver(arg);
+  newtime.toc();
+  cout << "nlp t_wall time = " << newtime.t_wall << endl;
+  cout << "nlp t_proc time = " << newtime.t_proc << endl;
+
+
+
+  int newN_tot = res.at("x").size1();
+  auto newCA_opt = res.at("x")(Slice(0, newN_tot, nu+nx+nx*d));
+  DM newCB_opt = res.at("x")(Slice(1, newN_tot, nu+nx+nx*d));
+  DM newTR_opt = res.at("x")(Slice(2, newN_tot, nu+nx+nx*d));
+  DM newTK_opt = res.at("x")(Slice(3, newN_tot, nu+nx+nx*d));
+
+  DM newF_opt  = res.at("x")(Slice(4, newN_tot, nu+nx+nx*d));
+  DM newQK_opt = res.at("x")(Slice(5, newN_tot, nu+nx+nx*d));
+
+
+
+  // Print the solution
+  cout << "-----" << endl;
+  cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
+  cout << setw(30) << "Objective: "   << res.at("f") << endl;
+
+  cout << setw(30) << "Primal solution (CA): " << newCA_opt << endl;
+  cout << setw(30) << "Primal solution (CB): " << newCB_opt << endl;
+  cout << setw(30) << "Primal solution (TR): " << newTR_opt << endl;
+  cout << setw(30) << "Primal solution (TK): " << newTK_opt << endl;
+  cout << setw(30) << "Primal solution (F):  " << newF_opt  << endl;
+  cout << setw(30) << "Primal solution (QK): " << newQK_opt << endl;
 
 
 
