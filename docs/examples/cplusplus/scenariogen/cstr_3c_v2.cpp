@@ -93,15 +93,24 @@ int main() {
   MX EA3R = MX::sym("EA3R");
   MX p  = MX::vertcat({CAin, EA3R});
 
+
+  MX p_CAinit = MX::sym("p_CAinit");
+  MX p_CBinit = MX::sym("p_CBinit");
+  MX p_TRinit = MX::sym("p_TRinit");
+  MX p_TKinit = MX::sym("p_TKinit");
+  MX p_xinit  = MX::vertcat({p_CAinit, p_CBinit, p_TRinit, p_TKinit});
+
+
+
   int nx = x.size1();
   int nu = u.size1();
-  int np = p.size1();
+  //int np = p.size1();
 
   // Declare model parameters (fixed) and fixed bounds value
-  double CAinit   = 0.8;
-  double CBinit   = 0.5;
-  double TRinit   = 134.14;
-  double TKinit   = 134.0;
+  double CAinit0  = 0.8;
+  double CBinit0  = 0.5;
+  double TRinit0  = 134.14;
+  double TKinit0  = 134.0;
   double T0       = 0;
 
   double Finit    = 18.83;
@@ -154,7 +163,10 @@ int main() {
   double CBref    = 0.5;
 
 
-  vector<double> xinit{CAinit, CBinit, TRinit, TKinit};
+
+
+  vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
+  vector<double> xinit1{0.8, 0.5, 140, 134.0};
   vector<double> uinit{Finit, QKinit};
   vector<double> xmin{CAmin, CBmin, TRmin, TKmin};
   vector<double> xmax{CAmax, CBmax, TRmax, TKmax};
@@ -218,7 +230,10 @@ int main() {
 
   // Continuous time dynamics
   //Function dynamics("f", {x, u, u_prev}, {xdot, L});
-  Function dynamics("f", {x, u, u_prev, p}, {xdot, L});
+  //Function dynamics("f", {x, u, u_prev, p}, {xdot, L});
+
+  Function f_xdot("xdot", {x, u, p}, {xdot});
+  Function f_L("L", {x, u, u_prev}, {L});
 
 
   // have to do the initialization _after_ constructing Function f
@@ -270,7 +285,7 @@ int main() {
     // "lift" initial conditions
     Xk[is] = MX::sym("x0^"+ str(is), nx);
     w.push_back(Xk[is]);
-    g.push_back(Xk[is] - xinit);
+    g.push_back(Xk[is] - p_xinit);
     for (int iw = 0; iw < nx; ++iw) {
       //lbw.push_back(xinit[iw]);
       //ubw.push_back(xinit[iw]);
@@ -278,7 +293,7 @@ int main() {
       ubw.push_back(xmax[iw]);
       lbg.push_back(0);
       ubg.push_back(0);
-      w0.push_back(xinit[iw]);
+      w0.push_back(xinit0[iw]);
     }
 
     Uk_prev[is] = MX::sym("u^" + str(is) + "_prev", nu);
@@ -310,7 +325,7 @@ int main() {
         for (int iw = 0; iw < nx; ++iw) {
           lbw.push_back(xmin[iw]);
           ubw.push_back(xmax[iw]);
-          w0.push_back(xinit[iw]);
+          w0.push_back(xinit0[iw]);
         }
       }
 
@@ -327,12 +342,18 @@ int main() {
         }
 
         // Append collocation equations
-        vector<MX> XUp{Xkj[j], Uk[is].back(), Uk_prev[is], param[is]};
+        //vector<MX> XUp{Xkj[j], Uk[is].back(), Uk_prev[is], param[is]};
         //vector<MX> XU{Xkj[j], Uk[is], Uk_prev[is]};
         //vector<MX> XU{Xkj[j], Uk};
-        vector<MX> fL = dynamics(XUp);
-        MX fj = fL[0];
-        MX Lj = fL[1];
+        //vector<MX> fL = dynamics(XUp);
+        //MX fj = fL[0];
+        //MX Lj = fL[1];
+
+
+        vector<MX> XUprev{Xkj[j], Uk[is].back(), Uk_prev[is]};
+        vector<MX> XU{Xkj[j], Uk[is].back(), param[is]};
+        MX fj = f_xdot(XU)[0];
+        MX Lj = f_L(XUprev)[0];
 
         cout << "fj = " << fj << endl;
         //cout << "Lj = " << Lj << endl;
@@ -357,7 +378,7 @@ int main() {
       for (int iw = 0; iw < nx; ++iw) {
         lbw.push_back(xmin[iw]);
         ubw.push_back(xmax[iw]);
-        w0.push_back(xinit[iw]);
+        w0.push_back(xinit0[iw]);
       }
 
       // Add equality constraint
@@ -442,6 +463,7 @@ int main() {
 
   MXDict nlp = {
   {"x", variables},
+  {"p", p_xinit},
   {"f", Cost},
   {"g", constraints}};
 
@@ -470,6 +492,7 @@ int main() {
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
   arg["x0"]  = w0;
+  arg["p"]   = xinit0;
   //arg["p"]   = param[0];
   // arg["p"]   = {0, 0};
 
@@ -519,19 +542,12 @@ int main() {
 
   ///****************************************************
   /// Sensitivity calculation
-  /*
+
 
   int ng = MX::vertcat(g).size1();   // ng = number of constraints g
   int nw = MX::vertcat(w).size1();  // nw = number of variables x
 
-
-  //DM ds = NLPsensitivity("csparse", res, Cost, constraints, variables, p, p0, p1);
-  //DM ds = NLPsensitivity_p(res, Cost, constraints, variables, p, p0, p1);
-
-  //DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "csparse", true);
-
-  //DM ds1 = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1, "ma27", false);
-  DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p, p0, p1);
+  DM ds = NLPsensitivity_p_factor(res, Cost, constraints, variables, p_xinit, xinit0, xinit1);
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g"), res.at("lam_x")});
   DM s1 = s + ds;
   // int s_tot = s1.size1();
@@ -584,7 +600,7 @@ int main() {
 
 
 
-
+  /*
   /// re-solve the NLP using the updated p1
 
   arg["p"]   = p1;
@@ -617,8 +633,8 @@ int main() {
 
   }
 
-
   */
+
 
   return 0;
 

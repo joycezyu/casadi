@@ -391,7 +391,8 @@ int main() {
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
   arg["x0"]  = w0;
-  arg["p"]   = p0;
+  arg["p"]   = p1;
+  //arg["p"]   = p0;
   // arg["p"]   = {0, 0};
 
   /// keep record of timing
@@ -491,9 +492,9 @@ int main() {
 
 
 
-  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p0);
-  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p1);
-  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p2);
+  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p1, p0);
+  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p1, p1);
+  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p1, p2);
 
   vector<DM> K(ns), R(ns);
   K[0] = KR1[0];
