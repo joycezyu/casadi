@@ -716,6 +716,7 @@ int main() {
 
   // Print the solution
   cout << "-----" << endl;
+  cout << " Step 3 re-solve NLP results" << endl;
   cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
   cout << setw(30) << "Objective: "   << res.at("f") << endl;
 

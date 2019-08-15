@@ -536,6 +536,9 @@ int main() {
 
 
   int N_per_s = length;
+
+  cout << " print out n + m = " << length << endl;
+  cout << "print out the dimension of ds = " << ds.size() << endl;
   /*
 
 
@@ -553,12 +556,12 @@ int main() {
 
   for (int is = 0; is < ns; ++is) {
 
-    CA_ds[is] = ds(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    CB_ds[is] = ds(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    TR_ds[is] = ds(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    TK_ds[is] = ds(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    F_ds[is]  = ds(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    QK_ds[is] = ds(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
+    CA_ds[is] = ds(Slice(    N_per_s * is, N_per_s * is + N_tot, nu+nx+nx*d));
+    CB_ds[is] = ds(Slice(1 + N_per_s * is, N_per_s * is + N_tot, nu+nx+nx*d));
+    TR_ds[is] = ds(Slice(2 + N_per_s * is, N_per_s * is + N_tot, nu+nx+nx*d));
+    TK_ds[is] = ds(Slice(3 + N_per_s * is, N_per_s * is + N_tot, nu+nx+nx*d));
+    F_ds[is]  = ds(Slice(4 + N_per_s * is, N_per_s * is + N_tot, nu+nx+nx*d));
+    QK_ds[is] = ds(Slice(5 + N_per_s * is, N_per_s * is + N_tot, nu+nx+nx*d));
 
     cout << setw(30) << " For scenario s = " << is << endl;
     cout << setw(30) << "ds(CA): " << CA_ds[is] << endl;

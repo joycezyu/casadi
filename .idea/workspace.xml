@@ -47,9 +47,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/casadi/core/sensitivity.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/casadi/core/sensitivity.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -74,8 +75,8 @@
       <file leaf-file-name="cstr_sens_3c_v1.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-13317">
-              <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+            <state relative-caret-position="-3270">
+              <caret line="414" column="40" selection-start-line="414" selection-start-column="35" selection-end-line="414" selection-end-column="40" />
             </state>
           </provider>
         </entry>
@@ -83,8 +84,8 @@
       <file leaf-file-name="cstr_sens_3c_whole.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8491">
-              <caret line="570" selection-start-line="570" selection-end-line="570" />
+            <state relative-caret-position="386">
+              <caret line="559" column="53" lean-forward="true" selection-start-line="559" selection-start-column="53" selection-end-line="559" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -92,8 +93,8 @@
       <file leaf-file-name="cstr_3c_v2.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v2.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="525" column="60" selection-start-line="525" selection-start-column="53" selection-end-line="525" selection-end-column="60" />
+            <state relative-caret-position="1362">
+              <caret line="496" column="25" lean-forward="true" selection-start-line="496" selection-start-column="25" selection-end-line="496" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -128,8 +129,8 @@
       <file leaf-file-name="sensitivity.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-456">
-              <caret line="625" selection-start-line="625" selection-end-line="625" />
+            <state relative-caret-position="637">
+              <caret line="668" selection-start-line="668" selection-end-line="668" />
               <folding>
                 <element signature="e#41#60#0" expanded="true" />
               </folding>
@@ -141,14 +142,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>solve</find>
-      <find>res =</find>
-      <find>solver</find>
-      <find>p1</find>
-      <find>uk_prev</find>
-      <find>np</find>
-      <find>xinit</find>
-      <find>arg</find>
       <find>horN</find>
       <find>function dynamics</find>
       <find>function</find>
@@ -166,11 +159,19 @@
       <find>NACtime</find>
       <find>grad</find>
       <find>ng</find>
-      <find>t_</find>
       <find>f_xdot</find>
       <find>N_per_s</find>
+      <find>t_</find>
       <find>RHS</find>
       <find>p0</find>
+      <find>getKKTa</find>
+      <find>sensitivity_p_factor</find>
+      <find>p_factor</find>
+      <find>Uk</find>
+      <find>getKKTaRHS</find>
+      <find>p1.size()</find>
+      <find>sensitivity</find>
+      <find>N_tot</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -223,11 +224,11 @@
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v1.cpp" />
-        <option value="$PROJECT_DIR$/casadi/core/sensitivity.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c.cpp" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/CMakeLists.txt" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v2.cpp" />
-        <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/CMakeLists.txt" />
+        <option value="$PROJECT_DIR$/casadi/core/sensitivity.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" />
       </list>
     </option>
@@ -426,12 +427,12 @@
       <workItem from="1557346721060" duration="75761000" />
       <workItem from="1562789708978" duration="77400000" />
       <workItem from="1564795429604" duration="79000" />
-      <workItem from="1564795513300" duration="77094000" />
+      <workItem from="1564795513300" duration="84798000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="442107000" />
+    <option name="totallyTimeSpent" value="449811000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
@@ -816,16 +817,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-456">
-          <caret line="625" selection-start-line="625" selection-end-line="625" />
-          <folding>
-            <element signature="e#41#60#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/CMakeLists.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
@@ -835,22 +826,32 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v2.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="525" column="60" selection-start-line="525" selection-start-column="53" selection-end-line="525" selection-end-column="60" />
+        <state relative-caret-position="1362">
+          <caret line="496" column="25" lean-forward="true" selection-start-line="496" selection-start-column="25" selection-end-line="496" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/casadi/core/sensitivity.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="637">
+          <caret line="668" selection-start-line="668" selection-end-line="668" />
+          <folding>
+            <element signature="e#41#60#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-13317">
-          <caret line="92" lean-forward="true" selection-start-line="92" selection-end-line="92" />
+        <state relative-caret-position="-3270">
+          <caret line="414" column="40" selection-start-line="414" selection-start-column="35" selection-end-line="414" selection-end-column="40" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8491">
-          <caret line="570" selection-start-line="570" selection-end-line="570" />
+        <state relative-caret-position="386">
+          <caret line="559" column="53" lean-forward="true" selection-start-line="559" selection-start-column="53" selection-end-line="559" selection-end-column="53" />
         </state>
       </provider>
     </entry>

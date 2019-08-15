@@ -639,25 +639,34 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
                                     MX::vertcat({grad.T(), M0})});
 
     // RHS
-    MX phi = MX::vertcat({jac_lagrangian.T(), g});
-    //MX phi = MX::vertcat({lag_xp, g_p});
-
+    //MX phi = MX::vertcat({jac_lagrangian.T(), g});
+    MX phi_p = MX::vertcat({lag_xp, g_p});
 
 
     /// evaluate the KKT matrix and RHS
     Function KKT_eval("KKT", {x, lambda, v, p}, {KKTprimer});
-    Function RHS_eval("RHS", {x, lambda, v, p}, {phi});
+    Function phi_eval("RHS", {x, lambda, v, p}, {phi_p});
 
     vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
     vector<DM> prim_dual_p1{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
 
     DM KKT_p0 = DM::vertcat({KKT_eval(prim_dual_p0)});
-    DM RHS_p0 = DM::vertcat({RHS_eval(prim_dual_p0)});
+    DM phi_p0 = DM::vertcat({phi_eval(prim_dual_p0)});
     DM KKT_p1 = DM::vertcat({KKT_eval(prim_dual_p1)});
-    DM RHS_p1 = DM::vertcat({RHS_eval(prim_dual_p1)});
+    DM phi_p1 = DM::vertcat({phi_eval(prim_dual_p1)});
 
-    DM KKT = KKT_p1;
-    DM RHS = RHS_p1;
+    DM KKT = KKT_p0;
+    DM phi = phi_p0;
+
+
+    vector<double> delta_p;
+    for (int i = 0; i < p1.size(); ++i) {
+      delta_p.push_back(p1[i] - p0[i]);
+    }
+
+    DM dp = delta_p;
+    DM RHS = mtimes(phi, dp);
+
 
     std::vector<DM> res_KR(2);
     res_KR[0] = KKT;
