@@ -48,7 +48,6 @@
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/casadi/core/sensitivity.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/casadi/core/sensitivity.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" afterDir="false" />
     </list>
@@ -75,8 +74,8 @@
       <file leaf-file-name="cstr_sens_3c_v1.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3270">
-              <caret line="414" column="40" selection-start-line="414" selection-start-column="35" selection-end-line="414" selection-end-column="40" />
+            <state relative-caret-position="707">
+              <caret line="489" lean-forward="true" selection-start-line="471" selection-start-column="1" selection-end-line="489" />
             </state>
           </provider>
         </entry>
@@ -84,8 +83,8 @@
       <file leaf-file-name="cstr_sens_3c_whole.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="386">
-              <caret line="559" column="53" lean-forward="true" selection-start-line="559" selection-start-column="53" selection-end-line="559" selection-end-column="53" />
+            <state relative-caret-position="441">
+              <caret line="531" column="16" lean-forward="true" selection-start-line="531" selection-start-column="16" selection-end-line="531" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -94,7 +93,7 @@
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v2.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1362">
-              <caret line="496" column="25" lean-forward="true" selection-start-line="496" selection-start-column="25" selection-end-line="496" selection-end-column="25" />
+              <caret line="496" column="25" selection-start-line="496" selection-start-column="25" selection-end-line="496" selection-end-column="25" />
             </state>
           </provider>
         </entry>
@@ -226,9 +225,9 @@
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v1.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/CMakeLists.txt" />
-        <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v2.cpp" />
         <option value="$PROJECT_DIR$/casadi/core/sensitivity.cpp" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp" />
       </list>
     </option>
@@ -427,12 +426,12 @@
       <workItem from="1557346721060" duration="75761000" />
       <workItem from="1562789708978" duration="77400000" />
       <workItem from="1564795429604" duration="79000" />
-      <workItem from="1564795513300" duration="84798000" />
+      <workItem from="1564795513300" duration="90220000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="449811000" />
+    <option name="totallyTimeSpent" value="455233000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
@@ -827,7 +826,7 @@
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_3c_v2.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1362">
-          <caret line="496" column="25" lean-forward="true" selection-start-line="496" selection-start-column="25" selection-end-line="496" selection-end-column="25" />
+          <caret line="496" column="25" selection-start-line="496" selection-start-column="25" selection-end-line="496" selection-end-column="25" />
         </state>
       </provider>
     </entry>
@@ -843,15 +842,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3270">
-          <caret line="414" column="40" selection-start-line="414" selection-start-column="35" selection-end-line="414" selection-end-column="40" />
+        <state relative-caret-position="707">
+          <caret line="489" lean-forward="true" selection-start-line="471" selection-start-column="1" selection-end-line="489" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_whole.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="386">
-          <caret line="559" column="53" lean-forward="true" selection-start-line="559" selection-start-column="53" selection-end-line="559" selection-end-column="53" />
+        <state relative-caret-position="441">
+          <caret line="531" column="16" lean-forward="true" selection-start-line="531" selection-start-column="16" selection-end-line="531" selection-end-column="16" />
         </state>
       </provider>
     </entry>

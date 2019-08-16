@@ -446,9 +446,7 @@ int main() {
   //vector<int> NACindex(int nx, int nu, int nr) {
   vector<int> NAC_Ctrl_index;
   for (int i = 0; i < nr; ++i) {
-    for (int j = 0; j < nu; ++j) {
-      NAC_Ctrl_index.push_back(nx*(i+1) + nx*d*i + nu*i + j);
-    };
+    NAC_Ctrl_index.push_back(nx*(i+1) + nx*d*i + nu*i );
   };
     //return res;
   //};
@@ -464,21 +462,29 @@ int main() {
   int length = n + m;
 
   int ns = 3;
+  // TODO
+  // generate a function that computes mNAC from nr (robust horizon length)
   int mNAC = 2;
   vector<DM> N(ns);
-  N[0] = DM(length,mNAC);
-  N[1] = DM(length,mNAC);
-  N[2] = DM(length,mNAC);
-  for (auto ind:NAC_Ctrl_index) {
-    // scenario 1
-    // need NACs for NAC constraint index 0 and 1
-    // index 0 = NAC constraint 0, index 1 = NAC constraint 1
-    N[0](ind, 0) = 1;
-    N[0](ind, 1) = 1;
-    // scenario 2 only for NAC index 0
-    N[1](ind, 0) = -1;
-    // scenario 3 only for NAC index 1
-    N[2](ind, 1) = -1;
+  N[0] = DM(length,mNAC*nu);
+  N[1] = DM(length,mNAC*nu);
+  N[2] = DM(length,mNAC*nu);
+  for (int i:NAC_Ctrl_index) {
+    for (int j = 0; j < nu; ++j) {
+      //for (int s = 0; s < ns; ++s) {
+        // scenario 1
+        // need NACs for NAC constraint index 0 and 1
+        // index 0 = NAC constraint 0, index 1 = NAC constraint 1
+        N[0](i + j, 0 + j*nu) = 1;
+        N[0](i + j, 1 + j*nu) = 1;
+        // scenario 2 only for NAC index 0
+        N[1](i + j, 0 + j*nu) = -1;
+        // scenario 3 only for NAC index 1
+        N[2](i + j, 1 + j*nu) = -1;
+      // }
+
+    }
+
 
   }
 
@@ -487,7 +493,7 @@ int main() {
 
 
   /// construct the multiplier gamma vector
-  DM gamma(mNAC,1);
+  DM gamma(mNAC*nu,1);
   vector<vector<DM>> KR(ns);
 
 
@@ -527,7 +533,7 @@ int main() {
 
   // LHS
   vector<DM> KiN(ns);
-  DM totLHS(mNAC, mNAC);
+  DM totLHS(mNAC*nu, mNAC*nu);
   for (int is = 0; is < ns; ++is) {
     //KiN[is] = linearsolver[is].solve(K[is], N[is]);
     KiN[is] = solve(K[is], N[is], "ma27");
@@ -540,7 +546,7 @@ int main() {
 
   // RHS
   vector<DM> Kir(ns);
-  DM totRHS(mNAC, 1);
+  DM totRHS(mNAC*nu, 1);
   for (int is = 0; is < ns; ++is) {
     // Kir[is] = linearsolver[is].solve(K[is], R[is]);
     Kir[is] = solve(K[is], R[is], "ma27");

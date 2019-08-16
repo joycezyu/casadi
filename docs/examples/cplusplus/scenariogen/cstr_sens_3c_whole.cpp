@@ -446,9 +446,7 @@ int main() {
   //vector<int> NACindex(int nx, int nu, int nr) {
   vector<int> NAC_Ctrl_index;
   for (int i = 0; i < nr; ++i) {
-    for (int j = 0; j < nu; ++j) {
-      NAC_Ctrl_index.push_back(nx*(i+1) + nx*d*i + nu*i + j);
-    };
+    NAC_Ctrl_index.push_back(nx*(i+1) + nx*d*i + nu*i);
   };
     //return res;
   //};
@@ -466,28 +464,35 @@ int main() {
   int ns = 3;
   int mNAC = 2;
   vector<DM> N(ns);
-  N[0] = DM(length,mNAC);
-  N[1] = DM(length,mNAC);
-  N[2] = DM(length,mNAC);
-  for (auto ind:NAC_Ctrl_index) {
-    // scenario 1
-    // need NACs for NAC constraint index 0 and 1
-    // index 0 = NAC constraint 0, index 1 = NAC constraint 1
-    N[0](ind, 0) = 1;
-    N[0](ind, 1) = 1;
-    // scenario 2 only for NAC index 0
-    N[1](ind, 0) = -1;
-    // scenario 3 only for NAC index 1
-    N[2](ind, 1) = -1;
+  N[0] = DM(length,mNAC*nu);
+  N[1] = DM(length,mNAC*nu);
+  N[2] = DM(length,mNAC*nu);
+  for (int i:NAC_Ctrl_index) {
+    for (int j = 0; j < nu; ++j) {
+      //for (int s = 0; s < ns; ++s) {
+      // scenario 1
+      // need NACs for NAC constraint index 0 and 1
+      // index 0 = NAC constraint 0, index 1 = NAC constraint 1
+      N[0](i + j, 0 + j*nu) = 1;
+      N[0](i + j, 1 + j*nu) = 1;
+      // scenario 2 only for NAC index 0
+      N[1](i + j, 0 + j*nu) = -1;
+      // scenario 3 only for NAC index 1
+      N[2](i + j, 1 + j*nu) = -1;
+      // }
+
+    }
+
 
   }
+
 
 
   cout << "all N blocks = " << N << endl;
 
 
   /// construct the multiplier gamma vector
-  DM gamma(mNAC,1);
+  DM gamma(mNAC*nu,1);
   vector<vector<DM>> KR(ns);
 
 
@@ -507,8 +512,8 @@ int main() {
 
   // sparse zero matrix
   DM Zk = DM(length, length);
-  DM Z0 = DM(mNAC, mNAC);
-  DM R0 = DM(mNAC, 1);
+  DM Z0 = DM(mNAC*nu, mNAC*nu);
+  DM R0 = DM(mNAC*nu, 1);
 
 
   DM KKT = DM::horzcat({DM::vertcat({K[0],   Zk,   Zk, N[0].T()}),
