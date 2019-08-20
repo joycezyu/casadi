@@ -71,7 +71,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 2; // number of control intervals
+  int horN = 5; // number of control intervals
 
   double h = T/horN;   // step size
   // Number of scenarios
@@ -538,7 +538,7 @@ int main() {
   }
 
 
-
+  /*
 
   ///****************************************************
   /// Sensitivity calculation
@@ -598,42 +598,8 @@ int main() {
 
   }
 
-
-
-  /*
-  /// re-solve the NLP using the updated p1
-
-  arg["p"]   = p1;
-  res = solver(arg);
-
-  /// Print the new solution
-  cout << "-----" << endl;
-  cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
-  cout << setw(30) << "Objective: " << res.at("f") << endl;
-
-  vector<DM> CA_opt_p1(ns), CB_opt_p1(ns), TR_opt_p1(ns), TK_opt_p1(ns), F_opt_p1(ns), QK_opt_p1(ns);
-
-  for (int is = 0; is < ns; ++is) {
-    CA_opt_p1[is] = res.at("x")(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    CB_opt_p1[is] = res.at("x")(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    TR_opt_p1[is] = res.at("x")(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    TK_opt_p1[is] = res.at("x")(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    F_opt_p1[is]  = res.at("x")(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    QK_opt_p1[is] = res.at("x")(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-
-
-    cout << setw(30) << " For scenario s = " << is << endl;
-    cout << setw(30) << "Optimal solution for p1 CA: " << CA_opt_p1[is] << endl;
-    cout << setw(30) << "Optimal solution for p1 CB: " << CB_opt_p1[is] << endl;
-    cout << setw(30) << "Optimal solution for p1 TR: " << TR_opt_p1[is] << endl;
-    cout << setw(30) << "Optimal solution for p1 TK: " << TK_opt_p1[is] << endl;
-    cout << setw(30) << "Optimal solution for p1 F:  " << F_opt_p1[is]  << endl;
-    cout << setw(30) << "Optimal solution for p1 QK: " << QK_opt_p1[is] << endl;
-
-
-  }
-
   */
+
 
 
   return 0;

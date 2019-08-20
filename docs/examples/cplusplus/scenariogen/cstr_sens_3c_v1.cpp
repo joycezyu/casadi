@@ -76,7 +76,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 2; // number of control intervals
+  int horN = 1; // number of control intervals
   double h = T/horN;   // step size
 
   // Declare model variables
@@ -391,7 +391,7 @@ int main() {
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
   arg["x0"]  = w0;
-  arg["p"]   = p1;
+  arg["p"]   = p2;
   //arg["p"]   = p0;
   // arg["p"]   = {0, 0};
 
@@ -498,9 +498,9 @@ int main() {
 
 
 
-  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p1, p0);
-  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p1, p1);
-  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p1, p2);
+  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p2, p0);
+  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p2, p1);
+  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p2, p2);
 
   vector<DM> K(ns), R(ns);
   K[0] = KR1[0];
