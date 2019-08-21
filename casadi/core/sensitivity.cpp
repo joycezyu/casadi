@@ -679,6 +679,63 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
   };
 
 
+
+
+  DM getDg(const std::map<std::string, DM>& res, const MX& inequality,
+                             const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
+                             const std::vector<double>& p0, const std::vector<double>& p1) {
+
+    const MX &f = objective;
+    const MX &g = constraints;
+    const MX &x = variables;
+    const MX &p = parameters;
+
+
+    int ng = g.size1();  // ng = number of constraints g
+    int nx = x.size1();  // nx = number of variables x
+    int np = p0.size();
+
+    // the symbolic expression for x, λ, ν
+    MX lambda = MX::sym("lambda", ng);
+    MX v = MX::sym("v", nx);
+    MX V = MX::diag(v);
+    MX X = MX::diag(x);
+    //MX XiV    = mtimes(inv(X), V);         // inv efficient? https://github.com/casadi/casadi/issues/1871
+    //MX XiV    = MX::diag(dot(v,1/x));      // equivalent results, not sure about efficiency
+    MX XiV = MX::diag(v / x);
+
+    MX grad = jacobian(g, x);
+    // construct the lagrangian function
+    MX lagrangian = f + dot(lambda, g) + dot(v, x);
+    //MX lagrangian = f + dot(lambda, g);
+    MX jac_lagrangian = jacobian(lagrangian, x);
+    // writing hessian in the following two different ways does change the numerical results a bit
+    // however, it is NOT the reason for inconsistent W with ipopt
+    //MX hess = hessian(lagrangian, x);
+    MX hess = jacobian(jac_lagrangian, x);
+
+    MX lag_xp = jacobian(jac_lagrangian, p);
+    MX g_p = jacobian(g, p);
+
+    cout << "g_p = " << g_p << endl;
+
+
+    /// Compute the sign of dg for inequality constraints
+    MX dg_p = jacobian(inequality, p);
+    cout << "dg_p = " << dg_p << endl;
+
+
+    Function dg_eval("dg", {x, lambda, v, p}, {dg_p});
+
+    vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
+    DM dg_p0 = DM::vertcat({dg_eval(prim_dual_p0)});
+
+    return dg_p0;
+
+
+  };
+
+
   }  // namespace casadi
 
 
