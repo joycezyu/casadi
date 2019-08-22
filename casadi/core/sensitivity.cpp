@@ -721,11 +721,11 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
 
 
     /// Compute the sign of dg for inequality constraints
-    MX dg_p = jacobian(inequality, p);
-    cout << "dg_p = " << dg_p << endl;
+    //MX dg_p = jacobian(inequality, p);
+    //cout << "dg_p = " << dg_p << endl;
 
 
-    Function dg_eval("dg", {x, lambda, v, p}, {dg_p});
+    Function dg_eval("dg", {x, lambda, v, p}, {g_p});
 
     vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
     DM dg_p0 = DM::vertcat({dg_eval(prim_dual_p0)});

@@ -361,6 +361,9 @@ int main() {
   cout << "g size = " << MX::vertcat(g).size() << endl;
 
 
+  cout << "all constraints = " << g << endl;
+
+
   MX variables   = MX::vertcat(w);
   MX constraints = MX::vertcat(g);
 
