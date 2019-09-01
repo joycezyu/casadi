@@ -475,12 +475,12 @@ int main() {
         // scenario 1
         // need NACs for NAC constraint index 0 and 1
         // index 0 = NAC constraint 0, index 1 = NAC constraint 1
-        N[0](i + j, 0 + j*nu) = 1;
-        N[0](i + j, 1 + j*nu) = 1;
+        N[0](i + j, 0 + j*mNAC) = 1;
+        N[0](i + j, 1 + j*mNAC) = 1;
         // scenario 2 only for NAC index 0
-        N[1](i + j, 0 + j*nu) = -1;
+        N[1](i + j, 0 + j*mNAC) = -1;
         // scenario 3 only for NAC index 1
-        N[2](i + j, 1 + j*nu) = -1;
+        N[2](i + j, 1 + j*mNAC) = -1;
       // }
 
     }

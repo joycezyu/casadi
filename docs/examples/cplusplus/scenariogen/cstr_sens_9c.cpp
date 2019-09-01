@@ -109,8 +109,8 @@ int main() {
   double Finit    = 18.83;
   double QKinit   = -4495.7;
 
-  double r1       = 1e-7;
-  double r2       = 1e-11;
+  double r1       = 1e-7;   //1e-7
+  double r2       = 1e-11;  //1e-11
 
   double CAmin    = 0.1;
   double CAmax    = 1;
@@ -152,6 +152,9 @@ int main() {
   double CAin_up  = CAin_nom * (1 + 0.1);
 
 
+
+
+
   double CBref    = 0.5;
 
 
@@ -164,15 +167,19 @@ int main() {
 
 
 
+  /// uncertain parameter distribution
+  vector<double> p_CAin{CAin_nom, CAin_lo, CAin_up};
+  vector<double> p_EA3R{EA3R_nom, EA3R_lo, EA3R_up};
 
+  vector<vector<double>> p_c(p_EA3R.size() * p_CAin.size());
 
+  for (int i = 0; i < p_CAin.size(); ++i) {
+    for (int j = 0; j < p_EA3R.size(); ++j) {
+      p_c[i * p_EA3R.size() + j] = {p_CAin[i], p_EA3R[j]};
+    }
+  }
 
-  // Original parameter values
-  vector<double> p0  = {CAin_nom, EA3R_nom};
-  // new parameter values
-  vector<double> p1  = {CAin_lo, EA3R_nom};
-  vector<double> p2  = {CAin_up, EA3R_nom};
-
+  cout << "p_c = " << p_c << endl;
 
 
   double absT = 273.15;
@@ -402,7 +409,7 @@ int main() {
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
   arg["x0"]  = w0;
-  arg["p"]   = p0;
+  arg["p"]   = p_c[0];
   //arg["p"]   = p0;
   // arg["p"]   = {0, 0};
 
@@ -442,15 +449,15 @@ int main() {
 
 
 
-  vector<DM> input_grad_f{res.at("x"), p1};
-  DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
-  vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
-  cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
+  //vector<DM> input_grad_f{res.at("x"), p1};
+  //DM grad_f = DM::vertcat({solver.get_function("nlp_grad_f")(input_grad_f)[0]});
+  //vector<DM> input_hess{res.at("x"), p1, res.at("f"), res.at("lam_g")};
+  //cout << "ipopt hessian = " << solver.get_function("nlp_hess_l")(input_hess) << endl;
 
 
 
   /// Compute the sign of dg for inequality constraints
-  DM dg_p0 = getDg(res, inequalities, Cost, constraints, variables, p, p0, p0);
+  DM dg_p0 = getDg(res, inequalities, Cost, constraints, variables, p, p_c[0], p_c[0]);
 
   cout << "inequality constraints = " << inequalities << endl;
   cout << "dg_p0 = " << dg_p0 << endl;
@@ -479,26 +486,48 @@ int main() {
   m = lbg.size();
   int length = n + m;
 
-  int ns = 3;
+  int ns = 9;
   // TODO
-  // generate a function that computes mNAC from nr (robust horizon length)
-  int mNAC = 2;
+  // generate a function that computes mNAC from nr and np (robust horizon length and number of parameter)
+  int mNAC = 8;
   vector<DM> N(ns);
-  N[0] = DM(length,mNAC*nu);
-  N[1] = DM(length,mNAC*nu);
-  N[2] = DM(length,mNAC*nu);
+
+  for (int is = 0; is < ns; ++is) {
+    N[is] = DM(length,mNAC*nu);
+  }
+
   for (int i:NAC_Ctrl_index) {
     for (int j = 0; j < nu; ++j) {
       //for (int s = 0; s < ns; ++s) {
         // scenario 1
         // need NACs for NAC constraint index 0 and 1
         // index 0 = NAC constraint 0, index 1 = NAC constraint 1
-        N[0](i + j, 0 + j*mNAC) = 1;
-        N[0](i + j, 1 + j*mNAC) = 1;
+      N[0](i + j, 0 + j*mNAC) = 1;
+      N[0](i + j, 1 + j*mNAC) = 1;
+      N[0](i + j, 2 + j*mNAC) = 1;
+      N[0](i + j, 3 + j*mNAC) = 1;
+      N[0](i + j, 4 + j*mNAC) = 1;
+      N[0](i + j, 5 + j*mNAC) = 1;
+      N[0](i + j, 6 + j*mNAC) = 1;
+      N[0](i + j, 7 + j*mNAC) = 1;
+
+
+
         // scenario 2 only for NAC index 0
         N[1](i + j, 0 + j*mNAC) = -1;
         // scenario 3 only for NAC index 1
         N[2](i + j, 1 + j*mNAC) = -1;
+
+      N[3](i + j, 2 + j*mNAC) = -1;
+      N[4](i + j, 3 + j*mNAC) = -1;
+      N[5](i + j, 4 + j*mNAC) = -1;
+      N[6](i + j, 5 + j*mNAC) = -1;
+      N[7](i + j, 6 + j*mNAC) = -1;
+      N[8](i + j, 7 + j*mNAC) = -1;
+
+
+
+
       // }
 
     }
@@ -512,21 +541,16 @@ int main() {
 
   /// construct the multiplier gamma vector
   DM gamma(mNAC*nu,1);
+
+  // fetch the KKT matrix and RHS for each scenario
   vector<vector<DM>> KR(ns);
-
-
-
-  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p0);
-  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p1);
-  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p2);
-
   vector<DM> K(ns), R(ns);
-  K[0] = KR1[0];
-  R[0] = KR1[1];
-  K[1] = KR2[0];
-  R[1] = KR2[1];
-  K[2] = KR3[0];
-  R[2] = KR3[1];
+  for (int is = 0; is < ns; ++is) {
+    KR[is] = getKKTaRHS(res, Cost, constraints, variables, p, p_c[0], p_c[is]);
+    K[is] = KR[is][0];
+    R[is] = KR[is][1];
+  }
+
 
 
   ///start counting time
@@ -576,7 +600,7 @@ int main() {
   cout << "gamma = " << gamma << endl;
 
   vector<DM> schurR(ns);
-  vector<DM> ds(ns);
+  vector<DM> ds(ns), s_c(ns), s_pert;
   for (int is = 0; is < ns; ++is) {
     schurR[is] = R[is] + mtimes(N[is], gamma);
     // ds[is] = linearsolver[is].solve(K[is], -schurR[is]);
@@ -592,10 +616,12 @@ int main() {
 
   DM s  = DM::vertcat({res.at("x"), res.at("lam_g")});
   cout << "nominal scenario optimal solution s = " << s << endl;
-  DM s1 = s + ds[0];
-  DM s2 = s + ds[1];
-  DM s3 = s + ds[2];
-  vector<DM> s_pert{s1, s2, s3};
+
+  for (int is = 0; is < ns; ++is) {
+    s_c[is] = s + ds[is];
+    s_pert.push_back(s_c[is]);
+  }
+
 
   vector<DM> CA_pert(ns), CB_pert(ns), TR_pert(ns), TK_pert(ns), F_pert(ns), QK_pert(ns);
   vector<DM> CA_ds(ns), CB_ds(ns), TR_ds(ns), TK_ds(ns), F_ds(ns), QK_ds(ns);
@@ -637,24 +663,20 @@ int main() {
   }
 
 
+  /* step 2 outputs
+   * ds for each scenario
+   * use them in step 3 NLP problem
+   */
+
+  /// step 2.5
+  /// have the index list for worse case scenarios
+  vector<int> worstcase{7};
+
 
   /// Step 3
   /// Calculate the approximate multistage solutions based on sensitivity
 
   MX Cost_sens = 0;  // cost function for step 3
-
-  /*
-   * Don't need the following part
-
-  vector<MX> dsMX(ns);
-  for (int is = 0; is < ns; ++is) {
-    dsMX[is] = MX::sym("ds_" + str(is), length);
-    dsMX[is] = ds[is](Slice(0, length));
-    cout << "dsMX = " << dsMX[is] << endl;
-  }
-
-  casadi_assert(dsMX[0].size() == ds[0].size(), "check if dsMX and ds are one-to-one mapping");
-  */
 
 
   vector<vector<MX>> Xkj_sens(horN);
@@ -665,38 +687,58 @@ int main() {
     F_prev = Finit;
     QK_prev = QKinit;
 
-    for (int k = 0; k < horN; ++k) {
-      Uk_sens[k] = Uk[k] + ds[is](Slice(nx*(k+1) + nu*k + nx*d*k, nx*(k+1) + nu*(k+1) + nx*d*k, 1));
+    /// if non-critical scenario
+    /// then use the following method and based on nominal scenario
 
-      for (int j = 0; j < d; ++j) {
+    if (is != worstcase[0]) {
 
-        // We need to update Xkj_sens and Uk_sens for each scenario
+      for (int k = 0; k < horN; ++k) {
+        Uk_sens[k] =
+        Uk[k] + ds[is](Slice(nx * (k + 1) + nu * k + nx * d * k, nx * (k + 1) + nu * (k + 1) + nx * d * k, 1));
 
-        Xkj_sens[k].push_back( Xkj[k][j] +
-                     ds[is](Slice(nx*(k+1) + nu*(k+1) + nx*(j+d*k), nx*(k+1) + nu*(k+1) + nx*(j+1+d*k), 1 )) ) ;
+        for (int j = 0; j < d; ++j) {
 
+          // We need to update Xkj_sens and Uk_sens for each scenario
 
-
-        // Append collocation equations
-        vector<MX> XUprev_sens{Xkj_sens[k][j], Uk_sens[k], F_prev, QK_prev};
-
-        MX Lj_sens = f_L(XUprev_sens)[0];
-
-
-
-        // Add contribution to quadrature function
-        Cost_sens += B[j+1]*Lj_sens*h;
+          Xkj_sens[k].push_back(Xkj[k][j] +
+                                ds[is](Slice(nx * (k + 1) + nu * (k + 1) + nx * (j + d * k),
+                                             nx * (k + 1) + nu * (k + 1) + nx * (j + 1 + d * k), 1)));
 
 
 
-      } // collocation
+          // Append collocation equations
+          vector<MX> XUprev_sens{Xkj_sens[k][j], Uk_sens[k], F_prev, QK_prev};
 
-      // update the previous u
-      vector<MX> u_prev = vertsplit(Uk_sens[k]);
-      F_prev  = u_prev[0];
-      QK_prev = u_prev[1];
+          MX Lj_sens = f_L(XUprev_sens)[0];
 
-    } // horizon
+
+
+          // Add contribution to quadrature function
+          Cost_sens += B[j + 1] * Lj_sens * h;
+
+
+        } // collocation
+
+        // update the previous u
+        vector<MX> u_prev = vertsplit(Uk_sens[k]);
+        F_prev = u_prev[0];
+        QK_prev = u_prev[1];
+
+      } // horizon
+
+    }
+
+    /// if critical-scenario, need to add separate variables for cost, and additional NAC constraints
+
+    else {
+
+
+
+    }
+
+
+
+
 
   } // scenario
 

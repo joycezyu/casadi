@@ -727,7 +727,7 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
 
     Function dg_eval("dg", {x, lambda, v, p}, {g_p});
 
-    vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
+    vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
     DM dg_p0 = DM::vertcat({dg_eval(prim_dual_p0)});
 
     return dg_p0;
