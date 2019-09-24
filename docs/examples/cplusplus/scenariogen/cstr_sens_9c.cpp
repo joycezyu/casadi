@@ -76,7 +76,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 1; // number of control intervals
+  int horN = 5; // number of control intervals
   double h = T/horN;   // step size
 
   // Declare model variables
@@ -409,7 +409,7 @@ int main() {
   arg["lbg"] = lbg;
   arg["ubg"] = ubg;
   arg["x0"]  = w0;
-  arg["p"]   = p_c[0];
+  arg["p"]   = p_c[2];
   //arg["p"]   = p0;
   // arg["p"]   = {0, 0};
 
