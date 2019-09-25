@@ -28,10 +28,9 @@ namespace casadi {
     vector<MX> w;
     vector<MX> g;
     MX Cost = 0;
-    MX p_xinit;
   };
 
-  model_setup controller_cstr_model(int horizon_length, vector<double> init_states,
+  model_setup controller_cstr_model(int horizon_length, const MX& p_xinit,
                                     vector<MX>& states, vector<MX>& controls, MX param,
                                     int index_scenario) {
     model_setup model;
@@ -115,11 +114,6 @@ namespace casadi {
     MX p  = MX::vertcat({CAin, EA3R});
 
 
-    MX p_CAinit = MX::sym("p_CAinit");
-    MX p_CBinit = MX::sym("p_CBinit");
-    MX p_TRinit = MX::sym("p_TRinit");
-    MX p_TKinit = MX::sym("p_TKinit");
-    MX p_xinit  = MX::vertcat({p_CAinit, p_CBinit, p_TRinit, p_TKinit});
 
 
 
@@ -320,9 +314,6 @@ namespace casadi {
 
     }
 
-    model.p_xinit = p_xinit;
-
-
     return model;
   }
 
@@ -345,6 +336,15 @@ int main() {
   vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
 
 
+
+  MX p_CAinit = MX::sym("p_CAinit");
+  MX p_CBinit = MX::sym("p_CBinit");
+  MX p_TRinit = MX::sym("p_TRinit");
+  MX p_TKinit = MX::sym("p_TKinit");
+  MX p_xinit  = MX::vertcat({p_CAinit, p_CBinit, p_TRinit, p_TKinit});
+
+
+
   double EA3R_nom = 8560;
   double EA3R_lo  = EA3R_nom * (1 - 0.01);
   double EA3R_up  = EA3R_nom * (1 + 0.01);
@@ -355,7 +355,7 @@ int main() {
   double CAin_up  = CAin_nom * (1 + 0.1);
 
   /// number of scenarios
-  int ns = 1;
+  int ns = 3;
   /// horizon length
   int horN = 5;
 
@@ -382,17 +382,42 @@ int main() {
 
 
 
-  model_setup result = controller_cstr_model(horN, xinit0, Xk[0], Uk[0], param[0], 0);
+  model_setup result;
 
-  cout << result.w0 << endl;
 
-  MX variables   = MX::vertcat(result.w);
-  MX constraints = MX::vertcat(result.g);
+  for (int is = 0; is < ns; ++is) {
+    result = controller_cstr_model(horN, p_xinit, Xk[is], Uk[is], param[is], is);
+    w.insert(  w.end(),   result.w.begin(),   result.w.end());
+    g.insert(  g.end(),   result.g.begin(),   result.g.end());
+    w0.insert( w0.end(),  result.w0.begin(),  result.w0.end());
+    lbw.insert(lbw.end(), result.lbw.begin(), result.lbw.end());
+    ubw.insert(ubw.end(), result.ubw.begin(), result.ubw.end());
+    lbg.insert(lbg.end(), result.lbg.begin(), result.lbg.end());
+    ubg.insert(ubg.end(), result.ubg.begin(), result.ubg.end());
+    Cost += result.Cost;
+
+
+    /// NAC
+    // Robust horizon = 1
+    if (is != 0) {
+      g.push_back(Uk[0][0] - Uk[is][0]);
+
+      for (int iu = 0; iu < nu; ++iu) {
+        lbg.push_back(0);
+        ubg.push_back(0);
+      }
+    }
+
+  }
+
+
+  MX variables   = MX::vertcat(w);
+  MX constraints = MX::vertcat(g);
 
   MXDict nlp = {
   {"x", variables},
-  {"p", result.p_xinit},
-  {"f", result.Cost},
+  {"p", p_xinit},
+  {"f", Cost},
   {"g", constraints}};
 
 
@@ -406,11 +431,11 @@ int main() {
 
 
   /// Solve the NLP
-  arg["lbx"] = result.lbw;
-  arg["ubx"] = result.ubw;
-  arg["lbg"] = result.lbg;
-  arg["ubg"] = result.ubg;
-  arg["x0"]  = result.w0;
+  arg["lbx"] = lbw;
+  arg["ubx"] = ubw;
+  arg["lbg"] = lbg;
+  arg["ubg"] = ubg;
+  arg["x0"]  = w0;
   arg["p"]   = xinit0;
 
   /// keep record of timing

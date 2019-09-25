@@ -75,7 +75,7 @@ int main() {
 
   double h = T/horN;   // step size
   // Number of scenarios
-  int ns = 1;
+  int ns = 3;
 
   // Declare model variables
 

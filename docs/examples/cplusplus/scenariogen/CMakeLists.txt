@@ -47,3 +47,6 @@ add_executable(controller_cstr controller_cstr.cpp)
 target_link_libraries(controller_cstr casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
+add_executable(controller_cstr_3c controller_cstr_3c.cpp)
+target_link_libraries(controller_cstr_3c casadi)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
