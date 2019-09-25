@@ -30,7 +30,7 @@ namespace casadi {
     MX Cost = 0;
   };
 
-  model_setup controller_cstr_model(int horizon_length, const MX& p_xinit,
+  model_setup controller_cstr_model(double time_horizon, int horizon_length, const MX& p_xinit,
                                     vector<MX>& states, vector<MX>& controls, MX param,
                                     int index_scenario) {
     model_setup model;
@@ -91,9 +91,9 @@ namespace casadi {
 
     /// Model building
     // Time horizon
-    double T = 0.2;
+    //double T = 0.2;
 
-    double h = T/horizon_length;   // step size
+    double h = time_horizon/horizon_length;   // step size
 
 
 
@@ -356,6 +356,8 @@ int main() {
 
   /// number of scenarios
   int ns = 3;
+  // Time horizon
+  double T = 0.2;
   /// horizon length
   int horN = 5;
 
@@ -387,7 +389,7 @@ int main() {
   MX theta = MX::sym("theta");
 
   for (int is = 0; is < ns; ++is) {
-    result = controller_cstr_model(horN, p_xinit, Xk[is], Uk[is], param[is], is);
+    result = controller_cstr_model(T, horN, p_xinit, Xk[is], Uk[is], param[is], is);
     w.insert(  w.end(),   result.w.begin(),   result.w.end());
     g.insert(  g.end(),   result.g.begin(),   result.g.end());
     w0.insert( w0.end(),  result.w0.begin(),  result.w0.end());

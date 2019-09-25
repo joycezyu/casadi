@@ -30,7 +30,7 @@ namespace casadi {
     MX Cost = 0;
   };
 
-  model_setup controller_cstr_model(int horizon_length, const MX& p_xinit,
+  model_setup cstr_model(double time_horizon, int horizon_length, const MX& p_xinit,
                                     vector<MX>& states, vector<MX>& controls, MX param,
                                     int index_scenario) {
     model_setup model;
@@ -91,9 +91,9 @@ namespace casadi {
 
     /// Model building
     // Time horizon
-    double T = 0.2;
+    //double T = 0.2;
 
-    double h = T/horizon_length;   // step size
+    double h = time_horizon/horizon_length;   // step size
 
 
 
@@ -356,6 +356,8 @@ int main() {
 
   /// number of scenarios
   int ns = 3;
+
+  double T = 0.2;
   /// horizon length
   int horN = 5;
 
@@ -382,19 +384,19 @@ int main() {
 
 
 
-  model_setup result;
+  model_setup controller;
 
 
   for (int is = 0; is < ns; ++is) {
-    result = controller_cstr_model(horN, p_xinit, Xk[is], Uk[is], param[is], is);
-    w.insert(  w.end(),   result.w.begin(),   result.w.end());
-    g.insert(  g.end(),   result.g.begin(),   result.g.end());
-    w0.insert( w0.end(),  result.w0.begin(),  result.w0.end());
-    lbw.insert(lbw.end(), result.lbw.begin(), result.lbw.end());
-    ubw.insert(ubw.end(), result.ubw.begin(), result.ubw.end());
-    lbg.insert(lbg.end(), result.lbg.begin(), result.lbg.end());
-    ubg.insert(ubg.end(), result.ubg.begin(), result.ubg.end());
-    Cost += result.Cost / ns;
+    controller = cstr_model(T, horN, p_xinit, Xk[is], Uk[is], param[is], is);
+    w.insert(  w.end(),   controller.w.begin(),   controller.w.end());
+    g.insert(  g.end(),   controller.g.begin(),   controller.g.end());
+    w0.insert( w0.end(),  controller.w0.begin(),  controller.w0.end());
+    lbw.insert(lbw.end(), controller.lbw.begin(), controller.lbw.end());
+    ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
+    lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
+    ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
+    Cost += controller.Cost / ns;
 
 
     /// NAC
@@ -476,6 +478,108 @@ int main() {
 
 
   }
+
+
+  cout << F_opt[0](0) << endl;
+
+  /// controls that should be implemented in the plant
+  DM first_step_control = DM::vertcat({F_opt[0](0), QK_opt[0](0)});
+  cout << first_step_control << endl;
+
+
+  /// plant simulation
+  vector<MX> X;
+  vector<MX> U;
+
+  vector<double> w0_plt, lbw_plt, ubw_plt, lbg_plt, ubg_plt; // w0 is the initial guess
+  vector<MX> w_plt, g_plt;
+  MX Cost_plt = 0;  // cost function
+
+  int rd_index = rand() % ns;
+  cout << "random number = " << rd_index << endl;
+
+  double step_length = T/horN;
+  cout << "each step length:" << step_length << endl;
+
+  model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
+
+  cout << "each step length:" << step_length << endl;
+  w_plt.insert(  w_plt.end(),   plant.w.begin(),   plant.w.end());
+  g_plt.insert(  g_plt.end(),   plant.g.begin(),   plant.g.end());
+  w0_plt.insert( w0_plt.end(),  plant.w0.begin(),  plant.w0.end());
+  lbw_plt.insert(lbw_plt.end(), plant.lbw.begin(), plant.lbw.end());
+  ubw_plt.insert(ubw_plt.end(), plant.ubw.begin(), plant.ubw.end());
+  lbg_plt.insert(lbg_plt.end(), plant.lbg.begin(), plant.lbg.end());
+  ubg_plt.insert(ubg_plt.end(), plant.ubg.begin(), plant.ubg.end());
+
+
+  g_plt.push_back(U[0] - first_step_control);
+  for (int iu = 0; iu < nu; ++iu) {
+    lbg_plt.push_back(0);
+    ubg_plt.push_back(0);
+  }
+
+
+
+  MX variables_plt   = MX::vertcat(w_plt);
+  MX constraints_plt = MX::vertcat(g_plt);
+
+  MXDict nlp_plt = {
+  {"x", variables_plt},
+  {"p", p_xinit},
+  {"f", Cost_plt},
+  {"g", constraints_plt}};
+
+
+  Function solver_plt = nlpsol("solver", "ipopt", nlp_plt, opts);
+  std::map<std::string, DM> arg_plt;
+
+
+  /// Solve the NLP
+  arg_plt["lbx"] = lbw_plt;
+  arg_plt["ubx"] = ubw_plt;
+  arg_plt["lbg"] = lbg_plt;
+  arg_plt["ubg"] = ubg_plt;
+  arg_plt["x0"]  = w0_plt;
+  arg_plt["p"]   = xinit0;
+
+  auto res_plt = solver_plt(arg_plt);
+
+
+
+  /// show the plant simulation result
+  int N_tot_plt = res_plt.at("x").size1();
+  auto CA_plt = res_plt.at("x")(Slice(0, N_tot_plt, nu+nx+nx*d));
+  DM CB_plt = res_plt.at("x")(Slice(1, N_tot_plt, nu+nx+nx*d));
+  DM TR_plt = res_plt.at("x")(Slice(2, N_tot_plt, nu+nx+nx*d));
+  DM TK_plt = res_plt.at("x")(Slice(3, N_tot_plt, nu+nx+nx*d));
+
+  DM F_plt  = res_plt.at("x")(Slice(4, N_tot_plt, nu+nx+nx*d));
+  DM QK_plt = res_plt.at("x")(Slice(5, N_tot_plt, nu+nx+nx*d));
+
+
+  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
+
+
+  // Print the solution
+  cout << "-----" << endl;
+  cout << "Optimal solution for p = " << arg_plt.at("p") << ":" << endl;
+  cout << setw(30) << "Objective: "   << res_plt.at("f") << endl;
+
+  cout << setw(30) << "Simulated (CA): " << CA_plt << endl;
+  cout << setw(30) << "Simulated (CB): " << CB_plt << endl;
+  cout << setw(30) << "Simulated (TR): " << TR_plt << endl;
+  cout << setw(30) << "Simulated (TK): " << TK_plt << endl;
+  cout << setw(30) << "Simulated (F):  " << F_plt  << endl;
+  cout << setw(30) << "Simulated (QK): " << QK_plt << endl;
+
+
+
+
+
+
+
+
 
 
 
