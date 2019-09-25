@@ -1,5 +1,5 @@
 //
-// Created by Zhou Yu on 09/24/19.
+// Created by Zhou Yu on 09/25/19.
 //
 
 
@@ -558,9 +558,6 @@ int main() {
   DM QK_plt = res_plt.at("x")(Slice(5, N_tot_plt, nu+nx+nx*d));
 
 
-  // cout << std::scientific << std::setprecision(std::numeric_limits<double>::digits10 + 1) << evalf(CA_opt)<< endl;
-
-
   // Print the solution
   cout << "-----" << endl;
   cout << "Optimal solution for p = " << arg_plt.at("p") << ":" << endl;
@@ -573,7 +570,16 @@ int main() {
   cout << setw(30) << "Simulated (F):  " << F_plt  << endl;
   cout << setw(30) << "Simulated (QK): " << QK_plt << endl;
 
+  cout << "CA[1] = " << double(CA_plt(1)) << endl;
 
+
+  int rolling_horizon = 1;
+
+  vector<vector<double>> states_plant(rolling_horizon, vector<double>(nx, 0));
+
+  states_plant[0] = {double(CA_plt(1)), double(CB_plt(1)), double(TR_plt(1)), double(TK_plt(1))};
+  //states_plant[0]= {nextCA, nextCB, nextTR, nextTK};
+  cout << states_plant << endl;
 
 
 
