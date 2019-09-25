@@ -384,6 +384,7 @@ int main() {
 
   model_setup result;
 
+  MX theta = MX::sym("theta");
 
   for (int is = 0; is < ns; ++is) {
     result = controller_cstr_model(horN, p_xinit, Xk[is], Uk[is], param[is], is);
@@ -394,7 +395,10 @@ int main() {
     ubw.insert(ubw.end(), result.ubw.begin(), result.ubw.end());
     lbg.insert(lbg.end(), result.lbg.begin(), result.lbg.end());
     ubg.insert(ubg.end(), result.ubg.begin(), result.ubg.end());
-    Cost += result.Cost / ns;
+
+    g.push_back(result.Cost - theta);
+    lbg.push_back(-inf);
+    ubg.push_back(0);
 
 
     /// NAC
@@ -409,6 +413,13 @@ int main() {
     }
 
   }
+  // Note that the ordering of variables matters for the output data rendering
+  w.push_back(theta);
+  lbw.push_back(-inf);
+  ubw.push_back(inf);
+  w0.push_back(0);
+
+  Cost = theta;
 
 
   MX variables   = MX::vertcat(w);
