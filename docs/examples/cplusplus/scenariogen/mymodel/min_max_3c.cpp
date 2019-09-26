@@ -42,6 +42,10 @@ using namespace casadi;
     double TKinit0 = 134.0;
     vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
 
+    double Finit    = 18.83;
+    double QKinit   = -4495.7;
+    vector<double> uinit0{Finit, QKinit};
+
 
     MX p_CAinit = MX::sym("p_CAinit");
     MX p_CBinit = MX::sym("p_CBinit");
@@ -206,7 +210,7 @@ using namespace casadi;
 
     /// controls that should be implemented in the plant
     MX u0 = MX::sym("u0", nu);
-    vector<double> uinit0 = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
+    uinit0 = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
 
 
     cout << "u0_0 = " << uinit0 << endl;
@@ -220,6 +224,7 @@ using namespace casadi;
     vector<MX> w_plt, g_plt;
     MX Cost_plt = 0;  // cost function
 
+    srand(1);
     int rd_index = rand() % ns;
     cout << "random number = " << rd_index << endl;
 
@@ -298,10 +303,13 @@ using namespace casadi;
 
     int rolling_horizon = 1;
 
-    vector<vector<double>> states_plant(rolling_horizon, vector<double>(nx, 0));
+    vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
+    vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
 
-    states_plant[0] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
-                       double(plant_traj[2](1)), double(plant_traj[3](1))};
+    states_plant[0] = xinit0;
+    controls_mpc[0] = uinit0;
+    //states_plant[0] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
+     //                  double(plant_traj[2](1)), double(plant_traj[3](1))};
     //states_plant[0]= {nextCA, nextCB, nextTR, nextTK};
     cout << states_plant << endl;
 
@@ -318,13 +326,36 @@ using namespace casadi;
      * update plant initial states and also control:  arg_plt["p"] = xinit0;
      */
 
-    /*
+
     for (int i = 0; i < rolling_horizon; ++i) {
+      // first solve plant
+      x_u_init = states_plant[i];
+      x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
+
+      arg_plt["p"] = x_u_init;
+      res_plt = solver_plt(arg_plt);
+      plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
+
+      // then fetch the new states
+      states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
+                           double(plant_traj[2](1)), double(plant_traj[3](1))};
+      xinit0 = states_plant[i+1];
+
+      // then solve the mpc
       arg["p"] = xinit0;
-      res
+      res = solver(arg);
+      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+
+      // fetch the controls
+      controls_mpc[i+1] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
+
+
+
+
+
+
     }
 
-    */
 
 
 

@@ -82,8 +82,8 @@
       <file leaf-file-name="controller_cstr_3c_nmpc_modularize.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/controller_cstr_3c_nmpc_modularize.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-11">
-              <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
+            <state relative-caret-position="78">
+              <caret line="21" selection-start-line="21" selection-end-line="21" />
               <folding>
                 <element signature="e#43#62#0" expanded="true" />
               </folding>
@@ -94,8 +94,8 @@
       <file leaf-file-name="min_max_3c.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/min_max_3c.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="504">
-              <caret line="211" column="14" selection-start-line="211" selection-start-column="14" selection-end-line="211" selection-end-column="14" />
+            <state relative-caret-position="345">
+              <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
               <folding>
                 <element signature="e#43#62#0" expanded="true" />
               </folding>
@@ -118,8 +118,8 @@
       <file leaf-file-name="cstr_model.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2349">
-              <caret line="305" selection-start-line="305" selection-end-line="305" />
+            <state relative-caret-position="227">
+              <caret line="17" column="75" selection-start-line="17" selection-start-column="70" selection-end-line="17" selection-end-column="75" />
               <folding>
                 <element signature="e#40#59#0" expanded="true" />
               </folding>
@@ -131,11 +131,8 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>xinit1</find>
-      <find>umin</find>
       <find>init_states</find>
       <find>umax</find>
-      <find>param</find>
       <find>Xk</find>
       <find>controller_cs</find>
       <find>index_scenario</find>
@@ -153,7 +150,6 @@
       <find>add_librar</find>
       <find>project</find>
       <find>theta</find>
-      <find>cmake_binar</find>
       <find>u</find>
       <find>p_xinit</find>
       <find>xinit0</find>
@@ -161,6 +157,10 @@
       <find>result</find>
       <find>solver(arg)</find>
       <find>solver</find>
+      <find>uinit0</find>
+      <find>rand</find>
+      <find>cmake_binar</find>
+      <find>param</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -443,12 +443,12 @@
       <workItem from="1564795429604" duration="79000" />
       <workItem from="1564795513300" duration="134571000" />
       <workItem from="1568855878893" duration="39683000" />
-      <workItem from="1569435230581" duration="21901000" />
+      <workItem from="1569435230581" duration="24141000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="561168000" />
+    <option name="totallyTimeSpent" value="563408000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -486,13 +486,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/external_packages/qpOASES/include/qpOASES/SparseSolver.hpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="25" column="42" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/casadi/core/linsol.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-62">
@@ -767,16 +760,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/controller_cstr_3c_nmpc_modularize.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-11">
-          <caret line="16" column="14" selection-start-line="16" selection-start-column="14" selection-end-line="16" selection-end-column="14" />
-          <folding>
-            <element signature="e#43#62#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/controller_cstr.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="6232">
@@ -804,10 +787,27 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/controller_cstr_3c_nmpc_modularize.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="21" selection-start-line="21" selection-end-line="21" />
+          <folding>
+            <element signature="e#43#62#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/casadi/core/mx.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="243">
+          <caret line="54" column="6" selection-start-line="54" selection-start-column="6" selection-end-line="54" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2349">
-          <caret line="305" selection-start-line="305" selection-end-line="305" />
+        <state relative-caret-position="227">
+          <caret line="17" column="75" selection-start-line="17" selection-start-column="70" selection-end-line="17" selection-end-column="75" />
           <folding>
             <element signature="e#40#59#0" expanded="true" />
           </folding>
@@ -826,8 +826,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/min_max_3c.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="504">
-          <caret line="211" column="14" selection-start-line="211" selection-start-column="14" selection-end-line="211" selection-end-column="14" />
+        <state relative-caret-position="345">
+          <caret line="79" lean-forward="true" selection-start-line="79" selection-end-line="79" />
           <folding>
             <element signature="e#43#62#0" expanded="true" />
           </folding>
