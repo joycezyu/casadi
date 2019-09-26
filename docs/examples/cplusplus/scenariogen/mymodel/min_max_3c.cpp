@@ -185,8 +185,11 @@ using namespace casadi;
     cout << F_opt[0](0) << endl;
 
     /// controls that should be implemented in the plant
-    DM first_step_control = DM::vertcat({F_opt[0](0), QK_opt[0](0)});
-    cout << first_step_control << endl;
+    MX u0 = MX::sym("u0", nu);
+    vector<double> uinit0 = {double(F_opt[0](0)), double(QK_opt[0](0))};
+
+
+    cout << uinit0 << endl;
 
 
     /// plant simulation
@@ -215,7 +218,7 @@ using namespace casadi;
     ubg_plt.insert(ubg_plt.end(), plant.ubg.begin(), plant.ubg.end());
 
 
-    g_plt.push_back(U[0] - first_step_control);
+    g_plt.push_back(U[0] - u0);
     for (int iu = 0; iu < nu; ++iu) {
       lbg_plt.push_back(0);
       ubg_plt.push_back(0);
@@ -225,15 +228,21 @@ using namespace casadi;
     MX variables_plt = MX::vertcat(w_plt);
     MX constraints_plt = MX::vertcat(g_plt);
 
+    MX p_plt = MX::vertcat({p_xinit, u0});
+
     MXDict nlp_plt = {
     {"x", variables_plt},
-    {"p", p_xinit},
+    {"p", p_plt},
     {"f", Cost_plt},
     {"g", constraints_plt}};
 
 
     Function solver_plt = nlpsol("solver", "ipopt", nlp_plt, opts);
     std::map<std::string, DM> arg_plt;
+
+    // create x_u_init = xinit0 + uinit0
+    vector<double> x_u_init = xinit0;
+    x_u_init.insert(x_u_init.end(), uinit0.begin(), uinit0.end() );
 
 
     /// Solve the NLP
@@ -242,7 +251,7 @@ using namespace casadi;
     arg_plt["lbg"] = lbg_plt;
     arg_plt["ubg"] = ubg_plt;
     arg_plt["x0"] = w0_plt;
-    arg_plt["p"] = xinit0;
+    arg_plt["p"] = x_u_init;
 
     auto res_plt = solver_plt(arg_plt);
 
