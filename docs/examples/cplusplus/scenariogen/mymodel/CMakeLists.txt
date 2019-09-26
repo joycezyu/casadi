@@ -18,3 +18,7 @@ find_package(casadi)
 add_executable(min_max_3c min_max_3c.cpp cstr_model.hpp)
 target_link_libraries(min_max_3c casadi MYMODEL)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+add_executable(multistage_3c multistage_3c.cpp cstr_model.hpp)
+target_link_libraries(multistage_3c casadi MYMODEL)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")

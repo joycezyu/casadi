@@ -94,7 +94,7 @@ using namespace casadi;
 
 
     model_setup controller;
-    MX theta = MX::sym("theta");
+    //MX theta = MX::sym("theta");
 
 
     for (int is = 0; is < ns; ++is) {
@@ -106,12 +106,12 @@ using namespace casadi;
       ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
       lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
       ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
-      //Cost += controller.Cost / ns;
+      Cost += controller.Cost / ns;
 
       /// the inner max operator
-      g.push_back(controller.Cost - theta);
-      lbg.push_back(-inf);
-      ubg.push_back(0);
+      //g.push_back(controller.Cost - theta);
+      //lbg.push_back(-inf);
+      //ubg.push_back(0);
 
       /// NAC
       // Robust horizon = 1
@@ -127,13 +127,9 @@ using namespace casadi;
 
     }  // per scenario
 
-    // Note that the ordering of variables matters for the output data rendering
-    w.push_back(theta);
-    lbw.push_back(-inf);
-    ubw.push_back(inf);
-    w0.push_back(0);
 
-    Cost = theta;
+
+
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);
 
