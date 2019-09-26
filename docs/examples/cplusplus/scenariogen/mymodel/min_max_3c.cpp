@@ -10,6 +10,21 @@
 #include <casadi/core/timing.hpp>
 #include "cstr_model.hpp"
 
+namespace casadi {
+  vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
+                                    int nx, int nu, int d, int num_scenarios = 1) {
+    vector<vector<DM>> traj(num_scenarios, vector<DM>(nx+nu));
+    int N_tot = result.at("x").size1();
+    int N_per_s = N_tot / num_scenarios;
+
+    for (int is = 0; is < num_scenarios; ++is) {
+      for (int i = 0; i < nx+nu; ++i) {
+        traj[is][i] = result.at("x")(Slice(i + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
+      }
+    }
+   return traj;
+  }
+}
 
 
 using namespace casadi;
@@ -157,39 +172,44 @@ using namespace casadi;
     //cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
     cout << setw(30) << "Objective: " << res.at("f") << endl;
 
-    int N_tot = res.at("x").size1();
-    int N_per_s = N_tot / ns;
-    vector<DM> CA_opt(ns), CB_opt(ns), TR_opt(ns), TK_opt(ns), F_opt(ns), QK_opt(ns);
+    vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+
+
+    //int N_tot = res.at("x").size1();
+    //int N_per_s = N_tot / ns;
+
+    //vector<DM> CA_opt(ns), CB_opt(ns), TR_opt(ns), TK_opt(ns), F_opt(ns), QK_opt(ns);
 
     for (int is = 0; is < ns; ++is) {
+      /*
       CA_opt[is] = res.at("x")(Slice(N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
       CB_opt[is] = res.at("x")(Slice(1 + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
       TR_opt[is] = res.at("x")(Slice(2 + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
       TK_opt[is] = res.at("x")(Slice(3 + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
       F_opt[is] = res.at("x")(Slice(4 + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
       QK_opt[is] = res.at("x")(Slice(5 + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
-
+      */
 
       cout << setw(30) << " For scenario s = " << is << endl;
-      cout << setw(30) << "CA: " << CA_opt[is] << endl;
-      cout << setw(30) << "CB: " << CB_opt[is] << endl;
-      cout << setw(30) << "TR: " << TR_opt[is] << endl;
-      cout << setw(30) << "TK: " << TK_opt[is] << endl;
-      cout << setw(30) << "F:  " << F_opt[is] << endl;
-      cout << setw(30) << "QK: " << QK_opt[is] << endl;
+      cout << setw(30) << "CA: " << mpc_traj[is][0] << endl;
+      cout << setw(30) << "CB: " << mpc_traj[is][1] << endl;
+      cout << setw(30) << "TR: " << mpc_traj[is][2] << endl;
+      cout << setw(30) << "TK: " << mpc_traj[is][3] << endl;
+      cout << setw(30) << "F:  " << mpc_traj[is][4] << endl;
+      cout << setw(30) << "QK: " << mpc_traj[is][5] << endl;
 
 
     }
 
 
-    cout << F_opt[0](0) << endl;
+    cout << "F0_0 = " << mpc_traj[0][4](0) << endl;
 
     /// controls that should be implemented in the plant
     MX u0 = MX::sym("u0", nu);
-    vector<double> uinit0 = {double(F_opt[0](0)), double(QK_opt[0](0))};
+    vector<double> uinit0 = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
 
 
-    cout << uinit0 << endl;
+    cout << "u0_0 = " << uinit0 << endl;
 
 
     /// plant simulation
@@ -258,14 +278,7 @@ using namespace casadi;
 
 
     /// show the plant simulation result
-    int N_tot_plt = res_plt.at("x").size1();
-    auto CA_plt = res_plt.at("x")(Slice(0, N_tot_plt, nu + nx + nx * d));
-    DM CB_plt = res_plt.at("x")(Slice(1, N_tot_plt, nu + nx + nx * d));
-    DM TR_plt = res_plt.at("x")(Slice(2, N_tot_plt, nu + nx + nx * d));
-    DM TK_plt = res_plt.at("x")(Slice(3, N_tot_plt, nu + nx + nx * d));
-
-    DM F_plt = res_plt.at("x")(Slice(4, N_tot_plt, nu + nx + nx * d));
-    DM QK_plt = res_plt.at("x")(Slice(5, N_tot_plt, nu + nx + nx * d));
+    vector<DM> plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
 
 
     // Print the solution
@@ -273,23 +286,26 @@ using namespace casadi;
     cout << "Optimal solution for p = " << arg_plt.at("p") << ":" << endl;
     cout << setw(30) << "Objective: " << res_plt.at("f") << endl;
 
-    cout << setw(30) << "Simulated (CA): " << CA_plt << endl;
-    cout << setw(30) << "Simulated (CB): " << CB_plt << endl;
-    cout << setw(30) << "Simulated (TR): " << TR_plt << endl;
-    cout << setw(30) << "Simulated (TK): " << TK_plt << endl;
-    cout << setw(30) << "Simulated (F):  " << F_plt << endl;
-    cout << setw(30) << "Simulated (QK): " << QK_plt << endl;
+    cout << setw(30) << "Simulated (CA): " << plant_traj[0] << endl;
+    cout << setw(30) << "Simulated (CB): " << plant_traj[1] << endl;
+    cout << setw(30) << "Simulated (TR): " << plant_traj[2] << endl;
+    cout << setw(30) << "Simulated (TK): " << plant_traj[3] << endl;
+    cout << setw(30) << "Simulated (F):  " << plant_traj[4] << endl;
+    cout << setw(30) << "Simulated (QK): " << plant_traj[5] << endl;
 
-    cout << "CA[1] = " << double(CA_plt(1)) << endl;
+    cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
     int rolling_horizon = 1;
 
     vector<vector<double>> states_plant(rolling_horizon, vector<double>(nx, 0));
 
-    states_plant[0] = {double(CA_plt(1)), double(CB_plt(1)), double(TR_plt(1)), double(TK_plt(1))};
+    states_plant[0] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
+                       double(plant_traj[2](1)), double(plant_traj[3](1))};
     //states_plant[0]= {nextCA, nextCB, nextTR, nextTK};
     cout << states_plant << endl;
+
+
 
 
 
@@ -302,8 +318,13 @@ using namespace casadi;
      * update plant initial states and also control:  arg_plt["p"] = xinit0;
      */
 
+    /*
+    for (int i = 0; i < rolling_horizon; ++i) {
+      arg["p"] = xinit0;
+      res
+    }
 
-
+    */
 
 
 

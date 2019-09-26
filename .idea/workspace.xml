@@ -47,6 +47,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/min_max_3c.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/min_max_3c.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -93,8 +94,11 @@
       <file leaf-file-name="min_max_3c.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/min_max_3c.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="418">
-              <caret line="188" column="70" selection-start-line="188" selection-start-column="70" selection-end-line="188" selection-end-column="70" />
+            <state relative-caret-position="504">
+              <caret line="211" column="14" selection-start-line="211" selection-start-column="14" selection-end-line="211" selection-end-column="14" />
+              <folding>
+                <element signature="e#43#62#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -127,9 +131,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>T0</find>
-      <find>param[is]</find>
-      <find>w0</find>
       <find>xinit1</find>
       <find>umin</find>
       <find>init_states</find>
@@ -157,6 +158,9 @@
       <find>p_xinit</find>
       <find>xinit0</find>
       <find>u0</find>
+      <find>result</find>
+      <find>solver(arg)</find>
+      <find>solver</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -439,12 +443,12 @@
       <workItem from="1564795429604" duration="79000" />
       <workItem from="1564795513300" duration="134571000" />
       <workItem from="1568855878893" duration="39683000" />
-      <workItem from="1569435230581" duration="19595000" />
+      <workItem from="1569435230581" duration="21901000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="558862000" />
+    <option name="totallyTimeSpent" value="561168000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -822,8 +826,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/min_max_3c.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="418">
-          <caret line="188" column="70" selection-start-line="188" selection-start-column="70" selection-end-line="188" selection-end-column="70" />
+        <state relative-caret-position="504">
+          <caret line="211" column="14" selection-start-line="211" selection-start-column="14" selection-end-line="211" selection-end-column="14" />
+          <folding>
+            <element signature="e#43#62#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
