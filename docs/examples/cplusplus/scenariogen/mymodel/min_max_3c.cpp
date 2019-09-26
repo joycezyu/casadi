@@ -209,9 +209,9 @@ using namespace casadi;
     vector<MX> w_plt, g_plt;
     MX Cost_plt = 0;  // cost function
 
-    //srand(1);
-    //int rd_index = rand() % ns;
-    //cout << "random number = " << rd_index << endl;
+    srand(10);
+    int rd_index = rand() % ns;
+    cout << "random number = " << rd_index << endl;
 
     double step_length = T / horN;
     cout << "each step length:" << step_length << endl;
@@ -265,8 +265,8 @@ using namespace casadi;
     vector<double> x_u_init = xinit0;
     x_u_init.insert(x_u_init.end(), uinit0.begin(), uinit0.end() );
 
-    srand(1);
-    int rd_index = rand() % ns;
+    //srand(1);
+    //int rd_index = rand() % ns;
     vector<double> param_realized;
     param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
     cout << "param_realized = " << param_realized << endl;
@@ -339,6 +339,7 @@ using namespace casadi;
       x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
 
       // add plant param realized
+      //srand(2);
       rd_index = rand() % ns;
       rand_seed[i] = rd_index;
       param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
