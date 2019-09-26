@@ -6,13 +6,18 @@ cmake_minimum_required(VERSION 2.8.6)
 
 #link_libraries(../../cplusplus/scenariogen/mymodel)
 #link_directories(../../cplusplus/scenariogen/mymodel)
-find_library(TEST_LIBRARY mymodel ../../cplusplus/scenariogen/mymodel)
-add_executable(controller_cstr_3c_nmpc_modularize controller_cstr_3c_nmpc_modularize.cpp)
-target_link_libraries(controller_cstr_3c_nmpc_modularize casadi)
-
+#find_library(mymodel ../../cplusplus/scenariogen/mymodel)
+#add_executable(controller_cstr_3c_nmpc_modularize controller_cstr_3c_nmpc_modularize.cpp)
+#target_link_libraries(controller_cstr_3c_nmpc_modularize casadi)
+#target_link_libraries(controller_cstr_3c_nmpc_modularize mymodel)
 #target_link_libraries(controller_cstr_3c_nmpc_modularize casadi mymodel)
 #target_link_libraries(controller_cstr_3c_nmpc_modularize -L/home/user/libs/somelibpath/)
 #target_link_libraries(controller_cstr_3c_nmpc_modularize mymodel)
+find_library(MYMODEL mymodel ../../cplusplus/scenariogen/mymodel)
+add_executable(cstr controller_cstr_3c_nmpc_modularize.cpp
+        ../../cplusplus/scenariogen/mymodel/cstr_model.hpp)
+target_link_libraries(cstr casadi MYMODEL)
+
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 
