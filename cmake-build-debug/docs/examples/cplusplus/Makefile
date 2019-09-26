@@ -460,6 +460,33 @@ propagating_sparsity.cpp.s:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/build.make docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/propagating_sparsity.cpp.s
 .PHONY : propagating_sparsity.cpp.s
 
+scenariogen/mymodel/cstr_model.o: scenariogen/mymodel/cstr_model.cpp.o
+
+.PHONY : scenariogen/mymodel/cstr_model.o
+
+# target to build an object file
+scenariogen/mymodel/cstr_model.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.o
+.PHONY : scenariogen/mymodel/cstr_model.cpp.o
+
+scenariogen/mymodel/cstr_model.i: scenariogen/mymodel/cstr_model.cpp.i
+
+.PHONY : scenariogen/mymodel/cstr_model.i
+
+# target to preprocess a source file
+scenariogen/mymodel/cstr_model.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.i
+.PHONY : scenariogen/mymodel/cstr_model.cpp.i
+
+scenariogen/mymodel/cstr_model.s: scenariogen/mymodel/cstr_model.cpp.s
+
+.PHONY : scenariogen/mymodel/cstr_model.s
+
+# target to generate assembly for a file
+scenariogen/mymodel/cstr_model.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.s
+.PHONY : scenariogen/mymodel/cstr_model.cpp.s
+
 sensitivity_analysis.o: sensitivity_analysis.cpp.o
 
 .PHONY : sensitivity_analysis.o
@@ -554,6 +581,9 @@ help:
 	@echo "... propagating_sparsity.o"
 	@echo "... propagating_sparsity.i"
 	@echo "... propagating_sparsity.s"
+	@echo "... scenariogen/mymodel/cstr_model.o"
+	@echo "... scenariogen/mymodel/cstr_model.i"
+	@echo "... scenariogen/mymodel/cstr_model.s"
 	@echo "... sensitivity_analysis.o"
 	@echo "... sensitivity_analysis.i"
 	@echo "... sensitivity_analysis.s"

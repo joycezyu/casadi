@@ -1,39 +1,22 @@
 //
-// Created by Zhou Yu on 09/24/19.
+// Created by Zhou Yu on 9/25/19.
 //
-
 
 #include <iostream>
 #include <fstream>
 #include <casadi/casadi.hpp>
-#include <casadi/core/sensitivity.hpp>
-#include <casadi/core/timing.hpp>
+#include "cstr_model.hpp"
 
 
 
 
-
-
-
-
-using namespace std;
 namespace casadi {
 
-  struct model_setup {
-    vector<double> w0;
-    vector<double> lbw;
-    vector<double> ubw;
-    vector<double> lbg;
-    vector<double> ubg;
-    vector<MX> w;
-    vector<MX> g;
-    MX Cost = 0;
-    MX p_xinit;
-  };
+  using namespace std;
 
-  model_setup controller_cstr_model(int horizon_length, vector<double> init_states,
-                                    vector<MX>& states, vector<MX>& controls, MX param,
-                                    int index_scenario) {
+  model_setup cstr_model(double time_horizon, int horizon_length, const MX& p_xinit,
+                         vector<MX>& states, vector<MX>& controls, MX param,
+                         int index_scenario) {
     model_setup model;
 
 
@@ -92,9 +75,9 @@ namespace casadi {
 
     /// Model building
     // Time horizon
-    double T = 0.2;
+    //double T = 0.2;
 
-    double h = T/horizon_length;   // step size
+    double h = time_horizon/horizon_length;   // step size
 
 
 
@@ -115,11 +98,6 @@ namespace casadi {
     MX p  = MX::vertcat({CAin, EA3R});
 
 
-    MX p_CAinit = MX::sym("p_CAinit");
-    MX p_CBinit = MX::sym("p_CBinit");
-    MX p_TRinit = MX::sym("p_TRinit");
-    MX p_TKinit = MX::sym("p_TKinit");
-    MX p_xinit  = MX::vertcat({p_CAinit, p_CBinit, p_TRinit, p_TKinit});
 
 
 
@@ -320,143 +298,8 @@ namespace casadi {
 
     }
 
-    model.p_xinit = p_xinit;
-
-
     return model;
   }
 
 }
 
-/*
-using namespace casadi;
-
-
-int main() {
-
-  int nx = 4;
-  int nu = 2;
-  int d = 3;
-
-  // initial condition for the model
-  double CAinit0  = 0.8;
-  double CBinit0  = 0.5;
-  double TRinit0  = 134.14;
-  double TKinit0  = 134.0;
-  vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
-
-
-  double EA3R_nom = 8560;
-  double EA3R_lo  = EA3R_nom * (1 - 0.01);
-  double EA3R_up  = EA3R_nom * (1 + 0.01);
-
-
-  double CAin_nom = 5.1;
-  double CAin_lo  = CAin_nom * (1 - 0.1);
-  double CAin_up  = CAin_nom * (1 + 0.1);
-
-  /// number of scenarios
-  int ns = 1;
-  /// horizon length
-  int horN = 5;
-
-  // set up the params associated with each scenario
-  vector<MX> CAins{CAin_nom, CAin_lo,  CAin_up};
-  vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-  vector<MX> param(ns);
-  for (int is = 0; is < ns; ++is) {
-    param[is] = MX::vertcat({CAins[is], EA3Rs[is]});
-  }
-
-
-  /// Preparation for model building
-  vector<vector<MX>> Xk(ns);
-  vector<vector<MX>> Uk(ns);
-  // vector<MX> Xk_end(ns);
-  //vector<MX> Uk_prev(ns);
-
-  // start with an empty NLP
-  vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
-  vector<MX> w, g;
-  MX Cost = 0;  // cost function
-
-
-
-
-  model_setup result = controller_cstr_model(horN, xinit0, Xk[0], Uk[0], param[0], 0);
-
-  cout << result.w0 << endl;
-
-  MX variables   = MX::vertcat(result.w);
-  MX constraints = MX::vertcat(result.g);
-
-  MXDict nlp = {
-  {"x", variables},
-  {"p", result.p_xinit},
-  {"f", result.Cost},
-  {"g", constraints}};
-
-
-  Dict opts;
-  opts["ipopt.linear_solver"] = "ma27";
-  opts["ipopt.print_info_string"] = "yes";
-  opts["ipopt.linear_system_scaling"] = "none";
-
-  Function solver = nlpsol("solver", "ipopt", nlp, opts);
-  std::map<std::string, DM> arg;
-
-
-  /// Solve the NLP
-  arg["lbx"] = result.lbw;
-  arg["ubx"] = result.ubw;
-  arg["lbg"] = result.lbg;
-  arg["ubg"] = result.ubg;
-  arg["x0"]  = result.w0;
-  arg["p"]   = xinit0;
-
-  /// keep record of timing
-  FStats time;
-  time.tic();
-  auto res = solver(arg);
-  time.toc();
-  cout << "nlp t_wall time = " << time.t_wall << endl;
-  cout << "nlp t_proc time = " << time.t_proc << endl;
-
-
-
-  /// Print the solution
-  cout << "-----" << endl;
-  //cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
-  cout << setw(30) << "Objective: "   << res.at("f") << endl;
-
-  int N_tot = res.at("x").size1();
-  int N_per_s = N_tot / ns;
-  vector<DM> CA_opt(ns), CB_opt(ns), TR_opt(ns), TK_opt(ns), F_opt(ns), QK_opt(ns);
-
-  for (int is = 0; is < ns; ++is) {
-    CA_opt[is] = res.at("x")(Slice(    N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    CB_opt[is] = res.at("x")(Slice(1 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    TR_opt[is] = res.at("x")(Slice(2 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    TK_opt[is] = res.at("x")(Slice(3 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    F_opt[is]  = res.at("x")(Slice(4 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-    QK_opt[is] = res.at("x")(Slice(5 + N_per_s * is, N_per_s * (is+1), nu+nx+nx*d));
-
-
-    cout << setw(30) << " For scenario s = " << is << endl;
-    cout << setw(30) << "CA: " << CA_opt[is] << endl;
-    cout << setw(30) << "CB: " << CB_opt[is] << endl;
-    cout << setw(30) << "TR: " << TR_opt[is] << endl;
-    cout << setw(30) << "TK: " << TK_opt[is] << endl;
-    cout << setw(30) << "F:  " << F_opt[is]  << endl;
-    cout << setw(30) << "QK: " << QK_opt[is] << endl;
-
-
-  }
-
-
-
-  return 0;
-
-}
-
-*/

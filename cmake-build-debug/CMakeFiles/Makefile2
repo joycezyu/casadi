@@ -314,7 +314,7 @@ all: casadi/CMakeFiles/libs.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/CMakeFiles/libs.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 94
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 93
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/CMakeFiles/libs.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/CMakeFiles/libs.dir/rule
@@ -361,7 +361,7 @@ casadi/core/preinstall: casadi/core/runtime/preinstall
 casadi/core/CMakeFiles/casadi.dir/all:
 	$(MAKE) -f casadi/core/CMakeFiles/casadi.dir/build.make casadi/core/CMakeFiles/casadi.dir/depend
 	$(MAKE) -f casadi/core/CMakeFiles/casadi.dir/build.make casadi/core/CMakeFiles/casadi.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 "Built target casadi"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31 "Built target casadi"
 .PHONY : casadi/core/CMakeFiles/casadi.dir/all
 
 # Include target in all.
@@ -371,7 +371,7 @@ all: casadi/core/CMakeFiles/casadi.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/core/CMakeFiles/casadi.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 30
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/core/CMakeFiles/casadi.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/core/CMakeFiles/casadi.dir/rule
@@ -466,7 +466,7 @@ casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/all: casadi/cor
 casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/all
 	$(MAKE) -f casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/build.make casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/depend
 	$(MAKE) -f casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/build.make casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=57 "Built target casadi_integrator_idas"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=57,58 "Built target casadi_integrator_idas"
 .PHONY : casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/all
 
 # Include target in all.
@@ -515,7 +515,7 @@ all: casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 50
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 49
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/rule
@@ -553,7 +553,7 @@ all: casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 49
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 48
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/rule
@@ -591,7 +591,7 @@ all: casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 49
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 48
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/rule
@@ -649,7 +649,7 @@ all: casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparse.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparse.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 51
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 50
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparse.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparse.dir/rule
@@ -687,7 +687,7 @@ all: casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 51
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 50
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/rule
@@ -743,7 +743,7 @@ all: casadi/interfaces/tinyxml/CMakeFiles/casadi_xmlfile_tinyxml.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/interfaces/tinyxml/CMakeFiles/casadi_xmlfile_tinyxml.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 34
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 33
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/interfaces/tinyxml/CMakeFiles/casadi_xmlfile_tinyxml.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/interfaces/tinyxml/CMakeFiles/casadi_xmlfile_tinyxml.dir/rule
@@ -828,7 +828,7 @@ all: casadi/solvers/CMakeFiles/casadi_rootfinder_nlpsol.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_rootfinder_nlpsol.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_rootfinder_nlpsol.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_rootfinder_nlpsol.dir/rule
@@ -865,7 +865,7 @@ all: casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/rule
@@ -892,7 +892,7 @@ clean: casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/clean
 casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/all: casadi/core/CMakeFiles/casadi.dir/all
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/build.make casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/depend
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/build.make casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=70,71 "Built target casadi_rootfinder_fast_newton"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=71 "Built target casadi_rootfinder_fast_newton"
 .PHONY : casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/all
 
 # Include target in all.
@@ -902,7 +902,7 @@ all: casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 33
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/rule
@@ -939,7 +939,7 @@ all: casadi/solvers/CMakeFiles/casadi_linsol_symbolicqr.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_linsol_symbolicqr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_linsol_symbolicqr.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_linsol_symbolicqr.dir/rule
@@ -976,7 +976,7 @@ all: casadi/solvers/CMakeFiles/casadi_rootfinder_newton.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_rootfinder_newton.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_rootfinder_newton.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_rootfinder_newton.dir/rule
@@ -1013,7 +1013,7 @@ all: casadi/solvers/CMakeFiles/casadi_integrator_collocation.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_integrator_collocation.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_integrator_collocation.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_integrator_collocation.dir/rule
@@ -1050,7 +1050,7 @@ all: casadi/solvers/CMakeFiles/casadi_linsol_qr.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_linsol_qr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_linsol_qr.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_linsol_qr.dir/rule
@@ -1077,7 +1077,7 @@ clean: casadi/solvers/CMakeFiles/casadi_linsol_qr.dir/clean
 casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/all: casadi/core/CMakeFiles/casadi.dir/all
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/build.make casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/depend
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/build.make casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=69 "Built target casadi_nlpsol_sqpmethod"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=69,70 "Built target casadi_nlpsol_sqpmethod"
 .PHONY : casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/all
 
 # Include target in all.
@@ -1114,7 +1114,7 @@ clean: casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmethod.dir/clean
 casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/all: casadi/core/CMakeFiles/casadi.dir/all
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/build.make casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/depend
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/build.make casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=59,60 "Built target casadi_interpolant_bspline"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=60 "Built target casadi_interpolant_bspline"
 .PHONY : casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/all
 
 # Include target in all.
@@ -1124,7 +1124,7 @@ all: casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 33
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/rule
@@ -1161,7 +1161,7 @@ all: casadi/solvers/CMakeFiles/casadi_linsol_lsqr.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_linsol_lsqr.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_linsol_lsqr.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_linsol_lsqr.dir/rule
@@ -1198,7 +1198,7 @@ all: casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/rule
@@ -1235,7 +1235,7 @@ all: casadi/solvers/CMakeFiles/casadi_nlpsol_scpgen.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_nlpsol_scpgen.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_nlpsol_scpgen.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_nlpsol_scpgen.dir/rule
@@ -1272,7 +1272,7 @@ all: casadi/solvers/CMakeFiles/casadi_conic_qrqp.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_conic_qrqp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_conic_qrqp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_conic_qrqp.dir/rule
@@ -1299,7 +1299,7 @@ clean: casadi/solvers/CMakeFiles/casadi_conic_qrqp.dir/clean
 casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/all: casadi/core/CMakeFiles/casadi.dir/all
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/build.make casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/depend
 	$(MAKE) -f casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/build.make casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=58 "Built target casadi_integrator_rk"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=59 "Built target casadi_integrator_rk"
 .PHONY : casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/all
 
 # Include target in all.
@@ -1309,7 +1309,7 @@ all: casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/rule
@@ -1346,7 +1346,7 @@ all: casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/rule
@@ -1383,7 +1383,7 @@ all: casadi/solvers/CMakeFiles/casadi_importer_shell.dir/all
 
 # Build rule for subdir invocation for target.
 casadi/solvers/CMakeFiles/casadi_importer_shell.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 casadi/solvers/CMakeFiles/casadi_importer_shell.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : casadi/solvers/CMakeFiles/casadi_importer_shell.dir/rule
@@ -1506,7 +1506,7 @@ all: docs/examples/cplusplus/CMakeFiles/daebuilder.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/daebuilder.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/daebuilder.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/daebuilder.dir/rule
@@ -1533,7 +1533,7 @@ clean: docs/examples/cplusplus/CMakeFiles/daebuilder.dir/clean
 docs/examples/cplusplus/CMakeFiles/callback.dir/all: casadi/core/CMakeFiles/casadi.dir/all
 	$(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/depend
 	$(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num= "Built target callback"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles --progress-num=1 "Built target callback"
 .PHONY : docs/examples/cplusplus/CMakeFiles/callback.dir/all
 
 # Include target in all.
@@ -1580,7 +1580,7 @@ all: docs/examples/cplusplus/CMakeFiles/sensitivity_analysis.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/sensitivity_analysis.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/sensitivity_analysis.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/sensitivity_analysis.dir/rule
@@ -1617,7 +1617,7 @@ all: docs/examples/cplusplus/CMakeFiles/codegen_usage.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/codegen_usage.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/codegen_usage.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/codegen_usage.dir/rule
@@ -1654,7 +1654,7 @@ all: docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/rule
@@ -1691,7 +1691,7 @@ all: docs/examples/cplusplus/CMakeFiles/implicit_runge-kutta.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/implicit_runge-kutta.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 30
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/implicit_runge-kutta.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/implicit_runge-kutta.dir/rule
@@ -1728,7 +1728,7 @@ all: docs/examples/cplusplus/CMakeFiles/test_linsol.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/test_linsol.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/test_linsol.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/test_linsol.dir/rule
@@ -1765,7 +1765,7 @@ all: docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/all
 
 # Build rule for subdir invocation for target.
 docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 32
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 31
 	$(MAKE) -f CMakeFiles/Makefile2 docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/zhouyu/Apps/casadi/cmake-build-debug/CMakeFiles 0
 .PHONY : docs/examples/cplusplus/CMakeFiles/casadi_error_handling.dir/rule

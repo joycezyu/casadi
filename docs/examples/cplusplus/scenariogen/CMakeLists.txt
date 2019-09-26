@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 2.8.6)
 
+#set(LIBS mymodel)
+find_package(mymodel)
+
+add_executable(controller_cstr_3c_nmpc_modularize controller_cstr_3c_nmpc_modularize.cpp)
+target_link_libraries(controller_cstr_3c_nmpc_modularize casadi mymodel)
+#target_link_libraries(controller_cstr_3c_nmpc_modularize mymodel)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+
 #export CMAKE_PREFIX_PATH=../casadi_install/casadi/cmake/
 find_package(casadi)
 
@@ -43,9 +52,9 @@ add_executable(cstr_3c_v2 cstr_3c_v2.cpp)
 target_link_libraries(cstr_3c_v2 casadi)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
-add_executable(controller_cstr controller_cstr.cpp)
-target_link_libraries(controller_cstr casadi)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+#add_executable(controller_cstr controller_cstr.cpp)
+#target_link_libraries(controller_cstr casadi)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
 add_executable(controller_cstr_3c controller_cstr_3c.cpp)
 target_link_libraries(controller_cstr_3c casadi)
