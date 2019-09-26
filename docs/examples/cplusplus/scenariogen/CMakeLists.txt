@@ -1,10 +1,17 @@
 cmake_minimum_required(VERSION 2.8.6)
 
 #set(LIBS mymodel)
-find_package(mymodel)
+#find_package(mymodel)
+#set_target_properties( mymodel PROPERTIES IMPORTED_LOCATION ${CMAKE_BINARY_DIR} )
 
+#link_libraries(../../cplusplus/scenariogen/mymodel)
+#link_directories(../../cplusplus/scenariogen/mymodel)
+find_library(TEST_LIBRARY mymodel ../../cplusplus/scenariogen/mymodel)
 add_executable(controller_cstr_3c_nmpc_modularize controller_cstr_3c_nmpc_modularize.cpp)
-target_link_libraries(controller_cstr_3c_nmpc_modularize casadi mymodel)
+target_link_libraries(controller_cstr_3c_nmpc_modularize casadi)
+
+#target_link_libraries(controller_cstr_3c_nmpc_modularize casadi mymodel)
+#target_link_libraries(controller_cstr_3c_nmpc_modularize -L/home/user/libs/somelibpath/)
 #target_link_libraries(controller_cstr_3c_nmpc_modularize mymodel)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
