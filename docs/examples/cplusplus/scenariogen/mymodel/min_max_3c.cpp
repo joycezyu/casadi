@@ -77,6 +77,7 @@ using namespace casadi;
     for (int is = 0; is < ns; ++is) {
       param[is] = MX::vertcat({CAins[is], EA3Rs[is]});
     }
+    //vector<double>
 
 
     /// Preparation for model building
@@ -208,14 +209,24 @@ using namespace casadi;
     vector<MX> w_plt, g_plt;
     MX Cost_plt = 0;  // cost function
 
-    srand(1);
-    int rd_index = rand() % ns;
-    cout << "random number = " << rd_index << endl;
+    //srand(1);
+    //int rd_index = rand() % ns;
+    //cout << "random number = " << rd_index << endl;
 
     double step_length = T / horN;
     cout << "each step length:" << step_length << endl;
 
-    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
+    MX param_plt = MX::sym("param_plt", 2);
+    //model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
+    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0);
+
+    /*
+    vector<model_setup> possible_plants(ns);
+    for (int is = 0; is < ns; ++is) {
+      possible_plants = cstr_model(step_length, 1, p_xinit, X, U, param[is], is);
+    }
+    model_setup plant = possible_plants
+    */
 
     cout << "each step length:" << step_length << endl;
     w_plt.insert(w_plt.end(), plant.w.begin(), plant.w.end());
@@ -237,7 +248,8 @@ using namespace casadi;
     MX variables_plt = MX::vertcat(w_plt);
     MX constraints_plt = MX::vertcat(g_plt);
 
-    MX p_plt = MX::vertcat({p_xinit, u0});
+    //MX p_plt = MX::vertcat({p_xinit, u0});
+    MX p_plt = MX::vertcat({p_xinit, u0, param_plt});
 
     MXDict nlp_plt = {
     {"x", variables_plt},
@@ -252,6 +264,13 @@ using namespace casadi;
     // create x_u_init = xinit0 + uinit0
     vector<double> x_u_init = xinit0;
     x_u_init.insert(x_u_init.end(), uinit0.begin(), uinit0.end() );
+
+    srand(1);
+    int rd_index = rand() % ns;
+    vector<double> param_realized;
+    param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
+    cout << "param_realized = " << param_realized << endl;
+    x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
     /// Solve the NLP
@@ -312,11 +331,19 @@ using namespace casadi;
 
 
     double setpoint_error = 0;
+    vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
       // first solve plant
       x_u_init = states_plant[i];
       x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
+
+      // add plant param realized
+      rd_index = rand() % ns;
+      rand_seed[i] = rd_index;
+      param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
+      cout << "param_realized = " << param_realized << endl;
+      x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
       arg_plt["p"] = x_u_init;
       res_plt = solver_plt(arg_plt);
@@ -343,6 +370,7 @@ using namespace casadi;
     cout << "setpoint error = "  << setpoint_error << endl;
     cout << "states profile = "  << states_plant << endl;
     cout << "control profile = " << controls_mpc << endl;
+    cout << "random seed = "     << rand_seed    << endl;
 
 
 
