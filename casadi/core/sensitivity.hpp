@@ -55,6 +55,13 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
                      const std::vector<double>& p0, const std::vector<double>& p1);
 
   CASADI_EXPORT
+  std::vector<DM> getKKTaRHS(const std::map<std::string, DM>& res,
+                             const MXDict& nlp,
+                             const std::vector<double>& p0, const std::vector<double>& p1);
+
+
+
+  CASADI_EXPORT
   DM getDg(const std::map<std::string, DM>& res, const MX& inequality,
                         const MX& objective, const MX& constraints, const MX& variables, const MX& parameters,
                         const std::vector<double>& p0, const std::vector<double>& p1);

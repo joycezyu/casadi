@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/callback.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/callback.cpp.o"
   "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.o"
+  "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/plant.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

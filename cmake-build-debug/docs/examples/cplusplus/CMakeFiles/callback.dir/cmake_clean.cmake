@@ -1,6 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/callback.dir/callback.cpp.o"
   "CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.o"
+  "CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.o"
   "../../../bin/callback.pdb"
   "../../../bin/callback"
 )

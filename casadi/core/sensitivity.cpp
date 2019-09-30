@@ -679,6 +679,99 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
   };
 
 
+  std::vector<DM> getKKTaRHS(const std::map<std::string, DM>& res,
+                             const MXDict& nlp,
+                             const std::vector<double>& p0, const std::vector<double>& p1) {
+    const MX &f = nlp.at("f");
+    const MX &g = nlp.at("g");
+    const MX &x = nlp.at("x");
+    const MX &p = nlp.at("p");
+
+
+    int ng = g.size1();  // ng = number of constraints g
+    int nx = x.size1();  // nx = number of variables x
+    int np = p0.size();
+
+    // the symbolic expression for x, λ, ν
+    MX lambda = MX::sym("lambda", ng);
+    MX v = MX::sym("v", nx);
+    MX V = MX::diag(v);
+    MX X = MX::diag(x);
+    //MX XiV    = mtimes(inv(X), V);         // inv efficient? https://github.com/casadi/casadi/issues/1871
+    //MX XiV    = MX::diag(dot(v,1/x));      // equivalent results, not sure about efficiency
+    MX XiV = MX::diag(v / x);
+
+    MX grad = jacobian(g, x);
+    // construct the lagrangian function
+    MX lagrangian = f + dot(lambda, g) + dot(v, x);
+    //MX lagrangian = f + dot(lambda, g);
+    MX jac_lagrangian = jacobian(lagrangian, x);
+    // writing hessian in the following two different ways does change the numerical results a bit
+    // however, it is NOT the reason for inconsistent W with ipopt
+    //MX hess = hessian(lagrangian, x);
+    MX hess = jacobian(jac_lagrangian, x);
+
+    MX lag_xp = jacobian(jac_lagrangian, p);
+    MX g_p = jacobian(g, p);
+
+
+
+    //cout << "hessian = " << hess << endl;
+
+    Function hess_eval("W", {x, lambda, v, p}, {hess});
+
+
+    /// Assemble KKT matrix
+    // sparse zero matrix
+    MX M0 = MX(ng, ng);
+
+    // LHS
+    MX KKTprimer = MX::horzcat({MX::vertcat({hess + XiV, grad}),
+                                MX::vertcat({grad.T(), M0})});
+
+    MX KKT_noaugment = MX::horzcat({MX::vertcat({hess, grad}),
+                                    MX::vertcat({grad.T(), M0})});
+
+    // RHS
+    //MX phi = MX::vertcat({jac_lagrangian.T(), g});
+    MX phi_p = MX::vertcat({lag_xp, g_p});
+
+
+    /// evaluate the KKT matrix and RHS
+    Function KKT_eval("KKT", {x, lambda, v, p}, {KKTprimer});
+    Function phi_eval("RHS", {x, lambda, v, p}, {phi_p});
+
+    vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
+    vector<DM> prim_dual_p1{res.at("x"), res.at("lam_g"), res.at("lam_x"), p1};
+
+    DM KKT_p0 = DM::vertcat({KKT_eval(prim_dual_p0)});
+    DM phi_p0 = DM::vertcat({phi_eval(prim_dual_p0)});
+    DM KKT_p1 = DM::vertcat({KKT_eval(prim_dual_p1)});
+    DM phi_p1 = DM::vertcat({phi_eval(prim_dual_p1)});
+
+    DM KKT = KKT_p0;
+    DM phi = phi_p0;
+
+
+    vector<double> delta_p;
+    for (int i = 0; i < p1.size(); ++i) {
+      delta_p.push_back(p1[i] - p0[i]);
+    }
+
+    DM dp = delta_p;
+    DM RHS = mtimes(phi, dp);
+
+
+    std::vector<DM> res_KR(2);
+    res_KR[0] = KKT;
+    res_KR[1] = RHS;
+
+    return res_KR;
+
+
+
+  };
+
 
 
   DM getDg(const std::map<std::string, DM>& res, const MX& inequality,

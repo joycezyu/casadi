@@ -487,6 +487,33 @@ scenariogen/mymodel/cstr_model.cpp.s:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.s
 .PHONY : scenariogen/mymodel/cstr_model.cpp.s
 
+scenariogen/mymodel/plant.o: scenariogen/mymodel/plant.cpp.o
+
+.PHONY : scenariogen/mymodel/plant.o
+
+# target to build an object file
+scenariogen/mymodel/plant.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.o
+.PHONY : scenariogen/mymodel/plant.cpp.o
+
+scenariogen/mymodel/plant.i: scenariogen/mymodel/plant.cpp.i
+
+.PHONY : scenariogen/mymodel/plant.i
+
+# target to preprocess a source file
+scenariogen/mymodel/plant.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.i
+.PHONY : scenariogen/mymodel/plant.cpp.i
+
+scenariogen/mymodel/plant.s: scenariogen/mymodel/plant.cpp.s
+
+.PHONY : scenariogen/mymodel/plant.s
+
+# target to generate assembly for a file
+scenariogen/mymodel/plant.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.s
+.PHONY : scenariogen/mymodel/plant.cpp.s
+
 sensitivity_analysis.o: sensitivity_analysis.cpp.o
 
 .PHONY : sensitivity_analysis.o
@@ -584,6 +611,9 @@ help:
 	@echo "... scenariogen/mymodel/cstr_model.o"
 	@echo "... scenariogen/mymodel/cstr_model.i"
 	@echo "... scenariogen/mymodel/cstr_model.s"
+	@echo "... scenariogen/mymodel/plant.o"
+	@echo "... scenariogen/mymodel/plant.i"
+	@echo "... scenariogen/mymodel/plant.s"
 	@echo "... sensitivity_analysis.o"
 	@echo "... sensitivity_analysis.i"
 	@echo "... sensitivity_analysis.s"

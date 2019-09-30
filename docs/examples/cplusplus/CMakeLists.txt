@@ -10,7 +10,7 @@ add_executable(casadi_error_handling casadi_error_handling.cpp)
 target_link_libraries(casadi_error_handling casadi)
 
 # Callback functions
-add_executable(callback callback.cpp scenariogen/mymodel/cstr_model.hpp scenariogen/mymodel/cstr_model.cpp)
+add_executable(callback callback.cpp scenariogen/mymodel/cstr_model.hpp scenariogen/mymodel/cstr_model.cpp scenariogen/mymodel/plant.cpp)
 target_link_libraries(callback casadi)
 
 # Small example on how sparsity can be propagated throw a CasADi expression
