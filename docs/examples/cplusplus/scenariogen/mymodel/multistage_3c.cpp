@@ -9,22 +9,7 @@
 #include <casadi/core/sensitivity.hpp>
 #include <casadi/core/timing.hpp>
 #include "cstr_model.hpp"
-
-namespace casadi {
-  vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
-                                    int nx, int nu, int d, int num_scenarios = 1) {
-    vector<vector<DM>> traj(num_scenarios, vector<DM>(nx+nu));
-    int N_tot = result.at("x").size1();
-    int N_per_s = N_tot / num_scenarios;
-
-    for (int is = 0; is < num_scenarios; ++is) {
-      for (int i = 0; i < nx+nu; ++i) {
-        traj[is][i] = result.at("x")(Slice(i + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
-      }
-    }
-   return traj;
-  }
-}
+#include "plant.cpp"
 
 
 using namespace casadi;
@@ -33,6 +18,7 @@ using namespace casadi;
 
     int nx = 4;
     int nu = 2;
+    int np = 2;
     int d = 3;
 
     // initial condition for the model
@@ -197,13 +183,6 @@ using namespace casadi;
 
 
     /// plant simulation
-    vector<MX> X;
-    vector<MX> U;
-
-    vector<double> w0_plt, lbw_plt, ubw_plt, lbg_plt, ubg_plt; // w0 is the initial guess
-    vector<MX> w_plt, g_plt;
-    MX Cost_plt = 0;  // cost function
-
     srand(10);
     int rd_index = rand() % ns;
     cout << "random number = " << rd_index << endl;
@@ -211,63 +190,22 @@ using namespace casadi;
     double step_length = T / horN;
     cout << "each step length:" << step_length << endl;
 
-    //model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
-    MX param_plt = MX::sym("param_plt", 2);
-    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0);
-
-    cout << "each step length:" << step_length << endl;
-    w_plt.insert(w_plt.end(), plant.w.begin(), plant.w.end());
-    g_plt.insert(g_plt.end(), plant.g.begin(), plant.g.end());
-    w0_plt.insert(w0_plt.end(), plant.w0.begin(), plant.w0.end());
-    lbw_plt.insert(lbw_plt.end(), plant.lbw.begin(), plant.lbw.end());
-    ubw_plt.insert(ubw_plt.end(), plant.ubw.begin(), plant.ubw.end());
-    lbg_plt.insert(lbg_plt.end(), plant.lbg.begin(), plant.lbg.end());
-    ubg_plt.insert(ubg_plt.end(), plant.ubg.begin(), plant.ubg.end());
-
-
-    g_plt.push_back(U[0] - u0);
-    for (int iu = 0; iu < nu; ++iu) {
-      lbg_plt.push_back(0);
-      ubg_plt.push_back(0);
-    }
-
-
-    MX variables_plt = MX::vertcat(w_plt);
-    MX constraints_plt = MX::vertcat(g_plt);
-
-    //MX p_plt = MX::vertcat({p_xinit, u0});
-    MX p_plt = MX::vertcat({p_xinit, u0, param_plt});
-
-    MXDict nlp_plt = {
-    {"x", variables_plt},
-    {"p", p_plt},
-    {"f", Cost_plt},
-    {"g", constraints_plt}};
-
-
-    Function solver_plt = nlpsol("solver", "ipopt", nlp_plt, opts);
-    std::map<std::string, DM> arg_plt;
-
-    // create x_u_init = xinit0 + uinit0 + param_realized
+    // create x_u_init = xinit0 + uinit0
     vector<double> x_u_init = xinit0;
     x_u_init.insert(x_u_init.end(), uinit0.begin(), uinit0.end() );
 
-
+    //srand(1);
+    //int rd_index = rand() % ns;
     vector<double> param_realized;
     param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
     cout << "param_realized = " << param_realized << endl;
     x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
-    /// Solve the NLP
-    arg_plt["lbx"] = lbw_plt;
-    arg_plt["ubx"] = ubw_plt;
-    arg_plt["lbg"] = lbg_plt;
-    arg_plt["ubg"] = ubg_plt;
-    arg_plt["x0"] = w0_plt;
-    arg_plt["p"] = x_u_init;
 
-    auto res_plt = solver_plt(arg_plt);
+    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np);
 
+
+    auto res_plt = plant.solver(plant.arg);
 
 
     /// show the plant simulation result
@@ -276,7 +214,7 @@ using namespace casadi;
 
     // Print the solution
     cout << "-----" << endl;
-    cout << "Optimal solution for p = " << arg_plt.at("p") << ":" << endl;
+    cout << "Optimal solution for p = " << plant.arg.at("p") << ":" << endl;
     cout << setw(30) << "Objective: " << res_plt.at("f") << endl;
 
     cout << setw(30) << "Simulated (CA): " << plant_traj[0] << endl;
@@ -331,8 +269,8 @@ using namespace casadi;
       x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
-      arg_plt["p"] = x_u_init;
-      res_plt = solver_plt(arg_plt);
+      plant.arg["p"] = x_u_init;
+      res_plt = plant.solver(plant.arg);
       plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
 
       // then fetch the new states
