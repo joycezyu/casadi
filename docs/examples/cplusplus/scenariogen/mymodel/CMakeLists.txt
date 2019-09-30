@@ -30,3 +30,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 add_executable(nominal_module nominal_module.cpp cstr_model.hpp)
 target_link_libraries(nominal_module casadi MYMODEL)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+add_executable(approx_multistage_3c approx_multistage_3c.cpp cstr_model.hpp)
+target_link_libraries(approx_multistage_3c casadi MYMODEL)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")

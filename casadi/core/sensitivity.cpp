@@ -829,6 +829,54 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
   };
 
 
+  DM getDg(const std::map<std::string, DM>& res,
+           const MXDict& nlp,
+           const std::vector<double>& p0) {
+
+    const MX &f = nlp.at("f");
+    const MX &g = nlp.at("g");
+    const MX &x = nlp.at("x");
+    const MX &p = nlp.at("p");
+
+
+
+    int ng = g.size1();  // ng = number of constraints g
+    int nx = x.size1();  // nx = number of variables x
+    int np = p0.size();
+
+    // the symbolic expression for x, λ, ν
+    MX lambda = MX::sym("lambda", ng);
+    MX v = MX::sym("v", nx);
+    MX V = MX::diag(v);
+    MX X = MX::diag(x);
+    MX XiV = MX::diag(v / x);
+
+    MX grad = jacobian(g, x);
+    // construct the lagrangian function
+    MX lagrangian = f + dot(lambda, g) + dot(v, x);
+    //MX lagrangian = f + dot(lambda, g);
+    MX jac_lagrangian = jacobian(lagrangian, x);
+    //MX hess = hessian(lagrangian, x);
+    MX hess = jacobian(jac_lagrangian, x);
+
+    MX lag_xp = jacobian(jac_lagrangian, p);
+    MX g_p = jacobian(g, p);
+
+    cout << "g_p = " << g_p << endl;
+
+
+    Function dg_eval("dg", {x, lambda, v, p}, {g_p});
+
+    vector<DM> prim_dual_p0{res.at("x"), res.at("lam_g"), res.at("lam_x"), p0};
+    DM dg_p0 = DM::vertcat({dg_eval(prim_dual_p0)});
+
+    return dg_p0;
+
+
+  };
+
+
+
   }  // namespace casadi
 
 

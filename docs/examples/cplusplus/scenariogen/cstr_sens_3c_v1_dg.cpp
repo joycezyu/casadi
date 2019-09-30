@@ -450,7 +450,8 @@ int main() {
 
 
   /// Compute the sign of dg for inequality constraints
-  DM dg_p0 = getDg(res, inequalities, Cost, constraints, variables, p, p0, p0);
+  //DM dg_p0 = getDg(res, inequalities, Cost, constraints, variables, p, p0, p0);
+  DM dg_p0 = getDg(res, nlp, p0);
 
   cout << "inequality constraints = " << inequalities << endl;
   cout << "dg_p0 = " << dg_p0 << endl;
