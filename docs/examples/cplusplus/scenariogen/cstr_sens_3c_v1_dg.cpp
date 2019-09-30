@@ -516,9 +516,13 @@ int main() {
 
 
 
-  vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p0);
-  vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p1);
-  vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p2);
+  //vector<DM> KR1 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p0);
+  //vector<DM> KR2 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p1);
+  //vector<DM> KR3 = getKKTaRHS(res, Cost, constraints, variables, p, p0, p2);
+
+  vector<DM> KR1 = getKKTaRHS(res, nlp, p0, p0);
+  vector<DM> KR2 = getKKTaRHS(res, nlp, p0, p1);
+  vector<DM> KR3 = getKKTaRHS(res, nlp, p0, p2);
 
   vector<DM> K(ns), R(ns);
   K[0] = KR1[0];

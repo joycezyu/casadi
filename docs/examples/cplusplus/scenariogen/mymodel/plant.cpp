@@ -8,8 +8,16 @@
 
 namespace casadi {
 
-  vector<double> plant_simulate(double step_length, MX p_xinit,
+  struct nlp_setup {
+    MXDict nlp;
+    Function solver;
+    std::map<std::string, DM> arg;
+  };
+
+  nlp_setup plant_simulate(double step_length, MX p_xinit, vector<double> xup_init,
                                 int nx, int nu, int np ) {
+    nlp_setup simulate;
+
     MX u0 = MX::sym("u0", nu);
 
     vector<MX> X;
@@ -28,9 +36,55 @@ namespace casadi {
     //model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
     model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0);
 
+    w_plt.insert(w_plt.end(), plant.w.begin(), plant.w.end());
+    g_plt.insert(g_plt.end(), plant.g.begin(), plant.g.end());
+    w0_plt.insert(w0_plt.end(), plant.w0.begin(), plant.w0.end());
+    lbw_plt.insert(lbw_plt.end(), plant.lbw.begin(), plant.lbw.end());
+    ubw_plt.insert(ubw_plt.end(), plant.ubw.begin(), plant.ubw.end());
+    lbg_plt.insert(lbg_plt.end(), plant.lbg.begin(), plant.lbg.end());
+    ubg_plt.insert(ubg_plt.end(), plant.ubg.begin(), plant.ubg.end());
+
+
+    g_plt.push_back(U[0] - u0);
+    for (int iu = 0; iu < nu; ++iu) {
+      lbg_plt.push_back(0);
+      ubg_plt.push_back(0);
+    }
+
+
+    MX variables_plt = MX::vertcat(w_plt);
+    MX constraints_plt = MX::vertcat(g_plt);
+
+    MX p_plt = MX::vertcat({p_xinit, u0, param_plt});
+
+    MXDict nlp_plt = {
+    {"x", variables_plt},
+    {"p", p_plt},
+    {"f", Cost_plt},
+    {"g", constraints_plt}};
+
+    Dict opts;
+    opts["ipopt.linear_solver"] = "ma27";
+    opts["ipopt.print_info_string"] = "yes";
+    opts["ipopt.linear_system_scaling"] = "none";
+
+    Function solver_plt = nlpsol("solver", "ipopt", nlp_plt, opts);
+    std::map<std::string, DM> arg_plt;
+    arg_plt["lbx"] = lbw_plt;
+    arg_plt["ubx"] = ubw_plt;
+    arg_plt["lbg"] = lbg_plt;
+    arg_plt["ubg"] = ubg_plt;
+    arg_plt["x0"] = w0_plt;
+    arg_plt["p"] = xup_init;
+
+    simulate.nlp = nlp_plt;
+    simulate.arg = arg_plt;
+    simulate.solver = solver_plt;
+
+    return simulate;
+
 
   }
-
 
 
 
