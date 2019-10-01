@@ -24,6 +24,7 @@ namespace casadi {
     // solve for nominal solution
     auto res_nom = nominal.solver(nominal.arg);
     int N_tot = res_nom.at("x").size1();
+    //int g_tot = res_nom.at("g").size1();
 
     cout << "checkpoint 1" << endl;
     cout << "N_tot = " << N_tot << endl;
@@ -60,10 +61,13 @@ namespace casadi {
 
     /// scenario construction
     int n, m;
-    n = nominal.arg["lbx"].size1();
-    m = nominal.arg["lbw"].size1();
+    //n = nominal.arg["lbx"].size1();
+    //m = nominal.arg["lbw"].size1();
+    n = N_tot;
+    m = res_nom.at("g").size1();
     int length = n + m;
 
+    cout << "total_length = " << length << endl;
 
 
     cout << "checkpoint 3" << endl;
@@ -106,6 +110,9 @@ namespace casadi {
       R[is] = KR[is][1];
     }
 
+
+    cout << "check on K matrix = " << K << endl;
+    cout << "check on R matrix = " << R << endl;
 
 
     ///start counting time
