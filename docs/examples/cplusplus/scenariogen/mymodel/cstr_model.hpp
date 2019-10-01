@@ -22,12 +22,16 @@ namespace casadi {
     vector <MX> w;
     vector <MX> g;
     MX Cost = 0;
-    MX p;
+    MX p_uncertain;
   };
 
   model_setup cstr_model(double time_horizon, int horizon_length, const MX &p_xinit,
                          vector <MX> &states, vector <MX> &controls, MX param,
                          int index_scenario);
+
+  model_setup cstr_model_p(double time_horizon, int horizon_length, const vector<double>& xinit,
+                           vector <MX> &states, vector <MX> &controls, MX param,
+                           int index_scenario);
 } // casadi
 
 

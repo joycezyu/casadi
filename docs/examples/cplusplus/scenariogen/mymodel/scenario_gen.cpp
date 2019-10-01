@@ -12,12 +12,15 @@
 namespace casadi {
 
 
-  nlp_setup scenario_gen(double time_horizon, int horizon_length, MX p_xinit, vector<MX> param,
+  nlp_setup scenario_gen(double time_horizon, int horizon_length, MX p_xinit, MX p, vector<MX> param,
                                  vector<double> xinit0, const vector<vector<double>> &p_c,
                                  int nx, int nu, int np, int d, int ns) {
 
     /// step 1 - nominal scenario - parameterize in uncertainty_p
-    nlp_setup nominal = nmpc_nominal(time_horizon, horizon_length, p_xinit, param[0], xinit0);
+    cout << "checkpoint -1" << endl;
+    nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[0]);
+
+    cout << "checkpoint 0" << endl;
     // solve for nominal solution
     auto res_nom = nominal.solver(nominal.arg);
     int N_tot = res_nom.at("x").size1();

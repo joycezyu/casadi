@@ -42,6 +42,13 @@ using namespace casadi;
     MX p_xinit = MX::vertcat({p_CAinit, p_CBinit, p_TRinit, p_TKinit});
 
 
+
+    MX CAin = MX::sym("CAin");
+    MX EA3R = MX::sym("EA3R");
+    MX p  = MX::vertcat({CAin, EA3R});
+
+
+
     double EA3R_nom = 8560;
     double EA3R_lo = EA3R_nom * (1 - 0.01);
     double EA3R_up = EA3R_nom * (1 + 0.01);
@@ -220,7 +227,7 @@ using namespace casadi;
       res = nmpc.solver(nmpc.arg);
 
       /// add the sensitivity step
-      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, param, xinit0, p_c, nx, nu, np, d, ns);
+      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns);
       res = sens_step.solver(sens_step.arg);
 
       /*
