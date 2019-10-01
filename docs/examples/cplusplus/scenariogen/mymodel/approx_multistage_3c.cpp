@@ -9,7 +9,8 @@
 #include <casadi/core/sensitivity.hpp>
 #include <casadi/core/timing.hpp>
 #include "cstr_model.hpp"
-#include "plant.cpp"
+//#include "basic_nlp_helper.cpp"
+#include "scenario_gen.cpp"
 
 
 
@@ -64,6 +65,15 @@ using namespace casadi;
     for (int is = 0; is < ns; ++is) {
       param[is] = MX::vertcat({CAins[is], EA3Rs[is]});
     }
+
+    // for the double type
+    vector<vector<double>> p_c(ns);
+    for (int i = 0; i < ns; ++i) {
+      p_c[i] = {double(CAins[i]), double(EA3Rs[i])};
+    }
+
+
+
 
 
     /// Preparation for model building
@@ -208,8 +218,39 @@ using namespace casadi;
       /// then solve the mpc
       nmpc.arg["p"] = xinit0;
       res = nmpc.solver(nmpc.arg);
-      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
 
+      /// add the sensitivity step
+      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, param, xinit0, p_c, nx, nu, np, d, ns);
+      res = sens_step.solver(sens_step.arg);
+
+      /*
+      int newN_tot = res_step3.at("x").size1();
+      auto newCA_opt = res_step3.at("x")(Slice(0, newN_tot, nu+nx+nx*d));
+      DM newCB_opt = res_step3.at("x")(Slice(1, newN_tot, nu+nx+nx*d));
+      DM newTR_opt = res_step3.at("x")(Slice(2, newN_tot, nu+nx+nx*d));
+      DM newTK_opt = res_step3.at("x")(Slice(3, newN_tot, nu+nx+nx*d));
+
+      DM newF_opt  = res_step3.at("x")(Slice(4, newN_tot, nu+nx+nx*d));
+      DM newQK_opt = res_step3.at("x")(Slice(5, newN_tot, nu+nx+nx*d));
+
+
+
+      // Print the solution
+      cout << "-----" << endl;
+      cout << " Step 3 re-solve NLP results" << endl;
+      cout << "Optimal solution for p = " << step3.arg.at("p") << ":" << endl;
+      cout << setw(30) << "Objective: "   << res_step3.at("f") << endl;
+
+      cout << setw(30) << "Primal solution (CA): " << newCA_opt << endl;
+      cout << setw(30) << "Primal solution (CB): " << newCB_opt << endl;
+      cout << setw(30) << "Primal solution (TR): " << newTR_opt << endl;
+      cout << setw(30) << "Primal solution (TK): " << newTK_opt << endl;
+      cout << setw(30) << "Primal solution (F):  " << newF_opt  << endl;
+      cout << setw(30) << "Primal solution (QK): " << newQK_opt << endl;
+      */
+
+
+      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
       // fetch the controls
       controls_mpc[i+1] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
       uinit0 = controls_mpc[i+1];

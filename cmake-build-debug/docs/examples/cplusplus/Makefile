@@ -460,6 +460,33 @@ propagating_sparsity.cpp.s:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/build.make docs/examples/cplusplus/CMakeFiles/propagating_sparsity.dir/propagating_sparsity.cpp.s
 .PHONY : propagating_sparsity.cpp.s
 
+scenariogen/mymodel/basic_nlp_helper.o: scenariogen/mymodel/basic_nlp_helper.cpp.o
+
+.PHONY : scenariogen/mymodel/basic_nlp_helper.o
+
+# target to build an object file
+scenariogen/mymodel/basic_nlp_helper.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/basic_nlp_helper.cpp.o
+.PHONY : scenariogen/mymodel/basic_nlp_helper.cpp.o
+
+scenariogen/mymodel/basic_nlp_helper.i: scenariogen/mymodel/basic_nlp_helper.cpp.i
+
+.PHONY : scenariogen/mymodel/basic_nlp_helper.i
+
+# target to preprocess a source file
+scenariogen/mymodel/basic_nlp_helper.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/basic_nlp_helper.cpp.i
+.PHONY : scenariogen/mymodel/basic_nlp_helper.cpp.i
+
+scenariogen/mymodel/basic_nlp_helper.s: scenariogen/mymodel/basic_nlp_helper.cpp.s
+
+.PHONY : scenariogen/mymodel/basic_nlp_helper.s
+
+# target to generate assembly for a file
+scenariogen/mymodel/basic_nlp_helper.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/basic_nlp_helper.cpp.s
+.PHONY : scenariogen/mymodel/basic_nlp_helper.cpp.s
+
 scenariogen/mymodel/cstr_model.o: scenariogen/mymodel/cstr_model.cpp.o
 
 .PHONY : scenariogen/mymodel/cstr_model.o
@@ -487,32 +514,59 @@ scenariogen/mymodel/cstr_model.cpp.s:
 	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.s
 .PHONY : scenariogen/mymodel/cstr_model.cpp.s
 
-scenariogen/mymodel/plant.o: scenariogen/mymodel/plant.cpp.o
+scenariogen/mymodel/scenario_gen.o: scenariogen/mymodel/scenario_gen.cpp.o
 
-.PHONY : scenariogen/mymodel/plant.o
+.PHONY : scenariogen/mymodel/scenario_gen.o
 
 # target to build an object file
-scenariogen/mymodel/plant.cpp.o:
-	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.o
-.PHONY : scenariogen/mymodel/plant.cpp.o
+scenariogen/mymodel/scenario_gen.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen.cpp.o
+.PHONY : scenariogen/mymodel/scenario_gen.cpp.o
 
-scenariogen/mymodel/plant.i: scenariogen/mymodel/plant.cpp.i
+scenariogen/mymodel/scenario_gen.i: scenariogen/mymodel/scenario_gen.cpp.i
 
-.PHONY : scenariogen/mymodel/plant.i
+.PHONY : scenariogen/mymodel/scenario_gen.i
 
 # target to preprocess a source file
-scenariogen/mymodel/plant.cpp.i:
-	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.i
-.PHONY : scenariogen/mymodel/plant.cpp.i
+scenariogen/mymodel/scenario_gen.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen.cpp.i
+.PHONY : scenariogen/mymodel/scenario_gen.cpp.i
 
-scenariogen/mymodel/plant.s: scenariogen/mymodel/plant.cpp.s
+scenariogen/mymodel/scenario_gen.s: scenariogen/mymodel/scenario_gen.cpp.s
 
-.PHONY : scenariogen/mymodel/plant.s
+.PHONY : scenariogen/mymodel/scenario_gen.s
 
 # target to generate assembly for a file
-scenariogen/mymodel/plant.cpp.s:
-	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.s
-.PHONY : scenariogen/mymodel/plant.cpp.s
+scenariogen/mymodel/scenario_gen.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen.cpp.s
+.PHONY : scenariogen/mymodel/scenario_gen.cpp.s
+
+scenariogen/mymodel/scenario_gen_helper.o: scenariogen/mymodel/scenario_gen_helper.cpp.o
+
+.PHONY : scenariogen/mymodel/scenario_gen_helper.o
+
+# target to build an object file
+scenariogen/mymodel/scenario_gen_helper.cpp.o:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen_helper.cpp.o
+.PHONY : scenariogen/mymodel/scenario_gen_helper.cpp.o
+
+scenariogen/mymodel/scenario_gen_helper.i: scenariogen/mymodel/scenario_gen_helper.cpp.i
+
+.PHONY : scenariogen/mymodel/scenario_gen_helper.i
+
+# target to preprocess a source file
+scenariogen/mymodel/scenario_gen_helper.cpp.i:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen_helper.cpp.i
+.PHONY : scenariogen/mymodel/scenario_gen_helper.cpp.i
+
+scenariogen/mymodel/scenario_gen_helper.s: scenariogen/mymodel/scenario_gen_helper.cpp.s
+
+.PHONY : scenariogen/mymodel/scenario_gen_helper.s
+
+# target to generate assembly for a file
+scenariogen/mymodel/scenario_gen_helper.cpp.s:
+	cd /Users/zhouyu/Apps/casadi/cmake-build-debug && $(MAKE) -f docs/examples/cplusplus/CMakeFiles/callback.dir/build.make docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen_helper.cpp.s
+.PHONY : scenariogen/mymodel/scenario_gen_helper.cpp.s
 
 sensitivity_analysis.o: sensitivity_analysis.cpp.o
 
@@ -608,12 +662,18 @@ help:
 	@echo "... propagating_sparsity.o"
 	@echo "... propagating_sparsity.i"
 	@echo "... propagating_sparsity.s"
+	@echo "... scenariogen/mymodel/basic_nlp_helper.o"
+	@echo "... scenariogen/mymodel/basic_nlp_helper.i"
+	@echo "... scenariogen/mymodel/basic_nlp_helper.s"
 	@echo "... scenariogen/mymodel/cstr_model.o"
 	@echo "... scenariogen/mymodel/cstr_model.i"
 	@echo "... scenariogen/mymodel/cstr_model.s"
-	@echo "... scenariogen/mymodel/plant.o"
-	@echo "... scenariogen/mymodel/plant.i"
-	@echo "... scenariogen/mymodel/plant.s"
+	@echo "... scenariogen/mymodel/scenario_gen.o"
+	@echo "... scenariogen/mymodel/scenario_gen.i"
+	@echo "... scenariogen/mymodel/scenario_gen.s"
+	@echo "... scenariogen/mymodel/scenario_gen_helper.o"
+	@echo "... scenariogen/mymodel/scenario_gen_helper.i"
+	@echo "... scenariogen/mymodel/scenario_gen_helper.s"
 	@echo "... sensitivity_analysis.o"
 	@echo "... sensitivity_analysis.i"
 	@echo "... sensitivity_analysis.s"

@@ -22,6 +22,7 @@ namespace casadi {
     vector <MX> w;
     vector <MX> g;
     MX Cost = 0;
+    MX p;
   };
 
   model_setup cstr_model(double time_horizon, int horizon_length, const MX &p_xinit,

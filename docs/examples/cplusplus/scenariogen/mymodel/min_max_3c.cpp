@@ -9,7 +9,7 @@
 #include <casadi/core/sensitivity.hpp>
 #include <casadi/core/timing.hpp>
 #include "cstr_model.hpp"
-#include "plant.cpp"
+#include "basic_nlp_helper.cpp"
 
 
 using namespace casadi;
@@ -46,8 +46,8 @@ using namespace casadi;
 
 
     double CAin_nom = 5.1;
-    double CAin_lo = CAin_nom * (1 - 0.1);
-    double CAin_up = CAin_nom * (1 + 0.1);
+    double CAin_lo = CAin_nom * (1 - 0.3);
+    double CAin_up = CAin_nom * (1 + 0.3);
 
     /// number of scenarios
     int ns = 3;
@@ -188,7 +188,7 @@ using namespace casadi;
 
 
     /// plant simulation
-    srand(10);
+    srand(1);
     int rd_index = rand() % ns;
     cout << "random number = " << rd_index << endl;
 

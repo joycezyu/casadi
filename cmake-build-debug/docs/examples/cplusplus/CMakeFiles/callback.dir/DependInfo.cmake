@@ -5,8 +5,10 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/callback.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/callback.cpp.o"
+  "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/basic_nlp_helper.cpp.o"
   "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/cstr_model.cpp.o"
-  "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/plant.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/plant.cpp.o"
+  "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen.cpp.o"
+  "/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp" "/Users/zhouyu/Apps/casadi/cmake-build-debug/docs/examples/cplusplus/CMakeFiles/callback.dir/scenariogen/mymodel/scenario_gen_helper.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

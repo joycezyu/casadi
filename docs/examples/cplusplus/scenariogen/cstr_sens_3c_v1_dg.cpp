@@ -168,7 +168,7 @@ int main() {
 
 
   // Original parameter values
-  vector<double> p0  = {CAin_nom, EA3R_nom};
+  vector<double> sep0  = {CAin_nom, EA3R_nom};
   // new parameter values
   vector<double> p1  = {CAin_lo, EA3R_nom};
   vector<double> p2  = {CAin_up, EA3R_nom};

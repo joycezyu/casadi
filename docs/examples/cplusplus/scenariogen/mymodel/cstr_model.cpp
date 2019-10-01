@@ -97,6 +97,8 @@ namespace casadi {
     MX EA3R = MX::sym("EA3R");
     MX p  = MX::vertcat({CAin, EA3R});
 
+    p = model.p;
+
 
 
 
@@ -133,9 +135,9 @@ namespace casadi {
     double k03      = 9.043e9;
     double EA1R     = 9758.3;
     double EA2R     = 9758.3;
-    double EA3R_nom = 8560;
-    double EA3R_lo  = EA3R_nom * (1 - 0.01);
-    double EA3R_up  = EA3R_nom * (1 + 0.01);
+    //double EA3R_nom = 8560;
+    //double EA3R_lo  = EA3R_nom * (1 - 0.01);
+    //double EA3R_up  = EA3R_nom * (1 + 0.01);
 
 
     double delHAB   = 4.2;
@@ -150,9 +152,9 @@ namespace casadi {
     double Tin      = 130.0;
     double kW       = 4032;
 
-    double CAin_nom = 5.1;
-    double CAin_lo  = CAin_nom * (1 - 0.1);
-    double CAin_up  = CAin_nom * (1 + 0.1);
+    //double CAin_nom = 5.1;
+    //double CAin_lo  = CAin_nom * (1 - 0.1);
+    //double CAin_up  = CAin_nom * (1 + 0.1);
 
 
     double CBref    = 0.5;

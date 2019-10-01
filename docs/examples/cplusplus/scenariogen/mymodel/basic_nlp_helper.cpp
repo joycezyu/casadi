@@ -2,9 +2,12 @@
 // Created by Zhou Yu on 9/27/19.
 //
 
+#ifndef CASADI_BASIC_NLP_HELP_CPP
+#define CASADI_BASIC_NLP_HELP_CPP
 
 #include <casadi/casadi.hpp>
 #include "cstr_model.hpp"
+#include "scenario_gen_helper.cpp"
 
 namespace casadi {
 
@@ -89,7 +92,7 @@ namespace casadi {
 
 
 
-  nlp_setup nmpc_nominal(double time_horizon, int horizon_length, MX p_xinit, MX param, vector<double> xinit0) {
+  nlp_setup nmpc_nominal(double time_horizon, int horizon_length, MX p, MX param, vector<double> p0) {
 
     nlp_setup nmpc_nom;
 
@@ -104,7 +107,73 @@ namespace casadi {
 
     model_setup controller;
 
-    controller = cstr_model(time_horizon, horizon_length, p_xinit, Xk, Uk, param, 0);
+    controller = cstr_model(time_horizon, horizon_length, p, Xk, Uk, param, 0);
+    w.insert(w.end(), controller.w.begin(), controller.w.end());
+    g.insert(g.end(), controller.g.begin(), controller.g.end());
+    w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
+    lbw.insert(lbw.end(), controller.lbw.begin(), controller.lbw.end());
+    ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
+    lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
+    ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
+    Cost = controller.Cost;
+
+
+
+    MX variables = MX::vertcat(w);
+    MX constraints = MX::vertcat(g);
+
+    MXDict nlp = {
+    {"x", variables},
+    {"p", p},
+    {"f", Cost},
+    {"g", constraints}};
+
+
+
+    Dict opts;
+    opts["ipopt.linear_solver"] = "ma27";
+    opts["ipopt.print_info_string"] = "yes";
+    opts["ipopt.linear_system_scaling"] = "none";
+
+    Function solver = nlpsol("solver", "ipopt", nlp, opts);
+    std::map<std::string, DM> arg;
+
+
+    /// Solve the NLP
+    arg["lbx"] = lbw;
+    arg["ubx"] = ubw;
+    arg["lbg"] = lbg;
+    arg["ubg"] = ubg;
+    arg["x0"] = w0;
+    arg["p"] = p0;
+
+    nmpc_nom.nlp = nlp;
+    nmpc_nom.arg = arg;
+    nmpc_nom.solver = solver;
+
+    return nmpc_nom;
+
+
+  }
+
+
+  nlp_setup gen_step3(double time_horizon, int horizon_length, MX p_xinit, vector<MX> params, vector<double> xinit0,
+                       int ns, int worst_case, const vector<DM>& delta_s) {
+
+    nlp_setup step3;
+
+    vector<MX> Xk;
+    vector<MX> Uk;
+
+    // start with an empty NLP
+    vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
+    vector<MX> w, g;
+    MX Cost = 0;  // cost function
+
+
+    model_setup controller;
+
+    controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
     w.insert(w.end(), controller.w.begin(), controller.w.end());
     g.insert(g.end(), controller.g.begin(), controller.g.end());
     w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
@@ -144,14 +213,15 @@ namespace casadi {
     arg["x0"] = w0;
     arg["p"] = xinit0;
 
-    nmpc_nom.nlp = nlp;
-    nmpc_nom.arg = arg;
-    nmpc_nom.solver = solver;
+    step3.nlp = nlp;
+    step3.arg = arg;
+    step3.solver = solver;
 
-    return nmpc_nom;
+    return step3;
 
 
   }
+
 
 
   vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
@@ -170,3 +240,5 @@ namespace casadi {
 
 
 }
+
+#endif // CASADI_BASIC_NLP_HELP_CPP

@@ -3548,13 +3548,19 @@
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/propagating_sparsity.cpp">
 			<Option target="propagating_sparsity"/>
 		</Unit>
+		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp">
+			<Option target="callback"/>
+		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.cpp">
 			<Option target="callback"/>
 		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.hpp">
 			<Option target="callback"/>
 		</Unit>
-		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/plant.cpp">
+		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen.cpp">
+			<Option target="callback"/>
+		</Unit>
+		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp">
 			<Option target="callback"/>
 		</Unit>
 		<Unit filename="/Users/zhouyu/Apps/casadi/docs/examples/cplusplus/sensitivity_analysis.cpp">
