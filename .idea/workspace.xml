@@ -47,9 +47,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="920fd93e-a964-48d4-a939-35a9489931ba" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -66,7 +64,7 @@
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="316">
-              <caret line="251" column="27" lean-forward="true" selection-start-line="251" selection-start-column="27" selection-end-line="251" selection-end-column="27" />
+              <caret line="251" column="27" selection-start-line="251" selection-start-column="27" selection-end-line="251" selection-end-column="27" />
               <folding>
                 <element signature="e#110#138#0" expanded="true" />
               </folding>
@@ -86,11 +84,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="scenario_gen_helper.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="scenario_gen_helper.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="276" column="38" selection-start-line="276" selection-start-column="38" selection-end-line="276" selection-end-column="38" />
+            <state relative-caret-position="482">
+              <caret line="281" selection-start-line="281" selection-end-line="281" />
               <folding>
                 <element signature="e#42#61#0" expanded="true" />
               </folding>
@@ -146,11 +144,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="approx_multistage_3c.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="approx_multistage_3c.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3390">
-              <caret line="226" column="14" selection-start-line="226" selection-start-column="14" selection-end-line="226" selection-end-column="14" />
+            <state relative-caret-position="400">
+              <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
               <folding>
                 <element signature="e#43#62#0" expanded="true" />
               </folding>
@@ -162,8 +160,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>nlp</find>
-      <find>cstr</find>
       <find>model.p</find>
       <find>nmpc_nominal</find>
       <find>cstr_model</find>
@@ -192,6 +188,8 @@
       <find>model</find>
       <find>xinit</find>
       <find>param</find>
+      <find>is</find>
+      <find>x_u_init</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$/docs/examples/cplusplus</dir>
@@ -249,11 +247,11 @@
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_9c.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.hpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/cstr_model.cpp" />
-        <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/cstr_sens_3c_v1_dg.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp" />
         <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp" />
+        <option value="$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp" />
       </list>
     </option>
   </component>
@@ -485,12 +483,12 @@
       <workItem from="1564795513300" duration="134571000" />
       <workItem from="1568855878893" duration="39683000" />
       <workItem from="1569435230581" duration="108720000" />
-      <workItem from="1570548680331" duration="1774000" />
+      <workItem from="1570548680331" duration="2422000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="649761000" />
+    <option name="totallyTimeSpent" value="650409000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
@@ -627,6 +625,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2955">
           <caret line="30" column="9" selection-start-line="30" selection-start-column="9" selection-end-line="30" selection-end-column="9" />
+          <folding>
+            <element signature="e#1183#1211#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -809,6 +810,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1136">
           <caret line="587" column="18" selection-start-line="587" selection-start-column="18" selection-end-line="587" selection-end-column="18" />
+          <folding>
+            <element signature="e#41#60#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -843,16 +847,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-625">
           <caret line="242" column="25" selection-start-line="242" selection-start-column="20" selection-end-line="242" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3390">
-          <caret line="226" column="14" selection-start-line="226" selection-start-column="14" selection-end-line="226" selection-end-column="14" />
-          <folding>
-            <element signature="e#43#62#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -896,7 +890,7 @@
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/basic_nlp_helper.cpp">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="316">
-          <caret line="251" column="27" lean-forward="true" selection-start-line="251" selection-start-column="27" selection-end-line="251" selection-end-column="27" />
+          <caret line="251" column="27" selection-start-line="251" selection-start-column="27" selection-end-line="251" selection-end-column="27" />
           <folding>
             <element signature="e#110#138#0" expanded="true" />
           </folding>
@@ -905,10 +899,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/scenario_gen_helper.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="276" column="38" selection-start-line="276" selection-start-column="38" selection-end-line="276" selection-end-column="38" />
+        <state relative-caret-position="482">
+          <caret line="281" selection-start-line="281" selection-end-line="281" />
           <folding>
             <element signature="e#42#61#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/examples/cplusplus/scenariogen/mymodel/approx_multistage_3c.cpp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="229" lean-forward="true" selection-start-line="229" selection-end-line="229" />
+          <folding>
+            <element signature="e#43#62#0" expanded="true" />
           </folding>
         </state>
       </provider>

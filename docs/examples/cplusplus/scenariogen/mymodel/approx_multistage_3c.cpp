@@ -221,7 +221,7 @@ using namespace casadi;
       /// add the sensitivity step
       nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns);
 
-      cout << " my guess is that the error happens before this" << endl;
+      cout << " checkpoint 10 " << endl;
       res = sens_step.solver(sens_step.arg);
       mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
       // fetch the controls
@@ -229,22 +229,29 @@ using namespace casadi;
       uinit0 = controls_mpc[i+1];
 
       setpoint_error += pow((xinit0[1] - 0.5), 2);
+      cout << " checkpoint 11 " << endl;
+
 
       /// then solve plant
+
+      x_u_init = xinit0;
+      x_u_init.insert(x_u_init.end(), uinit0.begin(), uinit0.end());
       // add plant param realized
       rd_index = rand() % ns;
       rand_seed[i] = rd_index;
       param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
       x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
+      cout << "print current x_u_init_param = " << x_u_init << endl;
 
+      cout << " checkpoint 12 " << endl;
       plant.arg["p"] = x_u_init;
       res_plt = plant.solver(plant.arg);
       plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
       // then fetch the new states
       states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
                            double(plant_traj[2](1)), double(plant_traj[3](1))};
-
+      cout << " checkpoint 13 " << endl;
       /// print out states_plant
       cout << "current states_plant traj = " << states_plant << endl;
       xinit0 = states_plant[i+1];
