@@ -212,6 +212,48 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
+      /// first solve mpc
+      nmpc.arg["p"] = xinit0;
+      res = nmpc.solver(nmpc.arg);
+      cout << "print out nominal nmpc output" << res.at("x") << endl;
+
+
+      /// add the sensitivity step
+      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns);
+
+      cout << " my guess is that the error happens before this" << endl;
+      res = sens_step.solver(sens_step.arg);
+      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+      // fetch the controls
+      controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
+      uinit0 = controls_mpc[i+1];
+
+      setpoint_error += pow((xinit0[1] - 0.5), 2);
+
+      /// then solve plant
+      // add plant param realized
+      rd_index = rand() % ns;
+      rand_seed[i] = rd_index;
+      param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
+      x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
+
+
+      plant.arg["p"] = x_u_init;
+      res_plt = plant.solver(plant.arg);
+      plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
+      // then fetch the new states
+      states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
+                           double(plant_traj[2](1)), double(plant_traj[3](1))};
+
+      /// print out states_plant
+      cout << "current states_plant traj = " << states_plant << endl;
+      xinit0 = states_plant[i+1];
+
+
+
+
+      /// The following is first plant then controller
+      /*
       /// first solve plant
       x_u_init = states_plant[i];
       x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
@@ -250,31 +292,6 @@ using namespace casadi;
       cout << " my guess is that the error happens before this" << endl;
       res = sens_step.solver(sens_step.arg);
 
-      /*
-      int newN_tot = res_step3.at("x").size1();
-      auto newCA_opt = res_step3.at("x")(Slice(0, newN_tot, nu+nx+nx*d));
-      DM newCB_opt = res_step3.at("x")(Slice(1, newN_tot, nu+nx+nx*d));
-      DM newTR_opt = res_step3.at("x")(Slice(2, newN_tot, nu+nx+nx*d));
-      DM newTK_opt = res_step3.at("x")(Slice(3, newN_tot, nu+nx+nx*d));
-
-      DM newF_opt  = res_step3.at("x")(Slice(4, newN_tot, nu+nx+nx*d));
-      DM newQK_opt = res_step3.at("x")(Slice(5, newN_tot, nu+nx+nx*d));
-
-
-
-      // Print the solution
-      cout << "-----" << endl;
-      cout << " Step 3 re-solve NLP results" << endl;
-      cout << "Optimal solution for p = " << step3.arg.at("p") << ":" << endl;
-      cout << setw(30) << "Objective: "   << res_step3.at("f") << endl;
-
-      cout << setw(30) << "Primal solution (CA): " << newCA_opt << endl;
-      cout << setw(30) << "Primal solution (CB): " << newCB_opt << endl;
-      cout << setw(30) << "Primal solution (TR): " << newTR_opt << endl;
-      cout << setw(30) << "Primal solution (TK): " << newTK_opt << endl;
-      cout << setw(30) << "Primal solution (F):  " << newF_opt  << endl;
-      cout << setw(30) << "Primal solution (QK): " << newQK_opt << endl;
-      */
 
 
       mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
@@ -284,6 +301,7 @@ using namespace casadi;
 
       setpoint_error += pow((xinit0[1] - 0.5), 2);
 
+      */
     }
 
 

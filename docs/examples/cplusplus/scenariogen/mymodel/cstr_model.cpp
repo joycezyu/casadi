@@ -312,8 +312,7 @@ namespace casadi {
                          vector <MX> &states, vector <MX> &controls, MX param,
                          int index_scenario) {
     model_setup model;
-    //TODO
-    //param = model.p_uncertain;
+
 
 
 
