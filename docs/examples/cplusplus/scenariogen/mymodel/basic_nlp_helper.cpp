@@ -191,7 +191,7 @@ namespace casadi {
 
     MXDict nlp = {
     {"x", variables},
-    {"p", p},
+    {"p", controller.p_uncertain},
     {"f", Cost},
     {"g", constraints}};
 

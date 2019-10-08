@@ -239,6 +239,8 @@ namespace casadi {
         for (int iw = 0; iw < nx; ++iw) {
           model.lbw.push_back(xmin[iw]);
           model.ubw.push_back(xmax[iw]);
+          //model.lbw.push_back(-inf);
+          //model.ubw.push_back( inf);
           model.w0.push_back(xinit1[iw]);
         }
       }
@@ -283,6 +285,8 @@ namespace casadi {
       for (int iw = 0; iw < nx; ++iw) {
         model.lbw.push_back(xmin[iw]);
         model.ubw.push_back(xmax[iw]);
+        //model.lbw.push_back(-inf);
+        //model.ubw.push_back( inf);
         model.w0.push_back(xinit1[iw]);
       }
 
@@ -308,8 +312,8 @@ namespace casadi {
                          vector <MX> &states, vector <MX> &controls, MX param,
                          int index_scenario) {
     model_setup model;
-
-    param = model.p_uncertain;
+    //TODO
+    //param = model.p_uncertain;
 
 
 
@@ -385,12 +389,14 @@ namespace casadi {
     MX QK = MX::sym("QK");
     MX u  = MX::vertcat({F, QK});
 
-    MX CAin = MX::sym("CAin");
-    MX EA3R = MX::sym("EA3R");
-    MX p  = MX::vertcat({CAin, EA3R});
+    //MX CAin = MX::sym("CAin");
+    //MX EA3R = MX::sym("EA3R");
+    //MX p  = MX::vertcat({CAin, EA3R});
 
     //p = model.p_uncertain;
 
+    MX CAin = param(0);
+    MX EA3R = param(1);
 
 
 
@@ -482,7 +488,7 @@ namespace casadi {
     // Objective
     MX L = (CB - CBref) * (CB - CBref) + r1 *(F-u_prev(0))*(F-u_prev(0)) + r2 *(QK-u_prev(1))*(QK-u_prev(1));
 
-    Function f_xdot("xdot", {x, u, p}, {xdot});
+    Function f_xdot("xdot", {x, u, param}, {xdot});
     Function f_L("L", {x, u, u_prev}, {L});
 
 
@@ -519,6 +525,8 @@ namespace casadi {
       for (int iu = 0; iu < nu; ++iu) {
         model.lbw.push_back(umin[iu]);
         model.ubw.push_back(umax[iu]);
+        //model.lbw.push_back(-inf);
+        //model.ubw.push_back( inf);
         model.w0.push_back(uinit[iu]);
       }
 
@@ -531,6 +539,8 @@ namespace casadi {
         for (int iw = 0; iw < nx; ++iw) {
           model.lbw.push_back(xmin[iw]);
           model.ubw.push_back(xmax[iw]);
+          //model.lbw.push_back(-inf);
+          //model.ubw.push_back( inf);
           model.w0.push_back(xinit1[iw]);
         }
       }
@@ -575,6 +585,8 @@ namespace casadi {
       for (int iw = 0; iw < nx; ++iw) {
         model.lbw.push_back(xmin[iw]);
         model.ubw.push_back(xmax[iw]);
+        //model.lbw.push_back(-inf);
+        //model.ubw.push_back( inf);
         model.w0.push_back(xinit1[iw]);
       }
 
@@ -591,6 +603,8 @@ namespace casadi {
 
 
     }
+
+    model.p_uncertain = param;
 
     return model;
   }

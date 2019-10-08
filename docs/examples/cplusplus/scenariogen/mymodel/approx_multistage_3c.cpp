@@ -8,7 +8,7 @@
 #include <casadi/casadi.hpp>
 #include <casadi/core/sensitivity.hpp>
 #include <casadi/core/timing.hpp>
-#include "cstr_model.hpp"
+//#include "cstr_model.hpp"
 //#include "basic_nlp_helper.cpp"
 #include "scenario_gen.cpp"
 
@@ -30,8 +30,8 @@ using namespace casadi;
     double TKinit0 = 134.0;
     vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
 
-    double Finit    = 5;   // 18.83
-    double QKinit   = -2000;  // -4495.7
+    double Finit    = 18.83;   // 18.83
+    double QKinit   = -4495.7;  // -4495.7
     vector<double> uinit0{Finit, QKinit};
 
     // two sets of p
@@ -77,8 +77,8 @@ using namespace casadi;
 
     // for the double type
     vector<vector<double>> p_c(ns);
-    for (int i = 0; i < ns; ++i) {
-      p_c[i] = {double(CAins[i]), double(EA3Rs[i])};
+    for (int is = 0; is < ns; ++is) {
+      p_c[is] = {double(CAins[is]), double(EA3Rs[is])};
     }
 
 
@@ -87,6 +87,9 @@ using namespace casadi;
 
     /// Preparation for model building
     nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0);
+
+    cout << " print out nmpc nlp = " << nmpc.nlp << endl;
+    cout << " print out nmpc arg = " << nmpc.arg << endl;
 
 
 

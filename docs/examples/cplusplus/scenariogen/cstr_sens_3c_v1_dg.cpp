@@ -168,7 +168,7 @@ int main() {
 
 
   // Original parameter values
-  vector<double> sep0  = {CAin_nom, EA3R_nom};
+  vector<double> p0  = {CAin_nom, EA3R_nom};
   // new parameter values
   vector<double> p1  = {CAin_lo, EA3R_nom};
   vector<double> p2  = {CAin_up, EA3R_nom};
@@ -405,6 +405,11 @@ int main() {
   arg["p"]   = p0;
   //arg["p"]   = p0;
   // arg["p"]   = {0, 0};
+
+
+  cout << " print out nlp = " << nlp << endl;
+  cout << " print out arg = " << arg << endl;
+
 
   /// keep record of timing
   FStats time;

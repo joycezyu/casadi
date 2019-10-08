@@ -22,6 +22,9 @@ namespace casadi {
     int base_index = 0;
     nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[base_index]);
 
+    cout << " print out nlp = " << nominal.nlp << endl;
+    cout << " print out arg = " << nominal.arg << endl;
+
     cout << "checkpoint 0" << endl;
     // solve for nominal solution
     auto res_nom = nominal.solver(nominal.arg);
