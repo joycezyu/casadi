@@ -272,6 +272,8 @@ namespace casadi {
     {"g", constraints}};
 
 
+    cout << "print out the nlp contents = " << nlp << endl;
+
 
     Dict opts;
     opts["ipopt.linear_solver"] = "ma27";

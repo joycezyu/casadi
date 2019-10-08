@@ -274,7 +274,7 @@ namespace casadi {
 
           for (int j = 0; j < d; ++j) {
             // Expression for the state derivative at the collocation point
-            MX xp = C[0][j + 1] * Xk[is];
+            MX xp = C[0][j + 1] * Xk[k];
 
             for (int r = 0; r < d; ++r) {
               xp += C[r + 1][j + 1] * Xkj[k][r];
