@@ -245,6 +245,7 @@ namespace casadi {
     vector<MX> w, g;
     MX Cost = 0;  // cost function
 
+    cout << "checkpoint 5" << endl;
 
     model_setup controller;
 
@@ -259,13 +260,14 @@ namespace casadi {
     Cost = controller.Cost;
 
 
+    cout << "checkpoint 6" << endl;
 
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);
 
     MXDict nlp = {
     {"x", variables},
-    {"p", p_xinit},
+    {"p", controller.p_uncertain},
     {"f", Cost},
     {"g", constraints}};
 

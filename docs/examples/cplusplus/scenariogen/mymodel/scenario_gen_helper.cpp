@@ -17,6 +17,7 @@ namespace casadi {
                          int worst_case, const vector<DM>& delta_s ) {
     model_setup model;
 
+    cout << "checkpoint s1" << endl;
 
     /// collocation
 
@@ -95,7 +96,7 @@ namespace casadi {
     MX p  = MX::vertcat({CAin, EA3R});
 
 
-
+    cout << "checkpoint s2" << endl;
 
 
     int nx = x.size1();
@@ -153,7 +154,7 @@ namespace casadi {
 
 
     double CBref    = 0.5;
-
+    cout << "checkpoint s3" << endl;
 
     //vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
 
@@ -190,24 +191,39 @@ namespace casadi {
 
 
     /// Preparation for model building
-    vector<MX> Xk(ns);
-    vector<vector<MX>> Uk(ns);
-    vector<MX> Xk_end(ns);
-    vector<MX> Uk_prev(ns);
+    //vector<MX> Xk(ns);
+    //vector<vector<MX>> Uk(ns);
+    //vector<MX> Xk_end(ns);
+    //vector<MX> Uk_prev(ns);
+
+    vector<MX> Xk(horizon_length+1);
+    vector<MX> Uk(horizon_length);
+    vector<MX> Xk_end(horizon_length);
+
     vector<vector<MX>> Xkj(horizon_length, vector<MX>(d));
     MX Cost_sens = 0;
+
+    cout << "checkpoint s4" << endl;
+
+    vector<vector<MX>> Xkj_sens(horizon_length);
+    vector<MX> Uk_sens(horizon_length);
+
+
+    MX Uk_prev = MX::sym("u^0_prev", nu);
+    Uk_prev = MX::vertcat({Finit, QKinit});
 
 
     // add everything for each scenario
     for (int is = 0; is < ns; ++is) {
 
       if (is == worst_case) {
+        cout << "checkpoint s5.0" << endl;
 
         /// "lift" initial conditions
-        Xk[is] = MX::sym("x0^" + str(is), nx);
+        Xk[0] = MX::sym("x0^" + str(is), nx);
         //states.push_back(Xk[is]);
-        model.w.push_back(Xk[is]);
-        model.g.push_back(Xk[is] - p_xinit);
+        model.w.push_back(Xk[0]);
+        model.g.push_back(Xk[0] - p_xinit);
         for (int iw = 0; iw < nx; ++iw) {
           //lbw.push_back(xinit[iw]);
           //ubw.push_back(xinit[iw]);
@@ -218,20 +234,20 @@ namespace casadi {
           model.w0.push_back(xinit1[iw]);
         }
 
-        Uk_prev[is] = MX::sym("u^" + str(is) + "_prev", nu);
-        Uk_prev[is] = MX::vertcat({Finit, QKinit});
+        //Uk_prev[is] = MX::sym("u^" + str(is) + "_prev", nu);
+        //Uk_prev[is] = MX::vertcat({Finit, QKinit});
 
-        cout << "Uk_prev = " << Uk_prev[is] << endl;
+        //cout << "Uk_prev = " << Uk_prev[is] << endl;
 
-
+        cout << "checkpoint s5.1" << endl;
 
         /// Formulate the NLP
         for (int k = 0; k < horizon_length; ++k) {
           // New NLP variable for the control
-          Uk[is][k] = MX::sym("U^" + str(is) + "_" + str(k), nu);
+          Uk[k] = MX::sym("U^" + str(is) + "_" + str(k), nu);
           //controls.push_back(Uk[is][k]);
-          cout << "U = " << Uk[is][k] << endl;
-          model.w.push_back(Uk[is][k]);
+          cout << "U = " << Uk[k] << endl;
+          model.w.push_back(Uk[k]);
           for (int iu = 0; iu < nu; ++iu) {
             model.lbw.push_back(umin[iu]);
             model.ubw.push_back(umax[iu]);
@@ -252,7 +268,9 @@ namespace casadi {
 
 
           // Loop over collocation points
-          MX Xk_end = D[0] * Xk[is];
+          Xk_end[k] = D[0] * Xk[k];
+
+          cout << "checkpoint s5.2" << endl;
 
           for (int j = 0; j < d; ++j) {
             // Expression for the state derivative at the collocation point
@@ -262,8 +280,8 @@ namespace casadi {
               xp += C[r + 1][j + 1] * Xkj[k][r];
             }
 
-            vector<MX> XUprev{Xkj[k][j], Uk[is][k], Uk_prev[is]};
-            vector<MX> XU{Xkj[k][j], Uk[is][k], param[is]};
+            vector<MX> XUprev{Xkj[k][j], Uk[k], Uk_prev};
+            vector<MX> XU{Xkj[k][j], Uk[k], param[is]};
             MX fj = f_xdot(XU)[0];
             MX Lj = f_L(XUprev)[0];
 
@@ -277,7 +295,7 @@ namespace casadi {
             }
 
             // Add contribution to the end state
-            Xk_end += D[j + 1] * Xkj[k][j];
+            Xk_end[k] += D[j + 1] * Xkj[k][j];
 
             // Add contribution to quadrature function
             model.Cost += B[j + 1] * Lj * h;
@@ -285,42 +303,53 @@ namespace casadi {
 
 
           // New NLP variable for state at end of interval
-          Xk[is] = MX::sym("X^" + str(is) + "_" + str(k + 1), nx);
-          model.w.push_back(Xk[is]);
+          Xk[k+1] = MX::sym("X^" + str(is) + "_" + str(k + 1), nx);
+          model.w.push_back(Xk[k+1]);
           for (int iw = 0; iw < nx; ++iw) {
             model.lbw.push_back(xmin[iw]);
             model.ubw.push_back(xmax[iw]);
             model.w0.push_back(xinit1[iw]);
           }
-
+          cout << "checkpoint s5.3" << endl;
           // Add equality constraint
           // for continuity between intervals
-          model.g.push_back(Xk_end - Xk[is]);
+          model.g.push_back(Xk_end[k] - Xk[k+1]);
           for (int iw = 0; iw < nx; ++iw) {
             model.lbg.push_back(0);
             model.ubg.push_back(0);
           }
-          Uk_prev[is] = Uk[is][k];
+          Uk_prev = Uk[k];
 
-          cout << "Uk_prev = " << Uk_prev[is] << endl;
+          cout << "Uk_prev = " << Uk_prev << endl;
         }
 
-
+        cout << "checkpoint s5" << endl;
       }
+    }
 
-      else {  // nominal+non-critical scenarios
-        vector<vector<MX>> Xkj_sens(horizon_length);
-        vector<MX> Uk_sens(horizon_length);
+    for (int is = 0; is < ns; ++is) {
+      if (is != worst_case) {
+        cout << "checkpoint s6" << endl;
 
-        Uk_prev[is](0) = Finit;
-        Uk_prev[is](1) = QKinit;
+        // nominal+non-critical scenarios
+        cout << "checkpoint s6.0" << endl;
 
+        Uk_prev = MX::vertcat({Finit, QKinit});
+        cout << "Uk_prev = " << Uk_prev << endl;
 
+        cout << "checkpoint s6.1" << endl;
         for (int k = 0; k < horizon_length; ++k) {
-          Uk_sens[k] =
-          Uk[worst_case][k] + delta_s[is](Slice(nx * (k + 1) + nu * k + nx * d * k, nx * (k + 1) + nu * (k + 1) + nx * d * k, 1));
+          cout << "print out delta_s = " << delta_s << endl;
+          int left_u, right_u;
+          left_u  = nx * (k + 1) + nu * k + nx * d * k;
+          right_u = nx * (k + 1) + nu * (k + 1) + nx * d * k;
+          cout << "print out slice left and right index = " << left_u << ", " <<  right_u << endl;
+          cout << "print out corresponding delta_s = " <<  delta_s[is](Slice(left_u, right_u)) << endl;
+          Uk_sens[k] = Uk[k] + delta_s[is](Slice(left_u, right_u));
+          cout << "checkpoint s6.01" << endl;
 
           for (int j = 0; j < d; ++j) {
+
 
             // We need to update Xkj_sens and Uk_sens for each scenario
 
@@ -328,10 +357,10 @@ namespace casadi {
                                   delta_s[is](Slice(nx * (k + 1) + nu * (k + 1) + nx * (j + d * k),
                                                nx * (k + 1) + nu * (k + 1) + nx * (j + 1 + d * k), 1)));
 
-
+            cout << "checkpoint s6.2" << endl;
 
             // Append collocation equations
-            vector<MX> XUprev_sens{Xkj_sens[k][j], Uk_sens[k], Uk_prev[is]};
+            vector<MX> XUprev_sens{Xkj_sens[k][j], Uk_sens[k], Uk_prev};
 
 
             MX Lj_sens = f_L(XUprev_sens)[0];
@@ -340,12 +369,13 @@ namespace casadi {
 
             // Add contribution to quadrature function
             Cost_sens += B[j + 1] * Lj_sens * h;
+            cout << "checkpoint s6.3" << endl;
 
 
           } // collocation
 
           // update the previous u
-          Uk_prev[is] = Uk_sens[k];
+          Uk_prev = Uk_sens[k];
 
         } // horizon
 
@@ -369,8 +399,11 @@ namespace casadi {
 
 
     }
+    cout << "checkpoint s7" << endl;
 
     model.Cost +=  Cost_sens;
+
+    model.p_uncertain = p_xinit;
 
     return model;
   }

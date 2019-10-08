@@ -676,6 +676,7 @@ int main() {
     QK_prev = QKinit;
 
     for (int k = 0; k < horN; ++k) {
+      cout << "print out delta_s = " << ds << endl;
       Uk_sens[k] = Uk[k] + ds[is](Slice(nx*(k+1) + nu*k + nx*d*k, nx*(k+1) + nu*(k+1) + nx*d*k, 1));
 
       for (int j = 0; j < d; ++j) {
