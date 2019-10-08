@@ -25,10 +25,12 @@ namespace casadi {
     MX p_uncertain;
   };
 
+
+  // with initial_states as p in NLP
   model_setup cstr_model(double time_horizon, int horizon_length, const MX &p_xinit,
                          vector <MX> &states, vector <MX> &controls, MX param,
                          int index_scenario);
-
+  // with uncertain_param as p in NLP
   model_setup cstr_model_p(double time_horizon, int horizon_length, const vector<double>& xinit,
                            vector <MX> &states, vector <MX> &controls, MX param,
                            int index_scenario);

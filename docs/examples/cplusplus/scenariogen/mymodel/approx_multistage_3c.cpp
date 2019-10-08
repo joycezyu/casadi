@@ -30,11 +30,12 @@ using namespace casadi;
     double TKinit0 = 134.0;
     vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
 
-    double Finit    = 18.83;
-    double QKinit   = -4495.7;
+    double Finit    = 5;   // 18.83
+    double QKinit   = -2000;  // -4495.7
     vector<double> uinit0{Finit, QKinit};
 
-
+    // two sets of p
+    // one: p_xinit as the initial conditions
     MX p_CAinit = MX::sym("p_CAinit");
     MX p_CBinit = MX::sym("p_CBinit");
     MX p_TRinit = MX::sym("p_TRinit");
@@ -42,7 +43,7 @@ using namespace casadi;
     MX p_xinit = MX::vertcat({p_CAinit, p_CBinit, p_TRinit, p_TKinit});
 
 
-
+    // two: p as the uncertain parameter
     MX CAin = MX::sym("CAin");
     MX EA3R = MX::sym("EA3R");
     MX p  = MX::vertcat({CAin, EA3R});
@@ -66,6 +67,7 @@ using namespace casadi;
     int horN = 1;
 
     // set up the params associated with each scenario
+    // for the MX type
     vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
     vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
     vector<MX> param(ns);
@@ -87,6 +89,8 @@ using namespace casadi;
     nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0);
 
 
+
+
     /// keep record of timing
     FStats time;
     time.tic();
@@ -102,9 +106,10 @@ using namespace casadi;
     //cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
     cout << setw(30) << "Objective: " << res.at("f") << endl;
 
-    vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+    int nominal_ns = 1;
+    vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, nominal_ns);
 
-    for (int is = 0; is < ns; ++is) {
+    for (int is = 0; is < nominal_ns; ++is) {
 
       cout << setw(30) << " For scenario s = " << is << endl;
       cout << setw(30) << "CA: " << mpc_traj[is][0] << endl;
@@ -126,10 +131,14 @@ using namespace casadi;
     //cout << "u0_0 = " << uinit0 << endl;
 
 
+
+
+
     /// plant simulation
     srand(1);
     int rd_index = rand() % ns;
     cout << "random number = " << rd_index << endl;
+    //rd_index = 0;
 
     double step_length = T / horN;
     cout << "each step length:" << step_length << endl;
@@ -188,7 +197,6 @@ using namespace casadi;
 
 
 
-
     /*
      * controller model: nlp and arg
      * plant model: nlp_plt and arg_plt
@@ -209,6 +217,8 @@ using namespace casadi;
       rd_index = rand() % ns;
       rand_seed[i] = rd_index;
       param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
+
+      //param_realized = { 5.1, 8560};
       cout << "param_realized = " << param_realized << endl;
       x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
@@ -220,14 +230,21 @@ using namespace casadi;
       // then fetch the new states
       states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
                            double(plant_traj[2](1)), double(plant_traj[3](1))};
+
+      /// print out states_plant
+      cout << "current states_plant traj = " << states_plant << endl;
       xinit0 = states_plant[i+1];
 
       /// then solve the mpc
       nmpc.arg["p"] = xinit0;
       res = nmpc.solver(nmpc.arg);
+      cout << "print out nominal nmpc output" << res.at("x") << endl;
+
 
       /// add the sensitivity step
       nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns);
+
+      cout << " my guess is that the error happens before this" << endl;
       res = sens_step.solver(sens_step.arg);
 
       /*
@@ -265,6 +282,8 @@ using namespace casadi;
       setpoint_error += pow((xinit0[1] - 0.5), 2);
 
     }
+
+
 
     cout << "setpoint error = "  << setpoint_error << endl;
     cout << "states profile = "  << states_plant << endl;

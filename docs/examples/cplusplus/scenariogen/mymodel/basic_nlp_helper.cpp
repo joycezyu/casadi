@@ -214,6 +214,9 @@ namespace casadi {
     arg["x0"] = w0;
     arg["p"] = p0;
 
+    cout << "print out lbx = " << arg.at("lbx") << endl;
+    cout << "print out ubx = " << arg.at("ubx") << endl;
+
     cout << "print out p0 = " << arg.at("p") << endl;
 
 

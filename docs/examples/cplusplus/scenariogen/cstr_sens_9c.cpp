@@ -76,7 +76,7 @@ int main() {
   // Time horizon
   double T = 0.2;
   // Control discretization
-  int horN = 5; // number of control intervals
+  int horN = 1; // number of control intervals
   double h = T/horN;   // step size
 
   // Declare model variables
@@ -550,6 +550,10 @@ int main() {
     K[is] = KR[is][0];
     R[is] = KR[is][1];
   }
+
+
+  cout << "check on K matrix = " << K << endl;
+  cout << "check on R matrix = " << R << endl;
 
 
 

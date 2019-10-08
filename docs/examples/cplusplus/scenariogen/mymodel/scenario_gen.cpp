@@ -18,11 +18,16 @@ namespace casadi {
 
     /// step 1 - nominal scenario - parameterize in uncertainty_p
     cout << "checkpoint -1" << endl;
-    nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[0]);
+
+    int base_index = 0;
+    nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[base_index]);
 
     cout << "checkpoint 0" << endl;
     // solve for nominal solution
     auto res_nom = nominal.solver(nominal.arg);
+
+    cout << "res_nom = " << res_nom.at("x") << endl;
+
     int N_tot = res_nom.at("x").size1();
     //int g_tot = res_nom.at("g").size1();
 
@@ -31,8 +36,8 @@ namespace casadi {
 
 
     MXDict nlp_gen = nominal.nlp;
-    Function solver_gen = nominal.solver;
-    std::map<std::string, DM> arg = nominal.arg;
+    //Function solver_gen = nominal.solver;
+    //std::map<std::string, DM> arg = nominal.arg;
 
     /// Compute the sign of dg for inequality constraints
     //vector<double> param_num;
@@ -105,7 +110,7 @@ namespace casadi {
     vector<vector<DM>> KR(ns);
     vector<DM> K(ns), R(ns);
     for (int is = 0; is < ns; ++is) {
-      KR[is] = getKKTaRHS(res_nom, nlp_gen, p_c[0], p_c[is]);
+      KR[is] = getKKTaRHS(res_nom, nlp_gen, p_c[base_index], p_c[is]);
       K[is] = KR[is][0];
       R[is] = KR[is][1];
     }

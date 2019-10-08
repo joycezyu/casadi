@@ -47,15 +47,15 @@ using namespace casadi;
 
 
     double CAin_nom = 5.1;
-    double CAin_lo = CAin_nom * (1 - 0.3);
-    double CAin_up = CAin_nom * (1 + 0.3);
+    double CAin_lo = CAin_nom * (1 - 0.1);
+    double CAin_up = CAin_nom * (1 + 0.1);
 
     /// number of scenarios
     int ns = 3;
 
     double T = 0.2;
     /// horizon length
-    int horN = 1;
+    int horN = 40;
 
     // set up the params associated with each scenario
     vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
