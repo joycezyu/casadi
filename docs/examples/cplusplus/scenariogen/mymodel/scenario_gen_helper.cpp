@@ -327,8 +327,9 @@ namespace casadi {
       }
     }
 
+
     for (int is = 0; is < ns; ++is) {
-      if (is != worst_case) {
+      //if (is != worst_case) {
         cout << "checkpoint s6" << endl;
 
         // nominal+non-critical scenarios
@@ -338,9 +339,10 @@ namespace casadi {
         cout << "Uk_prev = " << Uk_prev << endl;
 
         cout << "checkpoint s6.1" << endl;
+        int left_u, right_u, left_x, right_x;
         for (int k = 0; k < horizon_length; ++k) {
           cout << "print out delta_s = " << delta_s << endl;
-          int left_u, right_u;
+
           left_u  = nx * (k + 1) + nu * k + nx * d * k;
           right_u = nx * (k + 1) + nu * (k + 1) + nx * d * k;
           cout << "print out slice left and right index = " << left_u << ", " <<  right_u << endl;
@@ -352,10 +354,10 @@ namespace casadi {
 
 
             // We need to update Xkj_sens and Uk_sens for each scenario
+            left_x = nx * (k + 1) + nu * (k + 1) + nx * (j + d * k);
+            right_x = nx * (k + 1) + nu * (k + 1) + nx * (j + 1 + d * k);
 
-            Xkj_sens[k].push_back(Xkj[k][j] +
-                                  delta_s[is](Slice(nx * (k + 1) + nu * (k + 1) + nx * (j + d * k),
-                                               nx * (k + 1) + nu * (k + 1) + nx * (j + 1 + d * k), 1)));
+            Xkj_sens[k].push_back(Xkj[k][j] + delta_s[is](Slice(left_x, right_x)));
 
             cout << "checkpoint s6.2" << endl;
 
@@ -382,7 +384,7 @@ namespace casadi {
 
 
 
-      }
+      //}
 
       /// NAC
       /*  not needed if sensitivity already takes care of NAC
@@ -401,7 +403,14 @@ namespace casadi {
     }
     cout << "checkpoint s7" << endl;
 
-    model.Cost +=  Cost_sens;
+    //model.Cost +=  Cost_sens;
+    model.Cost = Cost_sens;
+
+    cout << "print total cost function = " << model.Cost << endl;
+    cout << "print total variables  = "  << model.w << endl;
+    cout << "print total constraint  = " << model.g << endl;
+
+
 
     model.p_uncertain = p_xinit;
 

@@ -223,10 +223,25 @@ using namespace casadi;
 
       cout << " checkpoint 10 " << endl;
       res = sens_step.solver(sens_step.arg);
-      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+      mpc_traj = nlp_res_reader(res, nx, nu, d, nominal_ns);
       // fetch the controls
       controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
-      uinit0 = controls_mpc[i+1];
+      uinit0 = controls_mpc[i];
+      cout << "check uinit0 = " << uinit0 << endl;
+
+      for (int is = 0; is < nominal_ns; ++is) {
+
+        cout << setw(30) << " For scenario s = " << is << endl;
+        cout << setw(30) << "CA: " << mpc_traj[is][0] << endl;
+        cout << setw(30) << "CB: " << mpc_traj[is][1] << endl;
+        cout << setw(30) << "TR: " << mpc_traj[is][2] << endl;
+        cout << setw(30) << "TK: " << mpc_traj[is][3] << endl;
+        cout << setw(30) << "F:  " << mpc_traj[is][4] << endl;
+        cout << setw(30) << "QK: " << mpc_traj[is][5] << endl;
+
+
+      }
+
 
       setpoint_error += pow((xinit0[1] - 0.5), 2);
       cout << " checkpoint 11 " << endl;

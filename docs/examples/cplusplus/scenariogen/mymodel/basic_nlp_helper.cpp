@@ -262,6 +262,8 @@ namespace casadi {
 
     cout << "checkpoint 6" << endl;
 
+    cout << "print out the cost function here = " << Cost << endl;
+
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);
 

@@ -715,6 +715,7 @@ int main() {
 
   cout << "Uk_sens = " << Uk_sens << endl;
   cout << "cost_sens = " << Cost_sens << endl;
+  cout << "constraints = " << constraints << endl;
 
 
   /// re-solve
