@@ -19,7 +19,8 @@ namespace casadi {
     /// step 1 - nominal scenario - parameterize in uncertainty_p
     cout << "checkpoint -1" << endl;
 
-    int base_index = 0;
+    /// change the base_index to decide the base scenario
+    int base_index = 2;
     nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[base_index]);
 
     cout << " print out nlp = " << nominal.nlp << endl;

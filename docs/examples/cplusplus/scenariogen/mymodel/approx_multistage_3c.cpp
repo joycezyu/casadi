@@ -243,7 +243,6 @@ using namespace casadi;
       }
 
 
-      setpoint_error += pow((xinit0[1] - 0.5), 2);
       cout << " checkpoint 11 " << endl;
 
 
@@ -271,7 +270,7 @@ using namespace casadi;
       cout << "current states_plant traj = " << states_plant << endl;
       xinit0 = states_plant[i+1];
 
-
+      setpoint_error += pow((xinit0[1] - 0.5), 2);
 
 
       /// The following is plant first controller second

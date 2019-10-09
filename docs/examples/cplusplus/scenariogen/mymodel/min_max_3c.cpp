@@ -54,7 +54,7 @@ using namespace casadi;
 
     double T = 0.2;
     /// horizon length
-    int horN = 40;
+    int horN = 1;
 
     // set up the params associated with each scenario
     vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
@@ -231,7 +231,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 20;
+    int rolling_horizon = 1;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -271,7 +271,6 @@ using namespace casadi;
       controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
       uinit0 = controls_mpc[i];
 
-      setpoint_error += pow((xinit0[1] - 0.5), 2);
 
 
       // second solve plant
@@ -294,6 +293,8 @@ using namespace casadi;
       states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
                            double(plant_traj[2](1)), double(plant_traj[3](1))};
       xinit0 = states_plant[i+1];
+
+      setpoint_error += pow((xinit0[1] - 0.5), 2);
 
 
       /// the following is plant-first-controller-second

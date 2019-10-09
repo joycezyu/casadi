@@ -47,8 +47,8 @@ using namespace casadi;
 
 
     double CAin_nom = 5.1;
-    double CAin_lo = CAin_nom * (1 - 0.1);
-    double CAin_up = CAin_nom * (1 + 0.1);
+    double CAin_lo = CAin_nom * (1 - 0.3);
+    double CAin_up = CAin_nom * (1 + 0.3);
 
     /// number of scenarios
     int ns = 3;
@@ -67,7 +67,8 @@ using namespace casadi;
 
 
     /// Preparation for model building
-    nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0);
+    // param[index] represents the base case scenario
+    nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[2], xinit0);
 
 
     /// keep record of timing
@@ -184,11 +185,52 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
+
+      /// the following is controller-first-plant-second
+      // first solve mpc
+      nmpc.arg["p"] = xinit0;
+      res = nmpc.solver(nmpc.arg);
+      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+
+      // fetch the controls
+      controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
+      uinit0 = controls_mpc[i];
+
+
+
+      // second solve plant
+      x_u_init = states_plant[i];
+      x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
+
+      // add plant param realized
+      rd_index = rand() % ns;
+      rand_seed[i] = rd_index;
+      param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
+      cout << "param_realized = " << param_realized << endl;
+      x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
+
+
+      plant.arg["p"] = x_u_init;
+      res_plt = plant.solver(plant.arg);
+      plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
+
+      // then fetch the new states
+      states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
+                           double(plant_traj[2](1)), double(plant_traj[3](1))};
+      xinit0 = states_plant[i+1];
+
+      setpoint_error += pow((xinit0[1] - 0.5), 2);
+
+
+
+      /// the following is plant first controller second
+      /*
       /// first solve plant
       x_u_init = states_plant[i];
       x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
 
       // add plant param realized
+      rd_index = rand() % ns;
       rd_index = rand() % ns;
       rand_seed[i] = rd_index;
       param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
@@ -215,6 +257,7 @@ using namespace casadi;
       uinit0 = controls_mpc[i+1];
 
       setpoint_error += pow((xinit0[1] - 0.5), 2);
+      */
 
     }
 
