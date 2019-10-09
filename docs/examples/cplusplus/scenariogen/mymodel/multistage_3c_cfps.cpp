@@ -290,7 +290,16 @@ using namespace casadi;
                            double(plant_traj[2](1)), double(plant_traj[3](1))};
       xinit0 = states_plant[i+1];
 
+      // then solve the mpc
+      arg["p"] = xinit0;
+      res = solver(arg);
+      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
 
+      // fetch the controls
+      controls_mpc[i+1] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
+      uinit0 = controls_mpc[i+1];
+
+      setpoint_error += pow((xinit0[1] - 0.5), 2);
 
     }
 

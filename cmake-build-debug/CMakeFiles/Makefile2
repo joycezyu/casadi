@@ -278,14 +278,6 @@ casadi/preinstall: casadi/solvers/preinstall
 # Target rules for target casadi/CMakeFiles/libs.dir
 
 # All Build rule for target.
-casadi/CMakeFiles/libs.dir/all: casadi/core/CMakeFiles/casadi.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparse.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/interfaces/tinyxml/CMakeFiles/casadi_xmlfile_tinyxml.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_rootfinder_nlpsol.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_linsol_ldl.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_rootfinder_fast_newton.dir/all
@@ -297,8 +289,16 @@ casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_nlpsol_sqpmetho
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_interpolant_bspline.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_linsol_lsqr.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_interpolant_linear.dir/all
-casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_nlpsol_scpgen.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/core/CMakeFiles/casadi.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_integrator_idas.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_integrator_cvodes.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_rootfinder_kinsol.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/sundials/CMakeFiles/casadi_sundials_common.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparse.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/csparse/CMakeFiles/casadi_linsol_csparsecholesky.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/interfaces/tinyxml/CMakeFiles/casadi_xmlfile_tinyxml.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_conic_qrqp.dir/all
+casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_nlpsol_scpgen.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_integrator_rk.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_conic_nlpsol.dir/all
 casadi/CMakeFiles/libs.dir/all: casadi/solvers/CMakeFiles/casadi_importer_shell.dir/all

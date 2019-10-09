@@ -63,7 +63,7 @@ using namespace casadi;
     int ns = 3;
 
     double T = 0.2;
-    /// horizon length
+    /// horizonlength
     int horN = 40;
 
     // set up the params associated with each scenario

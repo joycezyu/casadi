@@ -8,6 +8,8 @@
 #include <casadi/casadi.hpp>
 #include "cstr_model.hpp"
 #include "scenario_gen_helper.cpp"
+#include "scenario_gen_helper_nowc.cpp"
+
 
 namespace casadi {
 
@@ -249,7 +251,9 @@ namespace casadi {
 
     model_setup controller;
 
-    controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
+    controller = scenario_gen_helper_nowc(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
+    //controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
+
     w.insert(w.end(), controller.w.begin(), controller.w.end());
     g.insert(g.end(), controller.g.begin(), controller.g.end());
     w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
