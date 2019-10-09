@@ -23,6 +23,11 @@ add_executable(multistage_3c multistage_3c.cpp cstr_model.hpp)
 target_link_libraries(multistage_3c casadi MYMODEL)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
+add_executable(multistage_3c_cfps multistage_3c_cfps.cpp cstr_model.hpp)
+target_link_libraries(multistage_3c_cfps casadi MYMODEL)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+
 add_executable(nominal_only nominal_only.cpp cstr_model.hpp)
 target_link_libraries(nominal_only casadi MYMODEL)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")

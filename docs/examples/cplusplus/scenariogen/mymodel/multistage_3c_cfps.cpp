@@ -63,7 +63,6 @@ using namespace casadi;
     for (int is = 0; is < ns; ++is) {
       param[is] = MX::vertcat({CAins[is], EA3Rs[is]});
     }
-    //vector<double>
 
 
     /// Preparation for model building
@@ -81,7 +80,7 @@ using namespace casadi;
 
 
     model_setup controller;
-    MX theta = MX::sym("theta");
+    //MX theta = MX::sym("theta");
 
 
     for (int is = 0; is < ns; ++is) {
@@ -93,12 +92,12 @@ using namespace casadi;
       ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
       lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
       ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
-      //Cost += controller.Cost / ns;
+      Cost += controller.Cost / ns;
 
       /// the inner max operator
-      g.push_back(controller.Cost - theta);
-      lbg.push_back(-inf);
-      ubg.push_back(0);
+      //g.push_back(controller.Cost - theta);
+      //lbg.push_back(-inf);
+      //ubg.push_back(0);
 
       /// NAC
       // Robust horizon = 1
@@ -114,13 +113,9 @@ using namespace casadi;
 
     }  // per scenario
 
-    // Note that the ordering of variables matters for the output data rendering
-    w.push_back(theta);
-    lbw.push_back(-inf);
-    ubw.push_back(inf);
-    w0.push_back(0);
 
-    Cost = theta;
+
+
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);
 
@@ -212,6 +207,7 @@ using namespace casadi;
 
     auto res_plt = plant.solver(plant.arg);
 
+
     /// show the plant simulation result
     vector<DM> plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
 
@@ -261,7 +257,6 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
-      /// the following is controller-first-plant-second
       // first solve mpc
       arg["p"] = xinit0;
       res = solver(arg);
@@ -296,40 +291,6 @@ using namespace casadi;
       xinit0 = states_plant[i+1];
 
 
-      /// the following is plant-first-controller-second
-      /*
-      // first solve plant
-      x_u_init = states_plant[i];
-      x_u_init.insert(x_u_init.end(), controls_mpc[i].begin(), controls_mpc[i].end());
-
-      // add plant param realized
-      //srand(2);
-      rd_index = rand() % ns;
-      rand_seed[i] = rd_index;
-      param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
-      cout << "param_realized = " << param_realized << endl;
-      x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
-
-      plant.arg["p"] = x_u_init;
-      res_plt = plant.solver(plant.arg);
-      plant_traj = nlp_res_reader(res_plt, nx, nu, d)[0];
-
-      // then fetch the new states
-      states_plant[i+1] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
-                           double(plant_traj[2](1)), double(plant_traj[3](1))};
-      xinit0 = states_plant[i+1];
-
-      // then solve the mpc
-      arg["p"] = xinit0;
-      res = solver(arg);
-      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
-
-      // fetch the controls
-      controls_mpc[i+1] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
-      uinit0 = controls_mpc[i+1];
-
-      setpoint_error += pow((xinit0[1] - 0.5), 2);
-      */
 
     }
 
