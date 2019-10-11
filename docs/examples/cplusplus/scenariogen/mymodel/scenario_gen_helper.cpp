@@ -338,7 +338,6 @@ namespace casadi {
 
 
     /// Second add the nominal case
-    /// first add the worst cases
     for (int is = 0; is < ns; ++is) {
       if (is == 0) {
         /// "lift" initial conditions
@@ -531,12 +530,12 @@ namespace casadi {
          */
 
         // Robust horizon = 1
-        model.g.push_back(Uk_sens[0] - dummy_u);
+        //model.g.push_back(Uk_sens[0] - dummy_u);
 
-        for (int iu = 0; iu < nu; ++iu) {
-          model.lbg.push_back(0);
-          model.ubg.push_back(0);
-        }
+        //for (int iu = 0; iu < nu; ++iu) {
+        //  model.lbg.push_back(0);
+        //  model.ubg.push_back(0);
+        //}
 
 
       }

@@ -41,8 +41,8 @@ using namespace casadi;
 
 
     double EA3R_nom = 8560;
-    double EA3R_lo = EA3R_nom * (1 - 0.01);
-    double EA3R_up = EA3R_nom * (1 + 0.01);
+    double EA3R_lo = EA3R_nom * (1 - 0.1);
+    double EA3R_up = EA3R_nom * (1 + 0.1);
 
 
     double CAin_nom = 5.1;
@@ -54,11 +54,13 @@ using namespace casadi;
 
     double T = 0.2;
     /// horizon length
-    int horN = 1;
+    int horN = 40;
 
     // set up the params associated with each scenario
     vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {
       param[is] = MX::vertcat({CAins[is], EA3Rs[is]});
@@ -227,7 +229,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 1;
+    int rolling_horizon = 20;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));

@@ -20,7 +20,7 @@ namespace casadi {
     cout << "checkpoint -1" << endl;
 
     /// change the base_index to decide the base scenario
-    int base_index = 2;
+    int base_index = 0;
     nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[base_index]);
 
     cout << " print out nlp = " << nominal.nlp << endl;
@@ -234,7 +234,7 @@ namespace casadi {
 
     /// step 2.5
     /// have the index list for worse case scenarios
-    vector<int> worst_case{2};
+    vector<int> worst_case{1};
 
 
     /// Step 3

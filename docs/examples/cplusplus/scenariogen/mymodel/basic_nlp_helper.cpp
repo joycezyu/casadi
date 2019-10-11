@@ -251,8 +251,8 @@ namespace casadi {
 
     model_setup controller;
 
-    controller = scenario_gen_helper_nowc(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
-    //controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
+    //controller = scenario_gen_helper_nowc(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
+    controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
 
     w.insert(w.end(), controller.w.begin(), controller.w.end());
     g.insert(g.end(), controller.g.begin(), controller.g.end());
