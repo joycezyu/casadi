@@ -14,7 +14,7 @@ namespace casadi {
 
   nlp_setup scenario_gen(double time_horizon, int horizon_length, MX p_xinit, MX p, vector<MX> param,
                                  vector<double> xinit0, const vector<vector<double>> &p_c,
-                                 int nx, int nu, int np, int d, int ns) {
+                                 int nx, int nu, int np, int d, int ns, int index_k) {
 
     /// step 1 - nominal scenario - parameterize in uncertainty_p
     cout << "checkpoint -1" << endl;
@@ -44,13 +44,13 @@ namespace casadi {
     //std::map<std::string, DM> arg = nominal.arg;
 
     /// Compute the sign of dg for inequality constraints
-    //vector<double> param_num;
-    //param_num.push_back(double(param[0](0)));
-    //param_num.push_back(double(param[0](1)));
-    //DM dg_p0 = getDg(res_nom, nlp_gen, param_num);
+    vector<double> param_num;
+    param_num.push_back(double(param[0](0)));
+    param_num.push_back(double(param[0](1)));
+    DM dg_p0 = getDg(res_nom, nlp_gen, param_num);
 
     ///DM dg_p0 = getDg(res_nom, nlp_gen, p_c[0]);
-    //cout << "dg_p0 = " << dg_p0 << endl;
+    cout << "dg_p0 = " << dg_p0 << endl;
 
     cout << "checkpoint 2" << endl;
 
@@ -234,7 +234,10 @@ namespace casadi {
 
     /// step 2.5
     /// have the index list for worse case scenarios
-    vector<int> worst_case{1};
+    vector<int> worst_case{2};
+    if (index_k == 4) {
+      worst_case = {1};
+    }
 
 
     /// Step 3

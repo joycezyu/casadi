@@ -58,8 +58,8 @@ using namespace casadi;
 
     // set up the params associated with each scenario
     vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {
       param[is] = MX::vertcat({CAins[is], EA3Rs[is]});

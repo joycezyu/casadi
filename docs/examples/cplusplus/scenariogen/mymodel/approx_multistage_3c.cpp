@@ -64,13 +64,13 @@ using namespace casadi;
 
     double T = 0.2;
     /// horizonlength
-    int horN = 1;
+    int horN = 40;
 
     // set up the params associated with each scenario
     // for the MX type
     vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
 
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {
@@ -185,7 +185,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 1;
+    int rolling_horizon = 5;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -221,7 +221,7 @@ using namespace casadi;
 
 
       /// add the sensitivity step
-      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns);
+      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns, i);
 
       cout << " checkpoint 10 " << endl;
       res = sens_step.solver(sens_step.arg);
