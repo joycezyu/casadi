@@ -21,16 +21,16 @@ namespace casadi {
 
     /// change the base_index to decide the base scenario
     int base_index = 0;
-    nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[base_index]);
+    nlp_setup nominal = nmpc_nominal_p(time_horizon, horizon_length, xinit0, p, p_c[base_index], index_k);
 
-    cout << " print out nlp = " << nominal.nlp << endl;
-    cout << " print out arg = " << nominal.arg << endl;
+    //cout << " print out nlp = " << nominal.nlp << endl;
+    //cout << " print out arg = " << nominal.arg << endl;
 
     cout << "checkpoint 0" << endl;
     // solve for nominal solution
     auto res_nom = nominal.solver(nominal.arg);
 
-    cout << "res_nom = " << res_nom.at("x") << endl;
+    //cout << "res_nom = " << res_nom.at("x") << endl;
 
     int N_tot = res_nom.at("x").size1();
     //int g_tot = res_nom.at("g").size1();
@@ -47,9 +47,12 @@ namespace casadi {
     vector<double> param_num;
     param_num.push_back(double(param[0](0)));
     param_num.push_back(double(param[0](1)));
-    DM dg_p0 = getDg(res_nom, nlp_gen, param_num);
+    //param_num.push_back(double(param[1](0)));
+    //param_num.push_back(double(param[1](1)));
 
-    ///DM dg_p0 = getDg(res_nom, nlp_gen, p_c[0]);
+    //DM dg_p0 = getDg(res_nom, nlp_gen, param_num);
+
+    DM dg_p0 = getDg(res_nom, nlp_gen, p_c[0]);
     cout << "dg_p0 = " << dg_p0 << endl;
 
     cout << "checkpoint 2" << endl;
@@ -120,8 +123,8 @@ namespace casadi {
     }
 
 
-    cout << "check on K matrix = " << K << endl;
-    cout << "check on R matrix = " << R << endl;
+    //cout << "check on K matrix = " << K << endl;
+    //cout << "check on R matrix = " << R << endl;
 
 
     ///start counting time
@@ -186,7 +189,7 @@ namespace casadi {
 
 
     DM s = DM::vertcat({res_nom.at("x"), res_nom.at("lam_g")});
-    cout << "nominal scenario optimal solution s = " << s << endl;
+    //cout << "nominal scenario optimal solution s = " << s << endl;
 
     for (int is = 0; is < ns; ++is) {
       s_c[is] = s + ds[is];
@@ -234,10 +237,10 @@ namespace casadi {
 
     /// step 2.5
     /// have the index list for worse case scenarios
-    vector<int> worst_case{2};
-    if (index_k == 4) {
-      worst_case = {1};
-    }
+    vector<int> worst_case{0};
+    //if (index_k >= 2) {
+    //  worst_case = {0};
+    //}
 
 
     /// Step 3

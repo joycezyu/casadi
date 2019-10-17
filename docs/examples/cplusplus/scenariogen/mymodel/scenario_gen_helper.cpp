@@ -220,7 +220,7 @@ namespace casadi {
 
     /// first add the worst cases
     for (int is = 0; is < ns; ++is) {
-      if (is == worst_case) {
+      if (is == worst_case and worst_case != 0 ) {
         /// "lift" initial conditions
         Xk[0] = MX::sym("x0^" + str(is), nx);
         //states.push_back(Xk[is]);
@@ -466,22 +466,22 @@ namespace casadi {
         cout << "checkpoint s6" << endl;
 
         // nominal+non-critical scenarios
-        cout << "checkpoint s6.0" << endl;
+        //cout << "checkpoint s6.0" << endl;
 
         Uk_prev = MX::vertcat({Finit, QKinit});
         cout << "Uk_prev = " << Uk_prev << endl;
 
-        cout << "checkpoint s6.1" << endl;
+        //cout << "checkpoint s6.1" << endl;
         int left_u, right_u, left_x, right_x;
         for (int k = 0; k < horizon_length; ++k) {
-          cout << "print out delta_s = " << delta_s << endl;
+          //cout << "print out delta_s = " << delta_s << endl;
 
           left_u  = nx * (k + 1) + nu * k + nx * d * k;
           right_u = nx * (k + 1) + nu * (k + 1) + nx * d * k;
-          cout << "print out slice left and right index = " << left_u << ", " <<  right_u << endl;
-          cout << "print out corresponding delta_s = " <<  delta_s[is](Slice(left_u, right_u)) << endl;
+          //cout << "print out slice left and right index = " << left_u << ", " <<  right_u << endl;
+          //cout << "print out corresponding delta_s = " <<  delta_s[is](Slice(left_u, right_u)) << endl;
           Uk_sens[k] = Uk[k] + delta_s[is](Slice(left_u, right_u));
-          cout << "checkpoint s6.01" << endl;
+          //cout << "checkpoint s6.01" << endl;
 
           for (int j = 0; j < d; ++j) {
 
@@ -492,7 +492,7 @@ namespace casadi {
 
             Xkj_sens[k].push_back(Xkj[k][j] + delta_s[is](Slice(left_x, right_x)));
 
-            cout << "checkpoint s6.2" << endl;
+            //cout << "checkpoint s6.2" << endl;
 
             // Append collocation equations
             vector<MX> XUprev_sens{Xkj_sens[k][j], Uk_sens[k], Uk_prev};
@@ -504,7 +504,7 @@ namespace casadi {
 
             // Add contribution to quadrature function
             Cost_sens += B[j + 1] * Lj_sens * h;
-            cout << "checkpoint s6.3" << endl;
+            //cout << "checkpoint s6.3" << endl;
 
 
           } // collocation
@@ -545,14 +545,14 @@ namespace casadi {
 
 
     }
-    cout << "checkpoint s7" << endl;
+    //cout << "checkpoint s7" << endl;
 
     //model.Cost +=  Cost_sens;
     model.Cost = Cost_sens;
 
-    cout << "print total cost function = " << model.Cost << endl;
-    cout << "print total variables  = "  << model.w << endl;
-    cout << "print total constraint  = " << model.g << endl;
+    //cout << "print total cost function = " << model.Cost << endl;
+    //cout << "print total variables  = "  << model.w << endl;
+    //cout << "print total constraint  = " << model.g << endl;
 
 
 

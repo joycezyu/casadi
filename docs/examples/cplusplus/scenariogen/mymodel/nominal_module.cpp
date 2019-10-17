@@ -33,6 +33,8 @@ using namespace casadi;
     double QKinit   = -4495.7;
     vector<double> uinit0{Finit, QKinit};
 
+    double CBref    = 0.5;
+
 
     MX p_CAinit = MX::sym("p_CAinit");
     MX p_CBinit = MX::sym("p_CBinit");
@@ -58,9 +60,10 @@ using namespace casadi;
     int horN = 40;
 
     // set up the params associated with each scenario
-    vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-    //vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+    //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
+    vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom};
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
 
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {
@@ -70,7 +73,7 @@ using namespace casadi;
 
     /// Preparation for model building
     // param[index] represents the base case scenario
-    nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0);
+    nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0, 0);
 
 
     /// keep record of timing
@@ -131,7 +134,7 @@ using namespace casadi;
     x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
-    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np);
+    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, 0);
 
 
     auto res_plt = plant.solver(plant.arg);
@@ -187,6 +190,7 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
+      nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0, i);
 
       /// the following is controller-first-plant-second
       // first solve mpc
@@ -211,6 +215,9 @@ using namespace casadi;
       cout << "param_realized = " << param_realized << endl;
       x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
+      /// update the plant model with the new index_k as well
+      plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, i);
+
 
       plant.arg["p"] = x_u_init;
       res_plt = plant.solver(plant.arg);
@@ -221,7 +228,7 @@ using namespace casadi;
                            double(plant_traj[2](1)), double(plant_traj[3](1))};
       xinit0 = states_plant[i+1];
 
-      setpoint_error += pow((xinit0[1] - 0.5), 2);
+      setpoint_error += pow((xinit0[1] - CBref), 2);
 
 
 

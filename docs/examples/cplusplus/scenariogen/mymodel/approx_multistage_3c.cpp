@@ -34,6 +34,8 @@ using namespace casadi;
     double QKinit   = -4495.7;  // -4495.7
     vector<double> uinit0{Finit, QKinit};
 
+    double CBref    = 0.5;
+
     // two sets of p
     // one: p_xinit as the initial conditions
     MX p_CAinit = MX::sym("p_CAinit");
@@ -68,9 +70,10 @@ using namespace casadi;
 
     // set up the params associated with each scenario
     // for the MX type
-    vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-    //vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+    //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
+    vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom};
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
 
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {
@@ -88,10 +91,10 @@ using namespace casadi;
 
 
     /// Preparation for model building
-    nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0);
+    nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0, 0);
 
-    cout << " print out nmpc nlp = " << nmpc.nlp << endl;
-    cout << " print out nmpc arg = " << nmpc.arg << endl;
+    //cout << " print out nmpc nlp = " << nmpc.nlp << endl;
+    //cout << " print out nmpc arg = " << nmpc.arg << endl;
 
 
 
@@ -159,7 +162,7 @@ using namespace casadi;
     x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
-    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np);
+    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, 0);
 
 
     auto res_plt = plant.solver(plant.arg);
@@ -185,7 +188,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 5;
+    int rolling_horizon = 20;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -214,6 +217,12 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
+
+      if (i >= 10) {
+        CBref = 0.7;
+      }
+
+
       /// first solve mpc
       nmpc.arg["p"] = xinit0;
       res = nmpc.solver(nmpc.arg);
@@ -260,6 +269,9 @@ using namespace casadi;
 
       cout << "print current x_u_init_param = " << x_u_init << endl;
 
+      /// update the plant model with the new index_k as well
+      plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, i);
+
       cout << " checkpoint 12 " << endl;
       plant.arg["p"] = x_u_init;
       res_plt = plant.solver(plant.arg);
@@ -272,7 +284,7 @@ using namespace casadi;
       cout << "current states_plant traj = " << states_plant << endl;
       xinit0 = states_plant[i+1];
 
-      setpoint_error += pow((xinit0[1] - 0.5), 2);
+      setpoint_error += pow((xinit0[1] - CBref), 2);
 
 
       /// The following is plant first controller second

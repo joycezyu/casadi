@@ -810,7 +810,7 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
     MX lag_xp = jacobian(jac_lagrangian, p);
     MX g_p = jacobian(g, p);
 
-    cout << "g_p = " << g_p << endl;
+    //cout << "g_p = " << g_p << endl;
 
 
     /// Compute the sign of dg for inequality constraints
@@ -862,7 +862,7 @@ DM NLPsensitivity_p(const std::map<std::string, DM>& res,
     MX lag_xp = jacobian(jac_lagrangian, p);
     MX g_p = jacobian(g, p);
 
-    cout << "g_p = " << g_p << endl;
+    //cout << "g_p = " << g_p << endl;
 
 
     Function dg_eval("dg", {x, lambda, v, p}, {g_p});

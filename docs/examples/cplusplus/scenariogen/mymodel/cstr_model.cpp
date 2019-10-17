@@ -16,7 +16,7 @@ namespace casadi {
 
   model_setup cstr_model(double time_horizon, int horizon_length, const MX& p_xinit,
                          vector<MX>& states, vector<MX>& controls, MX param,
-                         int index_scenario) {
+                         int index_scenario, int index_k) {
     model_setup model;
 
 
@@ -158,6 +158,9 @@ namespace casadi {
 
 
     double CBref    = 0.5;
+    if (index_k >= 10) {
+      CBref = 0.7;
+    }
 
 
     //vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
@@ -310,7 +313,7 @@ namespace casadi {
 
   model_setup cstr_model_p(double time_horizon, int horizon_length, const vector<double>& xinit,
                          vector <MX> &states, vector <MX> &controls, MX param,
-                         int index_scenario) {
+                         int index_scenario, int index_k) {
     model_setup model;
 
 
@@ -410,8 +413,8 @@ namespace casadi {
     double Finit    = 18.83;
     double QKinit   = -4495.7;
 
-    double r1       = 1e-7;
-    double r2       = 1e-11;
+    double r1       = 1e-6;  // 1e-7
+    double r2       = 1e-10;  // 1e-11
 
     double CAmin    = 0.1;
     double CAmax    = 1;
@@ -455,6 +458,9 @@ namespace casadi {
 
 
     double CBref    = 0.5;
+    if (index_k >= 10) {
+      CBref = 0.7;
+    }
 
 
     //vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};

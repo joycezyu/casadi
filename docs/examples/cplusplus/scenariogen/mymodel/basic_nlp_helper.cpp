@@ -22,7 +22,7 @@ namespace casadi {
 
 
   nlp_setup plant_simulate(double step_length, MX p_xinit, vector<double> xup_init,
-                                int nx, int nu, int np ) {
+                                int nx, int nu, int np, int index_k ) {
     nlp_setup simulate;
 
     MX u0 = MX::sym("u0", nu);
@@ -41,7 +41,7 @@ namespace casadi {
 
     MX param_plt = MX::sym("param_plt", np);
     //model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
-    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0);
+    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0, index_k);
 
     w_plt.insert(w_plt.end(), plant.w.begin(), plant.w.end());
     g_plt.insert(g_plt.end(), plant.g.begin(), plant.g.end());
@@ -94,7 +94,7 @@ namespace casadi {
 
 
 
-  nlp_setup nmpc_nominal(double time_horizon, int horizon_length, MX p, MX param, vector<double> p0) {
+  nlp_setup nmpc_nominal(double time_horizon, int horizon_length, MX p, MX param, vector<double> p0, int index_k) {
 
     nlp_setup nmpc_nom;
 
@@ -109,7 +109,7 @@ namespace casadi {
 
     model_setup controller;
 
-    controller = cstr_model(time_horizon, horizon_length, p, Xk, Uk, param, 0);
+    controller = cstr_model(time_horizon, horizon_length, p, Xk, Uk, param, 0, index_k);
     w.insert(w.end(), controller.w.begin(), controller.w.end());
     g.insert(g.end(), controller.g.begin(), controller.g.end());
     w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
@@ -161,7 +161,7 @@ namespace casadi {
 
 
   nlp_setup nmpc_nominal_p(double time_horizon, int horizon_length, const vector<double>& xinit, MX p,
-                           const vector<double>& p0) {
+                           const vector<double>& p0, int index_k) {
 
     nlp_setup nmpc_nom;
 
@@ -176,7 +176,7 @@ namespace casadi {
 
     model_setup controller;
 
-    controller = cstr_model_p(time_horizon, horizon_length, xinit, Xk, Uk, p, 0);
+    controller = cstr_model_p(time_horizon, horizon_length, xinit, Xk, Uk, p, 0, index_k);
     w.insert(w.end(), controller.w.begin(), controller.w.end());
     g.insert(g.end(), controller.g.begin(), controller.g.end());
     w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
@@ -216,10 +216,10 @@ namespace casadi {
     arg["x0"] = w0;
     arg["p"] = p0;
 
-    cout << "print out lbx = " << arg.at("lbx") << endl;
-    cout << "print out ubx = " << arg.at("ubx") << endl;
+    //cout << "print out lbx = " << arg.at("lbx") << endl;
+    //cout << "print out ubx = " << arg.at("ubx") << endl;
 
-    cout << "print out p0 = " << arg.at("p") << endl;
+    //cout << "print out p0 = " << arg.at("p") << endl;
 
 
     nmpc_nom.nlp = nlp;
@@ -266,7 +266,7 @@ namespace casadi {
 
     cout << "checkpoint 6" << endl;
 
-    cout << "print out the cost function here = " << Cost << endl;
+    //cout << "print out the cost function here = " << Cost << endl;
 
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);
@@ -278,7 +278,7 @@ namespace casadi {
     {"g", constraints}};
 
 
-    cout << "print out the nlp contents = " << nlp << endl;
+    //cout << "print out the nlp contents = " << nlp << endl;
 
 
     Dict opts;
