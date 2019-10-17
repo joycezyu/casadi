@@ -10,6 +10,7 @@
 #include <casadi/core/timing.hpp>
 #include "cstr_model.hpp"
 #include "basic_nlp_helper.cpp"
+#include "multistage_helper.cpp"
 
 
 using namespace casadi;
@@ -69,88 +70,17 @@ using namespace casadi;
     }
 
 
+
     /// Preparation for model building
-    vector<vector<MX>> Xk(ns);
-    vector<vector<MX>> Uk(ns);
-    // vector<MX> Xk_end(ns);
-    //vector<MX> Uk_prev(ns);
-
-    // start with an empty NLP
-    vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
-    vector<MX> w, g;
-    MX Cost = 0;  // cost function
+    // param[index] represents the base case scenario
+    nlp_setup ms_nmpc = multistage_3c_nmpc(T, horN, p_xinit, param, xinit0, nu, ns, 0);
 
 
-
-
-    model_setup controller;
-    //MX theta = MX::sym("theta");
-
-
-    for (int is = 0; is < ns; ++is) {
-      controller = cstr_model(T, horN, p_xinit, Xk[is], Uk[is], param[is], is);
-      w.insert(w.end(), controller.w.begin(), controller.w.end());
-      g.insert(g.end(), controller.g.begin(), controller.g.end());
-      w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
-      lbw.insert(lbw.end(), controller.lbw.begin(), controller.lbw.end());
-      ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
-      lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
-      ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
-      Cost += controller.Cost / ns;
-
-      /// the inner max operator
-      //g.push_back(controller.Cost - theta);
-      //lbg.push_back(-inf);
-      //ubg.push_back(0);
-
-      /// NAC
-      // Robust horizon = 1
-      if (is != 0) {
-        g.push_back(Uk[0][0] - Uk[is][0]);
-
-        for (int iu = 0; iu < nu; ++iu) {
-          lbg.push_back(0);
-          ubg.push_back(0);
-        }
-      }
-
-
-    }  // per scenario
-
-
-
-
-    MX variables = MX::vertcat(w);
-    MX constraints = MX::vertcat(g);
-
-    MXDict nlp = {
-    {"x", variables},
-    {"p", p_xinit},
-    {"f", Cost},
-    {"g", constraints}};
-
-
-    Dict opts;
-    opts["ipopt.linear_solver"] = "ma27";
-    opts["ipopt.print_info_string"] = "yes";
-    opts["ipopt.linear_system_scaling"] = "none";
-
-    Function solver = nlpsol("solver", "ipopt", nlp, opts);
-    std::map<std::string, DM> arg;
-
-
-    /// Solve the NLP
-    arg["lbx"] = lbw;
-    arg["ubx"] = ubw;
-    arg["lbg"] = lbg;
-    arg["ubg"] = ubg;
-    arg["x0"] = w0;
-    arg["p"] = xinit0;
 
     /// keep record of timing
     FStats time;
     time.tic();
-    auto res = solver(arg);
+    auto res = ms_nmpc.solver(ms_nmpc.arg);
     time.toc();
     cout << "nlp t_wall time = " << time.t_wall << endl;
     cout << "nlp t_proc time = " << time.t_proc << endl;
@@ -206,7 +136,7 @@ using namespace casadi;
     x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
-    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np);
+    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, 0);
 
 
     auto res_plt = plant.solver(plant.arg);
@@ -231,7 +161,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 20;
+    int rolling_horizon = 40;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -265,10 +195,11 @@ using namespace casadi;
         CBref = 0.7;
       }
 
+      ms_nmpc = multistage_3c_nmpc(T, horN, p_xinit, param, xinit0, nu, ns, i);
 
       // first solve mpc
-      arg["p"] = xinit0;
-      res = solver(arg);
+      ms_nmpc.arg["p"] = xinit0;
+      res = ms_nmpc.solver(ms_nmpc.arg);
       mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
 
       // fetch the controls

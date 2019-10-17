@@ -9,13 +9,17 @@
 
 namespace casadi {
 
-  nlp_setup multistage_3c_nmpc(double time_horizon, int horizon_length, MX p, MX param, vector<double> p0,
-                               int index_k) {
+  nlp_setup multistage_3c_nmpc(double time_horizon, int horizon_length, MX p, vector<MX> param, vector<double> p0,
+                               int nu, int ns, int index_k) {
 
     nlp_setup multistage_3c_nmpc;
 
-    vector<MX> Xk;
-    vector<MX> Uk;
+
+    /// Preparation for model building
+    vector<vector<MX>> Xk(ns);
+    vector<vector<MX>> Uk(ns);
+    // vector<MX> Xk_end(ns);
+    //vector<MX> Uk_prev(ns);
 
     // start with an empty NLP
     vector<double> w0, lbw, ubw, lbg, ubg; // w0 is the initial guess
@@ -23,18 +27,41 @@ namespace casadi {
     MX Cost = 0;  // cost function
 
 
+
+
     model_setup controller;
+    //MX theta = MX::sym("theta");
 
-    controller = cstr_model(time_horizon, horizon_length, p, Xk, Uk, param, 0, index_k);
-    w.insert(w.end(), controller.w.begin(), controller.w.end());
-    g.insert(g.end(), controller.g.begin(), controller.g.end());
-    w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
-    lbw.insert(lbw.end(), controller.lbw.begin(), controller.lbw.end());
-    ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
-    lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
-    ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
-    Cost = controller.Cost;
 
+    for (int is = 0; is < ns; ++is) {
+      controller = cstr_model(time_horizon, horizon_length, p, Xk[is], Uk[is], param[is], is, index_k);
+      w.insert(w.end(), controller.w.begin(), controller.w.end());
+      g.insert(g.end(), controller.g.begin(), controller.g.end());
+      w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());
+      lbw.insert(lbw.end(), controller.lbw.begin(), controller.lbw.end());
+      ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
+      lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
+      ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
+      Cost += controller.Cost / ns;
+
+      /// the inner max operator
+      //g.push_back(controller.Cost - theta);
+      //lbg.push_back(-inf);
+      //ubg.push_back(0);
+
+      /// NAC
+      // Robust horizon = 1
+      if (is != 0) {
+        g.push_back(Uk[0][0] - Uk[is][0]);
+
+        for (int iu = 0; iu < nu; ++iu) {
+          lbg.push_back(0);
+          ubg.push_back(0);
+        }
+      }
+
+
+    }  // per scenario
 
 
     MX variables = MX::vertcat(w);
@@ -65,11 +92,11 @@ namespace casadi {
     arg["x0"] = w0;
     arg["p"] = p0;
 
-    nmpc_nom.nlp = nlp;
-    nmpc_nom.arg = arg;
-    nmpc_nom.solver = solver;
+    multistage_3c_nmpc.nlp = nlp;
+    multistage_3c_nmpc.arg = arg;
+    multistage_3c_nmpc.solver = solver;
 
-    return nmpc_nom;
+    return multistage_3c_nmpc;
 
 
   }
