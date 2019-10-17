@@ -26,6 +26,15 @@ namespace casadi {
   };
 
 
+
+  struct nlp_setup {
+    MXDict nlp;
+    Function solver;
+    std::map<std::string, DM> arg;
+  };
+
+
+
   // with initial_states as p in NLP
   model_setup cstr_model(double time_horizon, int horizon_length, const MX &p_xinit,
                          vector <MX> &states, vector <MX> &controls, MX param,

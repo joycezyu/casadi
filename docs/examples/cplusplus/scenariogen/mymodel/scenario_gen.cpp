@@ -5,7 +5,7 @@
 #include <casadi/casadi.hpp>
 #include <casadi/core/sensitivity.hpp>
 #include <casadi/core/timing.hpp>
-//#include "cstr_model.hpp"
+#include "cstr_model.hpp"
 #include "basic_nlp_helper.cpp"
 
 
@@ -247,7 +247,7 @@ namespace casadi {
     /// Calculate the approximate multistage solutions based on sensitivity
     cout << "checkpoint 4" << endl;
 
-    nlp_setup step3 = gen_step3(time_horizon, horizon_length, p_xinit, param, xinit0, ns, worst_case[0], ds);
+    nlp_setup step3 = gen_step3(time_horizon, horizon_length, p_xinit, param, xinit0, ns, worst_case[0], ds, index_k);
     return step3;
 
 

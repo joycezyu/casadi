@@ -32,6 +32,8 @@ using namespace casadi;
     double QKinit   = -4495.7;
     vector<double> uinit0{Finit, QKinit};
 
+    double CBref    = 0.5;
+
 
     MX p_CAinit = MX::sym("p_CAinit");
     MX p_CBinit = MX::sym("p_CBinit");
@@ -229,7 +231,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 10;
+    int rolling_horizon = 20;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -259,6 +261,11 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
+      if (i >= 10) {
+        CBref = 0.7;
+      }
+
+
       // first solve mpc
       arg["p"] = xinit0;
       res = solver(arg);
@@ -290,7 +297,7 @@ using namespace casadi;
                            double(plant_traj[2](1)), double(plant_traj[3](1))};
       xinit0 = states_plant[i+1];
 
-      setpoint_error += pow((xinit0[1] - 0.5), 2);
+      setpoint_error += pow((xinit0[1] - CBref), 2);
 
     }
 

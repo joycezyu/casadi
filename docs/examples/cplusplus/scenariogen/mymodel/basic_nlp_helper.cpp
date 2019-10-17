@@ -13,14 +13,6 @@
 
 namespace casadi {
 
-  struct nlp_setup {
-    MXDict nlp;
-    Function solver;
-    std::map<std::string, DM> arg;
-  };
-
-
-
   nlp_setup plant_simulate(double step_length, MX p_xinit, vector<double> xup_init,
                                 int nx, int nu, int np, int index_k ) {
     nlp_setup simulate;
@@ -235,7 +227,7 @@ namespace casadi {
 
 
   nlp_setup gen_step3(double time_horizon, int horizon_length, MX p_xinit, vector<MX> params, vector<double> xinit0,
-                       int ns, int worst_case, const vector<DM>& delta_s) {
+                       int ns, int worst_case, const vector<DM>& delta_s, int index_k) {
 
     nlp_setup step3;
 
@@ -252,7 +244,7 @@ namespace casadi {
     model_setup controller;
 
     //controller = scenario_gen_helper_nowc(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
-    controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s);
+    controller = scenario_gen_helper(time_horizon, horizon_length, p_xinit, params, ns, worst_case, delta_s, index_k);
 
     w.insert(w.end(), controller.w.begin(), controller.w.end());
     g.insert(g.end(), controller.g.begin(), controller.g.end());
@@ -309,16 +301,16 @@ namespace casadi {
 
 
 
-  vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
-                                    int nx, int nu, int d, int num_scenarios = 1) {
+    vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
+                                      int nx, int nu, int d, int num_scenarios = 1) {
       vector<vector<DM>> traj(num_scenarios, vector<DM>(nx+nu));
       int N_tot = result.at("x").size1();
       int N_per_s = N_tot / num_scenarios;
 
       for (int is = 0; is < num_scenarios; ++is) {
-          for (int i = 0; i < nx+nu; ++i) {
-              traj[is][i] = result.at("x")(Slice(i + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
-          }
+        for (int i = 0; i < nx+nu; ++i) {
+          traj[is][i] = result.at("x")(Slice(i + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d));
+        }
       }
       return traj;
   }

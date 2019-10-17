@@ -14,7 +14,7 @@ namespace casadi {
 
   model_setup scenario_gen_helper(double time_horizon, int horizon_length, const MX& p_xinit,
                          vector<MX> param, int ns,
-                         int worst_case, const vector<DM>& delta_s ) {
+                         int worst_case, const vector<DM>& delta_s, int index_k) {
     model_setup model;
 
     cout << "checkpoint s1" << endl;
@@ -154,6 +154,10 @@ namespace casadi {
 
 
     double CBref    = 0.5;
+    if (index_k >= 10) {
+      CBref = 0.7;
+    }
+
     cout << "checkpoint s3" << endl;
 
     //vector<double> xinit0{CAinit0, CBinit0, TRinit0, TKinit0};
