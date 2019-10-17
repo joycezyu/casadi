@@ -14,7 +14,7 @@
 namespace casadi {
 
   nlp_setup plant_simulate(double step_length, MX p_xinit, vector<double> xup_init,
-                                int nx, int nu, int np, int index_k ) {
+                                int nx, int nu, int np) {
     nlp_setup simulate;
 
     MX u0 = MX::sym("u0", nu);
@@ -33,7 +33,7 @@ namespace casadi {
 
     MX param_plt = MX::sym("param_plt", np);
     //model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param[rd_index], rd_index);
-    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0, index_k);
+    model_setup plant = cstr_model(step_length, 1, p_xinit, X, U, param_plt, 0, 0);
 
     w_plt.insert(w_plt.end(), plant.w.begin(), plant.w.end());
     g_plt.insert(g_plt.end(), plant.g.begin(), plant.g.end());

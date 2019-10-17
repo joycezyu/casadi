@@ -136,7 +136,7 @@ using namespace casadi;
     x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
-    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, 0);
+    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np);
 
 
     auto res_plt = plant.solver(plant.arg);

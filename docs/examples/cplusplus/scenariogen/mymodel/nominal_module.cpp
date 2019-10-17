@@ -134,7 +134,7 @@ using namespace casadi;
     x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
 
-    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, 0);
+    nlp_setup plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np);
 
 
     auto res_plt = plant.solver(plant.arg);
@@ -160,7 +160,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 20;
+    int rolling_horizon = 10;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -215,8 +215,8 @@ using namespace casadi;
       cout << "param_realized = " << param_realized << endl;
       x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
-      /// update the plant model with the new index_k as well
-      plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, i);
+
+      //plant = plant_simulate(step_length, p_xinit, x_u_init, nx, nu, np, i);
 
 
       plant.arg["p"] = x_u_init;
