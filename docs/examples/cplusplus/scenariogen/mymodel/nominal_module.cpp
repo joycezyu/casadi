@@ -160,7 +160,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 10;
+    int rolling_horizon = 120;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -190,6 +190,10 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
+      if (i >= 60) {
+        CBref = 0.7;
+      }
+
       nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0, i);
 
       /// the following is controller-first-plant-second

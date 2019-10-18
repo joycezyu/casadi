@@ -458,7 +458,7 @@ namespace casadi {
 
 
     double CBref    = 0.5;
-    if (index_k >= 10) {
+    if (index_k >= 60) {
       CBref = 0.7;
     }
 

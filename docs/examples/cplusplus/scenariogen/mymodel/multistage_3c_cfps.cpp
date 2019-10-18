@@ -72,7 +72,6 @@ using namespace casadi;
 
 
     /// Preparation for model building
-    // param[index] represents the base case scenario
     nlp_setup ms_nmpc = multistage_3c_nmpc(T, horN, p_xinit, param, xinit0, nu, ns, 0);
 
 
@@ -161,7 +160,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 40;
+    int rolling_horizon = 120;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -191,7 +190,7 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
-      if (i >= 10) {
+      if (i >= 60) {
         CBref = 0.7;
       }
 
