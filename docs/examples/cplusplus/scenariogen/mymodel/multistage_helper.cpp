@@ -73,7 +73,7 @@ namespace casadi {
     {"f", Cost},
     {"g", constraints}};
 
-
+    cout << "print total cost function = " << Cost << endl;
 
     Dict opts;
     opts["ipopt.linear_solver"] = "ma27";

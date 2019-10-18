@@ -201,7 +201,8 @@ namespace casadi {
     //vector<MX> Uk_prev(ns);
 
     vector<MX> Xk(horizon_length+1);
-    vector<MX> Uk(horizon_length);
+    vector<MX> Uk0(horizon_length);  // this is for the nominal scenario
+    vector<MX> Uk(horizon_length);   // this is for critical scenario
     vector<MX> Xk_end(horizon_length);
 
     vector<vector<MX>> Xkj(horizon_length, vector<MX>(d));
@@ -220,131 +221,14 @@ namespace casadi {
     /// add everything for each scenario
 
     // create a dummy u for the NAC
-    MX dummy_u = MX::sym("dummy_u", nu);
+    //MX dummy_u = MX::sym("dummy_u", nu);
 
-    /// first add the worst cases
-    for (int is = 0; is < ns; ++is) {
-      // if is is in the worst_case vector
-      if (is != 0 and std::find(worst_case.begin(), worst_case.end(), is) != worst_case.end() ) {
-        /// "lift" initial conditions
-        Xk[0] = MX::sym("x0^" + str(is), nx);
-        //states.push_back(Xk[is]);
-        model.w.push_back(Xk[0]);
-        model.g.push_back(Xk[0] - p_xinit);
-        for (int iw = 0; iw < nx; ++iw) {
-          //lbw.push_back(xinit[iw]);
-          //ubw.push_back(xinit[iw]);
-          model.lbw.push_back(xmin[iw]);
-          model.ubw.push_back(xmax[iw]);
-          model.lbg.push_back(0);
-          model.ubg.push_back(0);
-          model.w0.push_back(xinit1[iw]);
-        }
-
-        //Uk_prev[is] = MX::sym("u^" + str(is) + "_prev", nu);
-        //Uk_prev[is] = MX::vertcat({Finit, QKinit});
-
-        //cout << "Uk_prev = " << Uk_prev[is] << endl;
-
-
-        /// Formulate the NLP
-        for (int k = 0; k < horizon_length; ++k) {
-          // New NLP variable for the control
-          Uk[k] = MX::sym("U^" + str(is) + "_" + str(k), nu);
-          //controls.push_back(Uk[is][k]);
-          cout << "U = " << Uk[k] << endl;
-          model.w.push_back(Uk[k]);
-          for (int iu = 0; iu < nu; ++iu) {
-            model.lbw.push_back(umin[iu]);
-            model.ubw.push_back(umax[iu]);
-            model.w0.push_back(uinit[iu]);
-          }
-
-
-          // State at collocation points
-          for (int j = 0; j < d; ++j) {
-            Xkj[k][j] = MX::sym("X^" + str(is) + "_" + str(k) + "_" + str(j + 1), nx);
-            model.w.push_back(Xkj[k][j]);
-            for (int iw = 0; iw < nx; ++iw) {
-              model.lbw.push_back(xmin[iw]);
-              model.ubw.push_back(xmax[iw]);
-              model.w0.push_back(xinit1[iw]);
-            }
-          }
-
-
-          // Loop over collocation points
-          Xk_end[k] = D[0] * Xk[k];
-
-
-          for (int j = 0; j < d; ++j) {
-            // Expression for the state derivative at the collocation point
-            MX xp = C[0][j + 1] * Xk[k];
-
-            for (int r = 0; r < d; ++r) {
-              xp += C[r + 1][j + 1] * Xkj[k][r];
-            }
-
-            vector<MX> XUprev{Xkj[k][j], Uk[k], Uk_prev};
-            vector<MX> XU{Xkj[k][j], Uk[k], param[is]};
-            MX fj = f_xdot(XU)[0];
-            MX Lj = f_L(XUprev)[0];
-
-            cout << "fj = " << fj << endl;
-            //cout << "Lj = " << Lj << endl;
-
-            model.g.push_back(h * fj - xp);
-            for (int iw = 0; iw < nx; ++iw) {
-              model.lbg.push_back(0);
-              model.ubg.push_back(0);
-            }
-
-            // Add contribution to the end state
-            Xk_end[k] += D[j + 1] * Xkj[k][j];
-
-            // Add contribution to quadrature function
-            model.Cost += B[j + 1] * Lj * h;
-          }
-
-
-          // New NLP variable for state at end of interval
-          Xk[k+1] = MX::sym("X^" + str(is) + "_" + str(k + 1), nx);
-          model.w.push_back(Xk[k+1]);
-          for (int iw = 0; iw < nx; ++iw) {
-            model.lbw.push_back(xmin[iw]);
-            model.ubw.push_back(xmax[iw]);
-            model.w0.push_back(xinit1[iw]);
-          }
-
-          // Add equality constraint
-          // for continuity between intervals
-          model.g.push_back(Xk_end[k] - Xk[k+1]);
-          for (int iw = 0; iw < nx; ++iw) {
-            model.lbg.push_back(0);
-            model.ubg.push_back(0);
-          }
-          Uk_prev = Uk[k];
-
-          cout << "Uk_prev = " << Uk_prev << endl;
-        }
-
-        /// NAC
-        // Robust horizon = 1
-        model.g.push_back(Uk[0] - dummy_u);
-
-        for (int iu = 0; iu < nu; ++iu) {
-          model.lbg.push_back(0);
-          model.ubg.push_back(0);
-        }
-
-      }
-    }
-
-
-
-    /// Second add the nominal case
+    /// first add the nominal case
     for (int is = 0; is < ns; ++is) {
       if (is == 0) {
+
+        cout << "checkpoint nominal case added" << endl;
+
         /// "lift" initial conditions
         Xk[0] = MX::sym("x0^" + str(is), nx);
         //states.push_back(Xk[is]);
@@ -369,10 +253,10 @@ namespace casadi {
         /// Formulate the NLP
         for (int k = 0; k < horizon_length; ++k) {
           // New NLP variable for the control
-          Uk[k] = MX::sym("U^" + str(is) + "_" + str(k), nu);
+          Uk0[k] = MX::sym("U^" + str(is) + "_" + str(k), nu);
           //controls.push_back(Uk[is][k]);
-          cout << "U = " << Uk[k] << endl;
-          model.w.push_back(Uk[k]);
+          cout << "U = " << Uk0[k] << endl;
+          model.w.push_back(Uk0[k]);
           for (int iu = 0; iu < nu; ++iu) {
             model.lbw.push_back(umin[iu]);
             model.ubw.push_back(umax[iu]);
@@ -404,12 +288,12 @@ namespace casadi {
               xp += C[r + 1][j + 1] * Xkj[k][r];
             }
 
-            vector<MX> XUprev{Xkj[k][j], Uk[k], Uk_prev};
-            vector<MX> XU{Xkj[k][j], Uk[k], param[is]};
+            vector<MX> XUprev{Xkj[k][j], Uk0[k], Uk_prev};
+            vector<MX> XU{Xkj[k][j], Uk0[k], param[is]};
             MX fj = f_xdot(XU)[0];
             MX Lj = f_L(XUprev)[0];
 
-            cout << "fj = " << fj << endl;
+            //cout << "fj = " << fj << endl;
             //cout << "Lj = " << Lj << endl;
 
             model.g.push_back(h * fj - xp);
@@ -442,12 +326,13 @@ namespace casadi {
             model.lbg.push_back(0);
             model.ubg.push_back(0);
           }
-          Uk_prev = Uk[k];
+          Uk_prev = Uk0[k];
 
-          cout << "Uk_prev = " << Uk_prev << endl;
+          //cout << "Uk_prev = " << Uk_prev << endl;
         }
 
         /// NAC
+        /*
         // Robust horizon = 1
         model.g.push_back(Uk[0] - dummy_u);
         model.w.push_back(dummy_u);
@@ -459,17 +344,21 @@ namespace casadi {
           model.ubw.push_back(umax[iu]);
           model.w0.push_back(uinit[iu]);
         }
+        */
+
       }
-
-
-
     }
+
+
+    /// Second add the non-critical scenarios
 
     for (int is = 0; is < ns; ++is) {
       if (is > 0 and std::find(worst_case.begin(), worst_case.end(), is) == worst_case.end()) {
-      //if (is != worst_case and is > 0) {   // this excludes the nominal case
-      //if (is != worst_case ) {  //  this includes the nominal case
+        //if (is != worst_case and is > 0) {   // this excludes the nominal case
+        //if (is != worst_case ) {  //  this includes the nominal case
         cout << "checkpoint s6" << endl;
+
+        cout << "checkpoint non-critical case added" << endl;
 
         // nominal+non-critical scenarios
         //cout << "checkpoint s6.0" << endl;
@@ -486,7 +375,7 @@ namespace casadi {
           right_u = nx * (k + 1) + nu * (k + 1) + nx * d * k;
           //cout << "print out slice left and right index = " << left_u << ", " <<  right_u << endl;
           //cout << "print out corresponding delta_s = " <<  delta_s[is](Slice(left_u, right_u)) << endl;
-          Uk_sens[k] = Uk[k] + delta_s[is](Slice(left_u, right_u));
+          Uk_sens[k] = Uk0[k] + delta_s[is](Slice(left_u, right_u));
           //cout << "checkpoint s6.01" << endl;
 
           for (int j = 0; j < d; ++j) {
@@ -546,17 +435,144 @@ namespace casadi {
 
       }
 
-
-
-
-
     }
+
+
+
+    /// finally add the worst cases
+    for (int is = 0; is < ns; ++is) {
+      // if is is in the worst_case vector
+      if (is != 0 and std::find(worst_case.begin(), worst_case.end(), is) != worst_case.end() ) {
+
+        cout << "checkpoint worst case added" << endl;
+
+        /// "lift" initial conditions
+        Xk[0] = MX::sym("x0^" + str(is), nx);
+        //states.push_back(Xk[is]);
+        model.w.push_back(Xk[0]);
+        model.g.push_back(Xk[0] - p_xinit);
+        for (int iw = 0; iw < nx; ++iw) {
+          //lbw.push_back(xinit[iw]);
+          //ubw.push_back(xinit[iw]);
+          model.lbw.push_back(xmin[iw]);
+          model.ubw.push_back(xmax[iw]);
+          model.lbg.push_back(0);
+          model.ubg.push_back(0);
+          model.w0.push_back(xinit1[iw]);
+        }
+
+        //Uk_prev[is] = MX::sym("u^" + str(is) + "_prev", nu);
+        //Uk_prev[is] = MX::vertcat({Finit, QKinit});
+
+        //cout << "Uk_prev = " << Uk_prev[is] << endl;
+
+        Uk_prev = MX::vertcat({Finit, QKinit});
+
+
+        /// Formulate the NLP
+        for (int k = 0; k < horizon_length; ++k) {
+          // New NLP variable for the control
+          Uk[k] = MX::sym("U^" + str(is) + "_" + str(k), nu);
+          //controls.push_back(Uk[is][k]);
+          cout << "U = " << Uk[k] << endl;
+          model.w.push_back(Uk[k]);
+          for (int iu = 0; iu < nu; ++iu) {
+            model.lbw.push_back(umin[iu]);
+            model.ubw.push_back(umax[iu]);
+            model.w0.push_back(uinit[iu]);
+          }
+
+
+          // State at collocation points
+          for (int j = 0; j < d; ++j) {
+            Xkj[k][j] = MX::sym("X^" + str(is) + "_" + str(k) + "_" + str(j + 1), nx);
+            model.w.push_back(Xkj[k][j]);
+            for (int iw = 0; iw < nx; ++iw) {
+              model.lbw.push_back(xmin[iw]);
+              model.ubw.push_back(xmax[iw]);
+              model.w0.push_back(xinit1[iw]);
+            }
+          }
+
+
+          // Loop over collocation points
+          Xk_end[k] = D[0] * Xk[k];
+
+
+          for (int j = 0; j < d; ++j) {
+            // Expression for the state derivative at the collocation point
+            MX xp = C[0][j + 1] * Xk[k];
+
+            for (int r = 0; r < d; ++r) {
+              xp += C[r + 1][j + 1] * Xkj[k][r];
+            }
+
+            vector<MX> XUprev{Xkj[k][j], Uk[k], Uk_prev};
+            vector<MX> XU{Xkj[k][j], Uk[k], param[is]};
+            MX fj = f_xdot(XU)[0];
+            MX Lj = f_L(XUprev)[0];
+
+            //cout << "fj = " << fj << endl;
+            //cout << "Lj = " << Lj << endl;
+
+            model.g.push_back(h * fj - xp);
+            for (int iw = 0; iw < nx; ++iw) {
+              model.lbg.push_back(0);
+              model.ubg.push_back(0);
+            }
+
+            // Add contribution to the end state
+            Xk_end[k] += D[j + 1] * Xkj[k][j];
+
+            // Add contribution to quadrature function
+            model.Cost += B[j + 1] * Lj * h;
+          }
+
+
+          // New NLP variable for state at end of interval
+          Xk[k+1] = MX::sym("X^" + str(is) + "_" + str(k + 1), nx);
+          model.w.push_back(Xk[k+1]);
+          for (int iw = 0; iw < nx; ++iw) {
+            model.lbw.push_back(xmin[iw]);
+            model.ubw.push_back(xmax[iw]);
+            model.w0.push_back(xinit1[iw]);
+          }
+
+          // Add equality constraint
+          // for continuity between intervals
+          model.g.push_back(Xk_end[k] - Xk[k+1]);
+          for (int iw = 0; iw < nx; ++iw) {
+            model.lbg.push_back(0);
+            model.ubg.push_back(0);
+          }
+          Uk_prev = Uk[k];
+
+          cout << "Uk_prev = " << Uk_prev << endl;
+        }
+
+        /// NAC
+        // Robust horizon = 1
+        //model.g.push_back(Uk[0] - dummy_u);
+        model.g.push_back(Uk[0] - Uk0[0]);
+
+        for (int iu = 0; iu < nu; ++iu) {
+          model.lbg.push_back(0);
+          model.ubg.push_back(0);
+        }
+
+      }
+    }
+
+
+
+
     //cout << "checkpoint s7" << endl;
 
-    //model.Cost +=  Cost_sens;
-    model.Cost = Cost_sens;
+    //model.Cost =  Cost_sens;
+    model.Cost += Cost_sens;
+    // model.Cost = model.Cost / ns;
 
-    //cout << "print total cost function = " << model.Cost << endl;
+    cout << "print total cost function = " << model.Cost << endl;
     //cout << "print total variables  = "  << model.w << endl;
     //cout << "print total constraint  = " << model.g << endl;
 

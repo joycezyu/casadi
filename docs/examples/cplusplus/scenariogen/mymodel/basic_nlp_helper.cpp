@@ -253,7 +253,7 @@ namespace casadi {
     ubw.insert(ubw.end(), controller.ubw.begin(), controller.ubw.end());
     lbg.insert(lbg.end(), controller.lbg.begin(), controller.lbg.end());
     ubg.insert(ubg.end(), controller.ubg.begin(), controller.ubg.end());
-    Cost = controller.Cost;
+    Cost = controller.Cost / ns;
 
 
     cout << "checkpoint 6" << endl;

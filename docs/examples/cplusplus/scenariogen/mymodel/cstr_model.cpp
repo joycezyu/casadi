@@ -413,8 +413,8 @@ namespace casadi {
     double Finit    = 18.83;
     double QKinit   = -4495.7;
 
-    double r1       = 1e-6;  // 1e-7
-    double r2       = 1e-10;  // 1e-11
+    double r1       = 1e-7;  // 1e-7
+    double r2       = 1e-11;  // 1e-11
 
     double CAmin    = 0.1;
     double CAmax    = 1;
