@@ -14,7 +14,7 @@ namespace casadi {
 
   model_setup scenario_gen_helper(double time_horizon, int horizon_length, const MX& p_xinit,
                          vector<MX> param, int ns,
-                         int worst_case, const vector<DM>& delta_s, int index_k) {
+                         vector<int> worst_case, const vector<DM>& delta_s, int index_k) {
     model_setup model;
 
     cout << "checkpoint s1" << endl;
@@ -224,7 +224,8 @@ namespace casadi {
 
     /// first add the worst cases
     for (int is = 0; is < ns; ++is) {
-      if (is == worst_case and worst_case != 0 ) {
+      // if is is in the worst_case vector
+      if (is != 0 and std::find(worst_case.begin(), worst_case.end(), is) != worst_case.end() ) {
         /// "lift" initial conditions
         Xk[0] = MX::sym("x0^" + str(is), nx);
         //states.push_back(Xk[is]);
@@ -465,7 +466,8 @@ namespace casadi {
     }
 
     for (int is = 0; is < ns; ++is) {
-      if (is != worst_case and is > 0) {   // this excludes the nominal case
+      if (is > 0 and std::find(worst_case.begin(), worst_case.end(), is) == worst_case.end()) {
+      //if (is != worst_case and is > 0) {   // this excludes the nominal case
       //if (is != worst_case ) {  //  this includes the nominal case
         cout << "checkpoint s6" << endl;
 

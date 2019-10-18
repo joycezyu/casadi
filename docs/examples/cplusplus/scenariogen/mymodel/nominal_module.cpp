@@ -53,7 +53,8 @@ using namespace casadi;
     double CAin_up = CAin_nom * (1 + 0.3);
 
     /// number of scenarios
-    int ns = 3;
+    //int ns = 3;
+    int ns = 9;
 
     double T = 0.2;
     /// horizon length
@@ -61,9 +62,13 @@ using namespace casadi;
 
     // set up the params associated with each scenario
     //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom};
+    //vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom};
     //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+
+    vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom, CAin_lo,  CAin_lo, CAin_lo, CAin_up,  CAin_up, CAin_up};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_lo,   EA3R_up, EA3R_nom, EA3R_lo, EA3R_up, EA3R_nom, EA3R_lo, EA3R_up};
+
 
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {

@@ -62,18 +62,23 @@ using namespace casadi;
     double CAin_up = CAin_nom * (1 + 0.3);
 
     /// number of scenarios
-    int ns = 3;
+    //int ns = 3;
+    int ns = 9;
 
     double T = 0.2;
-    /// horizonlength
+    /// horizon length
     int horN = 40;
 
     // set up the params associated with each scenario
-    // for the MX type
     //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
-    vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom};
+    //vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom};
     //vector<MX> EA3Rs{EA3R_nom, EA3R_nom, EA3R_nom};
-    vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+    //vector<MX> EA3Rs{EA3R_nom, EA3R_lo, EA3R_up};
+
+    vector<MX> CAins{CAin_nom, CAin_nom, CAin_nom, CAin_lo,  CAin_lo, CAin_lo, CAin_up,  CAin_up, CAin_up};
+    vector<MX> EA3Rs{EA3R_nom, EA3R_lo,   EA3R_up, EA3R_nom, EA3R_lo, EA3R_up, EA3R_nom, EA3R_lo, EA3R_up};
+
+
 
     vector<MX> param(ns);
     for (int is = 0; is < ns; ++is) {
@@ -188,7 +193,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 1;
+    int rolling_horizon = 5;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -230,7 +235,7 @@ using namespace casadi;
 
 
       /// add the sensitivity step
-      nlp_setup sens_step = scenario_gen(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns, i);
+      nlp_setup sens_step = scenario_gen_9c(T, horN, p_xinit, p, param, xinit0, p_c, nx, nu, np, d, ns, i);
 
       cout << " checkpoint 10 " << endl;
       res = sens_step.solver(sens_step.arg);
@@ -265,6 +270,7 @@ using namespace casadi;
       rd_index = rand() % ns;
       rand_seed[i] = rd_index;
       param_realized = {double(param[rd_index](0)), double(param[rd_index](1))} ;
+      cout << "param_realized = " << param_realized << endl;
       x_u_init.insert(x_u_init.end(), param_realized.begin(), param_realized.end() );
 
       cout << "print current x_u_init_param = " << x_u_init << endl;

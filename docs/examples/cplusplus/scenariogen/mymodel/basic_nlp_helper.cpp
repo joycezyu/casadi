@@ -227,7 +227,7 @@ namespace casadi {
 
 
   nlp_setup gen_step3(double time_horizon, int horizon_length, MX p_xinit, vector<MX> params, vector<double> xinit0,
-                       int ns, int worst_case, const vector<DM>& delta_s, int index_k) {
+                       int ns, vector<int> worst_case, const vector<DM>& delta_s, int index_k) {
 
     nlp_setup step3;
 

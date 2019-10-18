@@ -9,10 +9,10 @@
 
 namespace casadi {
 
-  nlp_setup minmax_3c_nmpc(double time_horizon, int horizon_length, MX p, vector<MX> param, vector<double> p0,
+  nlp_setup minmax_nmpc(double time_horizon, int horizon_length, MX p, vector<MX> param, vector<double> p0,
                                int nu, int ns, int index_k) {
 
-    nlp_setup minmax_3c_nmpc;
+    nlp_setup minmax_nmpc;
 
 
     /// Preparation for model building
@@ -99,11 +99,11 @@ namespace casadi {
     arg["x0"] = w0;
     arg["p"] = p0;
 
-    minmax_3c_nmpc.nlp = nlp;
-    minmax_3c_nmpc.arg = arg;
-    minmax_3c_nmpc.solver = solver;
+    minmax_nmpc.nlp = nlp;
+    minmax_nmpc.arg = arg;
+    minmax_nmpc.solver = solver;
 
-    return minmax_3c_nmpc;
+    return minmax_nmpc;
 
 
   }

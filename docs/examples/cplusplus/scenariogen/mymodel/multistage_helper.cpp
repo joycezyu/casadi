@@ -9,10 +9,10 @@
 
 namespace casadi {
 
-  nlp_setup multistage_3c_nmpc(double time_horizon, int horizon_length, MX p, vector<MX> param, vector<double> p0,
+  nlp_setup multistage_nmpc(double time_horizon, int horizon_length, MX p, vector<MX> param, vector<double> p0,
                                int nu, int ns, int index_k) {
 
-    nlp_setup multistage_3c_nmpc;
+    nlp_setup multistage_nmpc;
 
 
     /// Preparation for model building
@@ -92,11 +92,11 @@ namespace casadi {
     arg["x0"] = w0;
     arg["p"] = p0;
 
-    multistage_3c_nmpc.nlp = nlp;
-    multistage_3c_nmpc.arg = arg;
-    multistage_3c_nmpc.solver = solver;
+    multistage_nmpc.nlp = nlp;
+    multistage_nmpc.arg = arg;
+    multistage_nmpc.solver = solver;
 
-    return multistage_3c_nmpc;
+    return multistage_nmpc;
 
 
   }
