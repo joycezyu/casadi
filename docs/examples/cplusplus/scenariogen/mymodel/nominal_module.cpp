@@ -160,7 +160,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 120;
+    int rolling_horizon = 20;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
