@@ -568,7 +568,6 @@ namespace casadi {
 
     //cout << "checkpoint s7" << endl;
 
-    //model.Cost =  Cost_sens;
     model.Cost += Cost_sens;
     // model.Cost = model.Cost / ns;
 

@@ -58,7 +58,7 @@ using namespace casadi;
 
     double T = 0.2;
     /// horizon length
-    int horN = 1;
+    int horN = 40;
 
     // set up the params associated with each scenario
     //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
@@ -166,7 +166,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 5;
+    int rolling_horizon = 20;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));

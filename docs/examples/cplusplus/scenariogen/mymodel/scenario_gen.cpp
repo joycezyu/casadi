@@ -510,7 +510,7 @@ namespace casadi {
 
     /// step 2.5
     /// have the index list for worse case scenarios
-    vector<int> worst_case{1, 2, 3, 4, 5, 6, 7, 8};
+    vector<int> worst_case{ 6};
     //if (index_k >= 2) {
     //  worst_case = {0};
     //}
