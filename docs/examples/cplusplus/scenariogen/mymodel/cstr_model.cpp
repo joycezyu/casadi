@@ -755,7 +755,7 @@ namespace casadi {
     double Tin      = 130.0;
     double kW       = 4032;
 
-    double M        = 1e3;   // penalty for state violations
+    double M        = 1e6;   // penalty for state violations
 
     //double CAin_nom = 5.1;
     //double CAin_lo  = CAin_nom * (1 - 0.1);
@@ -851,13 +851,7 @@ namespace casadi {
 
         dx_up[j] = MX::sym("dx_up^" + str(index_scenario) + "_" + str(k) + "_" + str(j + 1), nx);
         dx_lo[j] = MX::sym("dx_lo^" + str(index_scenario) + "_" + str(k) + "_" + str(j + 1), nx);
-        model.w.push_back(dx_up[j]);
-        model.w.push_back(dx_lo[j]);
-        for (int iw = 0; iw < nx; ++iw) {
-          model.lbw.push_back(0);
-          model.ubw.push_back(inf);
-          model.w0.push_back(0);
-        }
+
 
         // soft constraints
         model.g.push_back( Xkj[j] - dx_up[j]);
@@ -882,6 +876,19 @@ namespace casadi {
 
 
         }
+
+        model.w.push_back(dx_up[j]);
+        model.w.push_back(dx_lo[j]);
+        for (int iw = 0; iw < nx; ++iw) {
+          model.lbw.push_back(0);
+          model.ubw.push_back(inf);
+          model.w0.push_back(0);
+
+          model.lbw.push_back(0);
+          model.ubw.push_back(inf);
+          model.w0.push_back(0);
+        }
+
       }
 
 
@@ -942,6 +949,13 @@ namespace casadi {
 
 
     }
+
+    cout << "Cost function = " << model.Cost << endl;
+    cout << "variables = " << model.w << endl;
+
+    cout << "*******************" << endl;
+    cout << "END OF CSTR_MODEL" << endl;
+
 
     return model;
   }

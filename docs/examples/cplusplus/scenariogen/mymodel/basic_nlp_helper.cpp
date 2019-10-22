@@ -117,6 +117,9 @@ namespace casadi {
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);
 
+
+
+
     MXDict nlp = {
     {"x", variables},
     {"p", p},
@@ -141,6 +144,7 @@ namespace casadi {
     arg["ubg"] = ubg;
     arg["x0"] = w0;
     arg["p"] = p0;
+
 
     nmpc_nom.nlp = nlp;
     nmpc_nom.arg = arg;
@@ -315,6 +319,21 @@ namespace casadi {
       }
       return traj;
   }
+
+  vector<vector<DM>> nlp_res_reader_soft(const std::map<std::string, DM>& result,
+                                    int nx, int nu, int d, int num_scenarios = 1) {
+    vector<vector<DM>> traj(num_scenarios, vector<DM>(nx+nu));
+    int N_tot = result.at("x").size1();
+    int N_per_s = N_tot / num_scenarios;
+
+    for (int is = 0; is < num_scenarios; ++is) {
+      for (int i = 0; i < nx+nu; ++i) {
+        traj[is][i] = result.at("x")(Slice(i + N_per_s * is, N_per_s * (is + 1), nu + nx + nx * d * (1+2)));
+      }
+    }
+    return traj;
+  }
+
 
 
 }

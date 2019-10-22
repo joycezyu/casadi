@@ -58,7 +58,7 @@ using namespace casadi;
 
     double T = 0.2;
     /// horizon length
-    int horN = 1;
+    int horN = 40;
 
     // set up the params associated with each scenario
     //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
@@ -81,6 +81,7 @@ using namespace casadi;
     nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0, 0);
 
 
+
     /// keep record of timing
     FStats time;
     time.tic();
@@ -96,9 +97,10 @@ using namespace casadi;
     //cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
     cout << setw(30) << "Objective: " << res.at("f") << endl;
 
-    vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+    //vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+    vector<vector<DM>> mpc_traj = nlp_res_reader_soft(res, nx, nu, d, 1);
 
-    for (int is = 0; is < ns; ++is) {
+    for (int is = 0; is < 1; ++is) {
 
       cout << setw(30) << " For scenario s = " << is << endl;
       cout << setw(30) << "CA: " << mpc_traj[is][0] << endl;
@@ -205,7 +207,8 @@ using namespace casadi;
       // first solve mpc
       nmpc.arg["p"] = xinit0;
       res = nmpc.solver(nmpc.arg);
-      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+      //mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+      mpc_traj = nlp_res_reader_soft(res, nx, nu, d, 1);
 
       // fetch the controls
       controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
