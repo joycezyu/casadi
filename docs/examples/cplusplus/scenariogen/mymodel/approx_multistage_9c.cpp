@@ -67,7 +67,7 @@ using namespace casadi;
 
     double T = 0.2;
     /// horizon length
-    int horN = 40;
+    int horN = 20;
 
     // set up the params associated with each scenario
     //vector<MX> CAins{CAin_nom, CAin_lo, CAin_up};
