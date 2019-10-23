@@ -193,7 +193,7 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
-      if (i >= 60) {
+      if (i >= 20) {
         CBref = 0.7;
       }
 

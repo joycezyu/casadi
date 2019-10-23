@@ -50,6 +50,11 @@ namespace casadi {
                          vector <MX> &states, vector <MX> &controls, MX param,
                          int index_scenario, int index_k);
 
+
+  model_setup cstr_model_plant(double time_horizon, int horizon_length, const MX &p_xinit,
+                         vector <MX> &states, vector <MX> &controls, MX param,
+                         int index_scenario, int index_k);
+
 } // casadi
 
 

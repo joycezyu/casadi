@@ -97,8 +97,8 @@ using namespace casadi;
     //cout << "Optimal solution for p = " << arg.at("p") << ":" << endl;
     cout << setw(30) << "Objective: " << res.at("f") << endl;
 
-    //vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
-    vector<vector<DM>> mpc_traj = nlp_res_reader_soft(res, nx, nu, d, 1);
+    vector<vector<DM>> mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+    //vector<vector<DM>> mpc_traj = nlp_res_reader_soft(res, nx, nu, d, 1);
 
     for (int is = 0; is < 1; ++is) {
 
@@ -167,7 +167,7 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 1;
+    int rolling_horizon = 40;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
@@ -197,7 +197,7 @@ using namespace casadi;
     vector<int> rand_seed(rolling_horizon);
 
     for (int i = 0; i < rolling_horizon; ++i) {
-      if (i >= 60) {
+      if (i >= 20) {
         CBref = 0.7;
       }
 
@@ -207,8 +207,8 @@ using namespace casadi;
       // first solve mpc
       nmpc.arg["p"] = xinit0;
       res = nmpc.solver(nmpc.arg);
-      //mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
-      mpc_traj = nlp_res_reader_soft(res, nx, nu, d, 1);
+      mpc_traj = nlp_res_reader(res, nx, nu, d, ns);
+      //mpc_traj = nlp_res_reader_soft(res, nx, nu, d, 1);
 
       // fetch the controls
       controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
