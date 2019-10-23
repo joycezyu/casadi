@@ -307,8 +307,8 @@ namespace casadi {
 
 
 
-    vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
-                                      int nx, int nu, int d, int num_scenarios = 1) {
+  vector<vector<DM>> nlp_res_reader(const std::map<std::string, DM>& result,
+                                    int nx, int nu, int d, int num_scenarios = 1) {
       vector<vector<DM>> traj(num_scenarios, vector<DM>(nx+nu));
       int N_tot = result.at("x").size1();
       int N_per_s = N_tot / num_scenarios;

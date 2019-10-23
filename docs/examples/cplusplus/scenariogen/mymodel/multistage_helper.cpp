@@ -34,8 +34,8 @@ namespace casadi {
 
 
     for (int is = 0; is < ns; ++is) {
-      //controller = cstr_model(time_horizon, horizon_length, p, Xk[is], Uk[is], param[is], is, index_k);
-      controller = cstr_model_soft(time_horizon, horizon_length, p, Xk[is], Uk[is], param[is], is, index_k);
+      controller = cstr_model(time_horizon, horizon_length, p, Xk[is], Uk[is], param[is], is, index_k);
+      //controller = cstr_model_soft(time_horizon, horizon_length, p, Xk[is], Uk[is], param[is], is, index_k);
       w.insert(w.end(), controller.w.begin(), controller.w.end());
       g.insert(g.end(), controller.g.begin(), controller.g.end());
       w0.insert(w0.end(), controller.w0.begin(), controller.w0.end());

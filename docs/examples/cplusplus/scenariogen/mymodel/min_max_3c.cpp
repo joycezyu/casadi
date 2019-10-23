@@ -163,13 +163,15 @@ using namespace casadi;
     cout << "CA[1] = " << double(plant_traj[0](1)) << endl;
 
 
-    int rolling_horizon = 5;
+    int rolling_horizon = 1;
 
     vector<vector<double>> states_plant(rolling_horizon+1, vector<double>(nx, 0));
     vector<vector<double>> controls_mpc(rolling_horizon+1, vector<double>(nu, 0));
+    vector<double> obj_mpc(rolling_horizon+1);
 
     states_plant[0] = xinit0;
     controls_mpc[0] = uinit0;
+    obj_mpc[0] = 0;
     //states_plant[0] = {double(plant_traj[0](1)), double(plant_traj[1](1)),
      //                  double(plant_traj[2](1)), double(plant_traj[3](1))};
     //states_plant[0]= {nextCA, nextCB, nextTR, nextTK};
@@ -210,6 +212,9 @@ using namespace casadi;
       controls_mpc[i] = {double(mpc_traj[0][4](0)), double(mpc_traj[0][5](0))};
       uinit0 = controls_mpc[i];
 
+      // fetch the objective value
+      obj_mpc[i+1] = double(res.at("f"));
+      //cout << "obj = " << res.at("f") << endl;
 
 
       // second solve plant
@@ -276,6 +281,7 @@ using namespace casadi;
     cout << "setpoint error = "  << setpoint_error << endl;
     cout << "states profile = "  << states_plant << endl;
     cout << "control profile = " << controls_mpc << endl;
+    cout << "objective value = " << obj_mpc      << endl;
     cout << "random seed = "     << rand_seed    << endl;
 
 
