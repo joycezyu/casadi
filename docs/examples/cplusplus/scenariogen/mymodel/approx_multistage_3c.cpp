@@ -239,7 +239,9 @@ using namespace casadi;
 
       /// the number of scenarios in the scenario_gen is determined by number of elements in worst_case set
       /// Step 2.5 of the approxi_multistage algorithm
-      int scengen_ns = nominal_ns + 1;
+      //int scengen_ns = nominal_ns + 1;
+      int scengen_ns = nominal_ns + 0;
+
 
       mpc_traj = nlp_res_reader(res, nx, nu, d, scengen_ns);
 

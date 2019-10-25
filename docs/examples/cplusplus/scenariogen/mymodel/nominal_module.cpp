@@ -83,7 +83,6 @@ using namespace casadi;
     nlp_setup nmpc = nmpc_nominal(T, horN, p_xinit, param[0], xinit0, 0);
 
 
-
     /// keep record of timing
     FStats time;
     time.tic();

@@ -114,6 +114,7 @@ namespace casadi {
     Cost = controller.Cost;
 
 
+    cout << "print out cost function = " << Cost << endl;
 
     MX variables = MX::vertcat(w);
     MX constraints = MX::vertcat(g);

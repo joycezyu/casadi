@@ -237,7 +237,8 @@ namespace casadi {
 
     /// step 2.5
     /// have the index list for worse case scenarios
-    vector<int> worst_case{1};
+    //vector<int> worst_case{1};
+    vector<int> worst_case{0};
     //if (index_k >= 2) {
     //  worst_case = {0};
     //}
